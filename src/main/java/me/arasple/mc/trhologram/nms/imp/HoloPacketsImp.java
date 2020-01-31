@@ -1,5 +1,6 @@
 package me.arasple.mc.trhologram.nms.imp;
 
+import io.izzel.taboolib.Version;
 import me.arasple.mc.trhologram.nms.HoloPackets;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Location;
@@ -7,11 +8,17 @@ import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * @author Arasple
  * @date 2020/1/29 20:27
  */
 public class HoloPacketsImp extends HoloPackets {
+
+    private Method setCustomNameForOldVersion;
+
 
     @Override
     public Object createArmorStand(Location location) {
@@ -25,7 +32,18 @@ public class HoloPacketsImp extends HoloPackets {
 
     @Override
     public void setArmorstandName(Object armorstand, String name) {
-        ((Entity) armorstand).setCustomName(new ChatComponentText(name));
+        if (Version.isAfter(Version.v1_13)) {
+            ((Entity) armorstand).setCustomName(new ChatComponentText(name));
+        } else {
+            try {
+                if (setCustomNameForOldVersion == null) {
+                    setCustomNameForOldVersion = EntityArmorStand.class.getMethod("setCustomName", String.class);
+                }
+                setCustomNameForOldVersion.invoke(armorstand, name);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

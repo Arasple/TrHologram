@@ -7,6 +7,7 @@ import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trhologram.api.TrHologramAPI;
 import me.arasple.mc.trhologram.utils.Locations;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -99,7 +100,9 @@ public class HologramManager {
     }
 
     public static void createHologram(String id, Location location, String content) {
-        holograms.add(new Hologram(id, location, Collections.singletonList(content), "null", "-1", 100));
+        Hologram hologram = new Hologram(id, location, Collections.singletonList(content), "null", "-1", 100);
+        holograms.add(hologram);
+        Bukkit.getOnlinePlayers().stream().filter(hologram::isVisible).forEach(hologram::display);
         write();
     }
 
