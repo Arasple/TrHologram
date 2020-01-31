@@ -15,12 +15,11 @@ public class HoloPacketsImp extends HoloPackets {
 
     @Override
     public Object createArmorStand(Location location) {
-        EntityArmorStand armorStand = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
-        armorStand.setBasePlate(false);
-        armorStand.setArms(false);
-        armorStand.setCustomNameVisible(true);
-        armorStand.setInvisible(true);
-        armorStand.setInvulnerable(true);
+        Object armorStand = new EntityArmorStand(((CraftWorld) location.getWorld()).getHandle(), location.getX(), location.getY(), location.getZ());
+        ((EntityArmorStand) armorStand).setBasePlate(false);
+        ((EntityArmorStand) armorStand).setArms(false);
+        ((EntityArmorStand) armorStand).setCustomNameVisible(true);
+        ((EntityArmorStand) armorStand).setInvisible(true);
         return armorStand;
     }
 
@@ -45,8 +44,7 @@ public class HoloPacketsImp extends HoloPackets {
 
     @Override
     public void updateArmorstand(Object armorstand, Player... players) {
-        EntityArmorStand armorStand = (EntityArmorStand) armorstand;
-        Object packet = new PacketPlayOutEntityMetadata(armorStand.getId(), armorStand.getDataWatcher(), true);
+        Object packet = new PacketPlayOutEntityMetadata(((EntityArmorStand) armorstand).getId(), ((EntityArmorStand) armorstand).getDataWatcher(), true);
         for (Player player : players) {
             sendPacket(player, packet);
         }
