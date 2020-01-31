@@ -1,0 +1,14 @@
+# Do not change
+CONFIG-VERSION: 0
+
+# Locale loading priority
+# Put your locale in the first
+LOCALE-PRIORITY:
+  - zh_CN
+  - en_US
+
+# Options
+OPTIONS:
+  # Auto updater
+  # Enable this option, if there is a new version, it will be downloaded automatically when the server is shut down
+  AUTO-UPDATE: false

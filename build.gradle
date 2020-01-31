@@ -1,0 +1,55 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
+}
+
+configurations {
+    group = 'me.arasple.mc.trhologram'
+    version = '0.1'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    defaultTasks 'buildJar'
+}
+
+task buildJar(dependsOn: [clean, shadowJar])
+
+repositories {
+    maven { url "http://ptms.ink:8081/repository/codemc-nms/" }
+    maven { url "http://ptms.ink:8081/repository/maven-releases/" }
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "https://repo.codemc.org/repository/maven-public" }
+    maven { url "http://repo.extendedclip.com/content/repositories/placeholderapi/" }
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'org.spigotmc:spigot:1.15.1-R0.1-SNAPSHOT'
+    compile 'org.bstats:bstats-bukkit:1.7'
+    compile 'io.izzel.taboolib:TabooLib:5.15:all'
+    compile 'io.izzel.taboolib.loader:TabooLibloader:1.2:all'
+    compile 'me.clip:placeholderapi:2.10.4'
+    shadow fileTree(dir: 'libs', includes: ['*.jar'])
+}
+
+shadowJar {
+    dependencies {
+        include(dependency('org.bstats:bstats-bukkit:1.7'))
+    }
+    relocate "org.bstats.bukkit", "me.arasple.mc.trhologram.bstats"
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        include 'plugin.yml'
+        expand 'version': project.version, 'built': new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss.SSSZ").format(new Date())
+    }
+}

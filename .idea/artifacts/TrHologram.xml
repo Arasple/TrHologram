@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TrHologram">
+    <output-path>E:/Dev MC/Test Servers/1.15.2/plugins</output-path>
+    <root id="archive" name="TrHologram.jar">
+      <element id="module-output" name="TrHologram.main" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
+    </root>
+  </artifact>
+</component>

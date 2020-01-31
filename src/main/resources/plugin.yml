@@ -1,0 +1,9 @@
+name: TrHologram
+main: me.arasple.mc.trhologram.TrHologram
+
+api-version: 1.13
+version: ${version}
+
+built-time: ${built}
+
+description: Hologram
