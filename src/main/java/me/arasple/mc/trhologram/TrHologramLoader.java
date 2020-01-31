@@ -14,20 +14,19 @@ import java.io.InputStreamReader;
  */
 public class TrHologramLoader {
 
+    static void unload() {
+        HologramManager.write();
+        TLocale.sendToConsole("PLUGIN.DISABLED");
+    }
+
     void init() {
         TLocale.sendToConsole("PLUGIN.LOADING");
         updateConfig();
         Updater.init(TrHologram.getPlugin());
     }
 
-
     void load() {
         TLocale.sendToConsole("PLUGIN.ENABLED", TrHologram.getPlugin().getDescription().getVersion());
-    }
-
-    static void unload() {
-        HologramManager.write();
-        TLocale.sendToConsole("PLUGIN.DISABLED");
     }
 
     private void updateConfig() {

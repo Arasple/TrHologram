@@ -25,10 +25,15 @@ public class HologramContent {
         this.text = text;
     }
 
+    public static List<HologramContent> createList(List<String> lines) {
+        List<HologramContent> holoLines = Lists.newArrayList();
+        lines.forEach(l -> holoLines.add(new HologramContent(l)));
+        return holoLines;
+    }
+
     public void updateLocation(Player... players) {
         HoloPackets.getInst().teleportArmorstand(getArmorstand(), location, players);
     }
-
 
     public void update(Player... players) {
         for (Player player : players) {
@@ -61,12 +66,6 @@ public class HologramContent {
         setId(HoloPackets.getInst().getEntityId(getArmorstand()));
     }
 
-    public static List<HologramContent> createList(List<String> lines) {
-        List<HologramContent> holoLines = Lists.newArrayList();
-        lines.forEach(l -> holoLines.add(new HologramContent(l)));
-        return holoLines;
-    }
-
     /*
     GETTERS & SETTERS
      */
@@ -75,16 +74,16 @@ public class HologramContent {
         return location;
     }
 
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public void setLocation(Location location, List<Player> players) {
         this.location = location;
 
         if (!Locations.equals(this.location, location) && players.size() > 0) {
             players.forEach(this::updateLocation);
         }
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
 
     public String getText() {
@@ -102,12 +101,12 @@ public class HologramContent {
         return armorstand;
     }
 
-    public boolean isArmorstandInited() {
-        return armorstand != null;
-    }
-
     public void setArmorstand(Object armorstand) {
         this.armorstand = armorstand;
+    }
+
+    public boolean isArmorstandInited() {
+        return armorstand != null;
     }
 
     public int getId() {

@@ -87,16 +87,6 @@ public class Updater implements Listener {
         }
     }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-
-        if (old && !noticed.contains(p.getUniqueId()) && p.hasPermission("trmenu.admin")) {
-            noticed.add(p.getUniqueId());
-            Bukkit.getScheduler().runTaskLaterAsynchronously(TrHologram.getPlugin(), () -> TLocale.sendTo(p, "PLUGIN.UPDATER.OLD", newVersion), 1);
-        }
-    }
-
     public static boolean isOld() {
         return old;
     }
@@ -107,6 +97,16 @@ public class Updater implements Listener {
 
     public static double getVersion() {
         return version;
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+
+        if (old && !noticed.contains(p.getUniqueId()) && p.hasPermission("trmenu.admin")) {
+            noticed.add(p.getUniqueId());
+            Bukkit.getScheduler().runTaskLaterAsynchronously(TrHologram.getPlugin(), () -> TLocale.sendTo(p, "PLUGIN.UPDATER.OLD", newVersion), 1);
+        }
     }
 
 }

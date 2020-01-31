@@ -144,6 +144,10 @@ public class Hologram {
         return viewers;
     }
 
+    public void setViewers(List<UUID> viewers) {
+        this.viewers = viewers;
+    }
+
     private List<Player> getViewersAsPlayer() {
         List<Player> players = Lists.newArrayList();
         viewers.forEach(viewer -> {
@@ -153,10 +157,6 @@ public class Hologram {
             }
         });
         return players;
-    }
-
-    public void setViewers(List<UUID> viewers) {
-        this.viewers = viewers;
     }
 
     public Location getLocation() {
@@ -177,6 +177,30 @@ public class Hologram {
         return contents;
     }
 
+    public void setContents(List<String> contents) {
+        while (contents.size() < getContents().size()) {
+            HologramContent hologramContent = getContents().get(getContents().size() - 1);
+            getViewersAsPlayer().forEach(hologramContent::destroy);
+            getContents().remove(getContents().size() - 1);
+        }
+        int size = getContents().size();
+        for (int i = 0; i < contents.size(); i++) {
+            if (size > i) {
+                getContents().get(i).setText(contents.get(i));
+            } else {
+                HologramContent content = new HologramContent(contents.get(i));
+                getContents().add(content);
+            }
+        }
+        initOffsets();
+        getContents().forEach(content -> {
+            if (!content.isArmorstandInited()) {
+                content.initArmorstand();
+                getViewersAsPlayer().forEach(content::display);
+            }
+        });
+    }
+
     public String getViewCondition() {
         return viewCondition;
     }
@@ -189,12 +213,12 @@ public class Hologram {
         return viewDistance;
     }
 
-    public Object getExactViewDistance() {
-        return NumberUtils.isParsable(getViewDistance()) ? NumberUtils.toDouble(getViewDistance(), -1) : getViewDistance();
-    }
-
     public void setViewDistance(String viewDistance) {
         this.viewDistance = viewDistance;
+    }
+
+    public Object getExactViewDistance() {
+        return NumberUtils.isParsable(getViewDistance()) ? NumberUtils.toDouble(getViewDistance(), -1) : getViewDistance();
     }
 
     public double getFinalViewDistance() {
@@ -221,30 +245,6 @@ public class Hologram {
         List<String> contents = Lists.newArrayList();
         getContents().forEach(h -> contents.add(h.getText()));
         return contents;
-    }
-
-    public void setContents(List<String> contents) {
-        while (contents.size() < getContents().size()) {
-            HologramContent hologramContent = getContents().get(getContents().size() - 1);
-            getViewersAsPlayer().forEach(hologramContent::destroy);
-            getContents().remove(getContents().size() - 1);
-        }
-        int size = getContents().size();
-        for (int i = 0; i < contents.size(); i++) {
-            if (size > i) {
-                getContents().get(i).setText(contents.get(i));
-            } else {
-                HologramContent content = new HologramContent(contents.get(i));
-                getContents().add(content);
-            }
-        }
-        initOffsets();
-        getContents().forEach(content -> {
-            if (!content.isArmorstandInited()) {
-                content.initArmorstand();
-                getViewersAsPlayer().forEach(content::display);
-            }
-        });
     }
 
 }

@@ -21,12 +21,12 @@ public class HologramInteractEvent extends PlayerEvent {
         this.hologram = hologram;
     }
 
-    public void call() {
-        Bukkit.getPluginManager().callEvent(this);
-    }
-
     public static HandlerList getHandlerList() {
         return HANDLERS;
+    }
+
+    public void call() {
+        Bukkit.getPluginManager().callEvent(this);
     }
 
     public Hologram getHologram() {

@@ -423,12 +423,12 @@ public abstract class TrHologramPlugin extends JavaPlugin {
         return plugin;
     }
 
-    public File getPluginFile() {
-        return getFile();
-    }
-
     public static File getLibFile() {
         return libFile;
+    }
+
+    public File getPluginFile() {
+        return getFile();
     }
 
     @Override

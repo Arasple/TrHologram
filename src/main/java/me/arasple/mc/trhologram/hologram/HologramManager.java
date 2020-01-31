@@ -25,6 +25,7 @@ public class HologramManager {
     @TInject("holograms.yml")
     private static TConfig hologramsData;
     private static List<Hologram> holograms = Lists.newArrayList();
+    private static boolean writing;
 
     @TSchedule
     static void setup() {
@@ -133,7 +134,5 @@ public class HologramManager {
         hologramsData.saveToFile();
         writing = false;
     }
-
-    private static boolean writing;
 
 }

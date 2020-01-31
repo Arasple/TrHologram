@@ -20,7 +20,7 @@ public class ListenerPlayerMove implements Listener {
         HologramManager.getHolograms().stream().forEach(hologram -> {
             if (hologram.isVisible(player)) {
                 hologram.display(player);
-            }else {
+            } else {
                 hologram.destroy(player);
             }
         });
