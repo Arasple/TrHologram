@@ -1,8 +1,11 @@
 package me.arasple.mc.trhologram.api;
 
+import com.google.common.collect.Lists;
 import me.arasple.mc.trhologram.hologram.Hologram;
 import me.arasple.mc.trhologram.hologram.HologramContent;
 import me.arasple.mc.trhologram.hologram.HologramManager;
+
+import java.util.List;
 
 /**
  * @author Arasple
@@ -25,5 +28,10 @@ public class TrHologramAPI {
         return null;
     }
 
+    public static List<String> getHologramIds() {
+        List<String> ids = Lists.newArrayList();
+        HologramManager.getHolograms().forEach(hologram -> ids.add(hologram.getName()));
+        return ids;
+    }
 
 }

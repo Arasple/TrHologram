@@ -1,5 +1,6 @@
 package me.arasple.mc.trhologram.commands;
 
+import io.izzel.taboolib.module.command.base.Argument;
 import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
 import io.izzel.taboolib.module.locale.TLocale;
@@ -18,8 +19,17 @@ import org.bukkit.entity.Player;
 public class CommandCreate extends BaseSubCommand {
 
     @Override
+    public Argument[] getArguments() {
+        return new Argument[]{new Argument("New Hologram Name", false)};
+    }
+
+    @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
+        if (args.length >= 1) {
+            createHologram(player, args[0]);
+            return;
+        }
         Catchers.getPlayerdata().remove(player.getName());
         Catchers.call(player, new Catchers.Catcher() {
             @Override
@@ -30,12 +40,7 @@ public class CommandCreate extends BaseSubCommand {
 
             @Override
             public boolean after(String input) {
-                if (TrHologramAPI.getHologramById(input) != null) {
-                    TLocale.sendTo(player, "COMMANDS.CREATE.EXISTED");
-                } else {
-                    HologramManager.createHologram(input, new Location(player.getWorld(), player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1, player.getLocation().getBlockZ()), "&3Created a new hologram named &a" + input);
-                    TLocale.sendTo(player, "COMMANDS.CREATE.SUCCESS");
-                }
+                createHologram(player, input);
                 return false;
             }
 
@@ -44,6 +49,15 @@ public class CommandCreate extends BaseSubCommand {
                 TLocale.sendTo(player, "COMMANDS.QUIT");
             }
         });
+    }
+
+    private void createHologram(Player player, String input) {
+        if (TrHologramAPI.getHologramById(input) != null) {
+            TLocale.sendTo(player, "COMMANDS.CREATE.EXISTED");
+        } else {
+            HologramManager.createHologram(input, new Location(player.getWorld(), player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1, player.getLocation().getBlockZ()), "&3Created a new hologram named &a" + input);
+            TLocale.sendTo(player, "COMMANDS.CREATE.SUCCESS");
+        }
     }
 
     @Override

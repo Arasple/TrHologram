@@ -1,5 +1,6 @@
 package me.arasple.mc.trhologram.commands;
 
+import io.izzel.taboolib.module.command.base.Argument;
 import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
 import io.izzel.taboolib.module.locale.TLocale;
@@ -17,8 +18,17 @@ import org.bukkit.entity.Player;
 public class CommandDelete extends BaseSubCommand {
 
     @Override
+    public Argument[] getArguments() {
+        return new Argument[]{new Argument("Hologram Name", false, TrHologramAPI::getHologramIds)};
+    }
+
+    @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
+        if (args.length >= 1) {
+            deleteHologram(player, args[0]);
+            return;
+        }
         Catchers.getPlayerdata().remove(player.getName());
         Catchers.call(player, new Catchers.Catcher() {
             @Override
@@ -29,12 +39,7 @@ public class CommandDelete extends BaseSubCommand {
 
             @Override
             public boolean after(String input) {
-                if (TrHologramAPI.getHologramById(input) == null) {
-                    TLocale.sendTo(player, "COMMANDS.DELETE.NOT-EXIST");
-                } else {
-                    HologramManager.deleteHologram(input);
-                    TLocale.sendTo(player, "COMMANDS.DELETE.SUCCESS");
-                }
+                deleteHologram(player, input);
                 return false;
             }
 
@@ -43,6 +48,15 @@ public class CommandDelete extends BaseSubCommand {
                 TLocale.sendTo(player, "COMMANDS.QUIT");
             }
         });
+    }
+
+    private void deleteHologram(Player player, String input) {
+        if (TrHologramAPI.getHologramById(input) == null) {
+            TLocale.sendTo(player, "COMMANDS.DELETE.NOT-EXIST");
+        } else {
+            HologramManager.deleteHologram(input);
+            TLocale.sendTo(player, "COMMANDS.DELETE.SUCCESS");
+        }
     }
 
     @Override
