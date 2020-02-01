@@ -3,6 +3,7 @@ package me.arasple.mc.trhologram.hologram;
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import me.arasple.mc.trhologram.TrHologram;
+import me.arasple.mc.trhologram.action.base.AbstractAction;
 import me.arasple.mc.trhologram.utils.JavaScript;
 import me.arasple.mc.trhologram.utils.Locations;
 import org.bukkit.Bukkit;
@@ -22,6 +23,7 @@ public class Hologram {
     private String name;
     private List<UUID> viewers;
     private List<HologramContent> contents;
+    private List<AbstractAction> actions;
     private Location location;
     private String viewCondition;
     private String viewDistance;
@@ -30,13 +32,18 @@ public class Hologram {
     private BukkitRunnable task;
 
     public Hologram(String name, Location location, List<String> contents) {
-        this(name, location, contents, null, null, 40);
+        this(name, location, contents, Lists.newArrayList(), null, null, 40);
     }
 
-    public Hologram(String name, Location location, List<String> contents, String viewCondition, String viewDistance, int update) {
+    public Hologram(String name, Location location, List<String> contents, List<AbstractAction> actions) {
+        this(name, location, contents, actions, null, null, 40);
+    }
+
+    public Hologram(String name, Location location, List<String> contents, List<AbstractAction> actions, String viewCondition, String viewDistance, int update) {
         this.name = name;
         this.location = location;
         this.contents = HologramContent.createList(contents);
+        this.actions = actions;
         this.viewers = Lists.newArrayList();
         this.viewCondition = viewCondition;
         this.viewDistance = viewDistance;
@@ -199,6 +206,14 @@ public class Hologram {
                 getViewersAsPlayer().forEach(content::display);
             }
         });
+    }
+
+    public List<AbstractAction> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<AbstractAction> actions) {
+        this.actions = actions;
     }
 
     public String getViewCondition() {

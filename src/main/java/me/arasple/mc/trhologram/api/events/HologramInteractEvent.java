@@ -12,7 +12,6 @@ import org.bukkit.event.player.PlayerEvent;
  */
 public class HologramInteractEvent extends PlayerEvent {
 
-
     private static final HandlerList HANDLERS = new HandlerList();
     private Hologram hologram;
 

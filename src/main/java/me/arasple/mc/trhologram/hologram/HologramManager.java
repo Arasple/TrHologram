@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.module.locale.TLocale;
+import me.arasple.mc.trhologram.action.TrAction;
 import me.arasple.mc.trhologram.api.TrHologramAPI;
 import me.arasple.mc.trhologram.utils.Locations;
 import org.bukkit.Bukkit;
@@ -73,7 +74,7 @@ public class HologramManager {
                 ConfigurationSection section = hologramsData.getConfigurationSection(name);
                 Hologram hologram = TrHologramAPI.getHologramById(name);
                 if (hologram == null) {
-                    hologram = new Hologram(name, Locations.from(section.getString("location")), section.getStringList("contents"), section.getString("viewCondition"), section.getString("viewDistance", "-1"), section.getInt("update", 100));
+                    hologram = new Hologram(name, Locations.from(section.getString("location")), section.getStringList("contents"), TrAction.readActions(section.getStringList("actions")), section.getString("viewCondition"), section.getString("viewDistance", "-1"), section.getInt("update", 100));
                     getHolograms().add(hologram);
                 } else {
                     hologram.setLocation(Locations.from(section.getString("location")));
@@ -101,7 +102,7 @@ public class HologramManager {
     }
 
     public static void createHologram(String id, Location location, String content) {
-        Hologram hologram = new Hologram(id, location, Collections.singletonList(content), "null", "-1", 100);
+        Hologram hologram = new Hologram(id, location, Collections.singletonList(content), Lists.newArrayList(), "null", "-1", 100);
         holograms.add(hologram);
         Bukkit.getOnlinePlayers().stream().filter(hologram::isVisible).forEach(hologram::display);
         write();
@@ -130,6 +131,7 @@ public class HologramManager {
             hologramsData.set(hologram.getName() + ".update", hologram.getUpdate());
             hologramsData.set(hologram.getName() + ".location", Locations.write(hologram.getLocation()));
             hologramsData.set(hologram.getName() + ".contents", hologram.getContentsAsList());
+            hologramsData.set(hologram.getName() + ".actions", Lists.newArrayList());
         });
         hologramsData.saveToFile();
         writing = false;
