@@ -1,8 +1,6 @@
 package me.arasple.mc.trhologram.action.acts;
 
 import me.arasple.mc.trhologram.action.base.AbstractAction;
-import me.arasple.mc.trhologram.utils.Bungees;
-import me.arasple.mc.trhologram.utils.Vars;
 import org.bukkit.entity.Player;
 
 /**
@@ -17,6 +15,6 @@ public class ActionConnect extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        Bungees.connect(player, Vars.replace(player, getContent()));
+//        Bungees.connect(player, Vars.replace(player, getContent()));
     }
 }

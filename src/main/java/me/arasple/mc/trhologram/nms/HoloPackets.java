@@ -45,34 +45,34 @@ public abstract class HoloPackets {
      * 为玩家显示盔甲架实体
      *
      * @param armorstand EntityArmorStand
-     * @param players    Players
+     * @param player     Players
      */
-    public abstract void displayArmorstand(Object armorstand, Player... players);
+    public abstract void displayArmorstand(Object armorstand, Player player);
 
     /**
      * 发送数据包更新盔甲架实体的属性
      *
      * @param armorstand EntityArmorStand
-     * @param players    Players
+     * @param player     Players
      */
-    public abstract void updateArmorstand(Object armorstand, Player... players);
+    public abstract void updateArmorstand(Object armorstand, Player player);
 
     /**
      * 发送摧毁盔甲架实体的数据包
      *
      * @param armorstand EntityArmorStand
-     * @param players    Players
+     * @param player     Players
      */
-    public abstract void destroyArmorstand(Object armorstand, Player... players);
+    public abstract void destroyArmorstand(Object armorstand, Player player);
 
     /**
      * 发送传送盔甲架实体的数据包
      *
      * @param armorstand  盔甲架实体
      * @param destination 目的地
-     * @param players     玩家
+     * @param player      玩家
      */
-    public abstract void teleportArmorstand(Object armorstand, Location destination, Player... players);
+    public abstract void teleportArmorstand(Object armorstand, Location destination, Player player);
 
     /**
      * 取得实体 ID

@@ -230,6 +230,7 @@ public class Hologram {
 
     public void setViewDistance(String viewDistance) {
         this.viewDistance = viewDistance;
+        this.finalViewDistance = NumberUtils.toDouble(viewDistance, -1);
     }
 
     public Object getExactViewDistance() {

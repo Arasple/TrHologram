@@ -52,37 +52,30 @@ public class HoloPacketsImp extends HoloPackets {
     }
 
     @Override
-    public void displayArmorstand(Object armorstand, Player... players) {
+    public void displayArmorstand(Object armorstand, Player player) {
         Object packet = new PacketPlayOutSpawnEntityLiving((EntityArmorStand) armorstand);
-        for (Player player : players) {
-            sendPacket(player, packet);
-        }
-        updateArmorstand(armorstand, players);
+        sendPacket(player, packet);
+        updateArmorstand(armorstand, player);
     }
 
     @Override
-    public void updateArmorstand(Object armorstand, Player... players) {
+    public void updateArmorstand(Object armorstand, Player player) {
         Object packet = new PacketPlayOutEntityMetadata(((EntityArmorStand) armorstand).getId(), ((EntityArmorStand) armorstand).getDataWatcher(), true);
-        for (Player player : players) {
-            sendPacket(player, packet);
-        }
+        sendPacket(player, packet);
     }
 
     @Override
-    public void destroyArmorstand(Object armorstand, Player... players) {
+    public void destroyArmorstand(Object armorstand, Player player) {
         Object packet = new PacketPlayOutEntityDestroy(((EntityArmorStand) armorstand).getId());
-        for (Player player : players) {
-            sendPacket(player, packet);
-        }
+        sendPacket(player, packet);
+
     }
 
     @Override
-    public void teleportArmorstand(Object armorstand, Location destination, Player... players) {
+    public void teleportArmorstand(Object armorstand, Location destination, Player player) {
         ((EntityArmorStand) armorstand).setLocation(destination.getX(), destination.getY(), destination.getZ(), destination.getYaw(), destination.getPitch());
         Object packet = new PacketPlayOutEntityTeleport((Entity) armorstand);
-        for (Player player : players) {
-            sendPacket(player, packet);
-        }
+        sendPacket(player, packet);
     }
 
     @Override

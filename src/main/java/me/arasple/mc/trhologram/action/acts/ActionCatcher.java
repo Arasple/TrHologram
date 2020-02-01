@@ -6,9 +6,9 @@ import io.izzel.taboolib.util.Variables;
 import io.izzel.taboolib.util.lite.Catchers;
 import io.izzel.taboolib.util.lite.Signs;
 import me.arasple.mc.trhologram.TrHologram;
+import me.arasple.mc.trhologram.action.TrAction;
 import me.arasple.mc.trhologram.action.base.AbstractAction;
 import me.arasple.mc.trhologram.utils.JavaScript;
-import me.arasple.mc.trhologram.utils.TrUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -70,7 +70,7 @@ public class ActionCatcher extends AbstractAction {
 
             @Override
             public void cancel() {
-                TrUtils.getInst().runAction(player, cancelAction);
+                TrAction.runActions(TrAction.readActions(cancelAction), player);
             }
         });
     }
@@ -101,7 +101,7 @@ public class ActionCatcher extends AbstractAction {
         if (Strings.nonEmpty(input)) {
             actions = actions.replace("$input", input);
         }
-        TrUtils.getInst().runAction(player, actions);
+        TrAction.runActions(TrAction.readActions(actions), player);
     }
 
     @Override

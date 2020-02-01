@@ -79,6 +79,7 @@ public class HologramManager {
                 } else {
                     hologram.setLocation(Locations.from(section.getString("location")));
                     hologram.setContents(section.getStringList("contents"));
+                    hologram.setActions(TrAction.readActions(section.getStringList("actions")));
                     hologram.setViewCondition(section.getString("viewCondition"));
                     hologram.setViewDistance(section.getString("viewDistance"));
                     hologram.setUpdate(section.getInt("update", 100));

@@ -19,7 +19,6 @@ public class HologramContent {
     private Location location;
     private String text;
     private Object armorstand;
-    private int id;
 
     public HologramContent(String text) {
         this.text = text;
@@ -32,7 +31,9 @@ public class HologramContent {
     }
 
     public void updateLocation(Player... players) {
-        HoloPackets.getInst().teleportArmorstand(getArmorstand(), location, players);
+        for (Player player : players) {
+            HoloPackets.getInst().teleportArmorstand(getArmorstand(), location, player);
+        }
     }
 
     public void update(Player... players) {
@@ -58,12 +59,13 @@ public class HologramContent {
     }
 
     public void destroy(Player... players) {
-        HoloPackets.getInst().destroyArmorstand(getArmorstand(), players);
+        for (Player player : players) {
+            HoloPackets.getInst().destroyArmorstand(getArmorstand(), player);
+        }
     }
 
     public void initArmorstand() {
-        this.armorstand = HoloPackets.getInst().createArmorStand(location);
-        setId(HoloPackets.getInst().getEntityId(getArmorstand()));
+        armorstand = HoloPackets.getInst().createArmorStand(location);
     }
 
     /*
@@ -101,20 +103,12 @@ public class HologramContent {
         return armorstand;
     }
 
-    public void setArmorstand(Object armorstand) {
-        this.armorstand = armorstand;
-    }
-
     public boolean isArmorstandInited() {
         return armorstand != null;
     }
 
     public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        return HoloPackets.getInst().getEntityId(armorstand);
     }
 
     public boolean isEmpty() {
