@@ -3,9 +3,7 @@ CONFIG-VERSION: 0
 
 # Locale loading priority
 # Put your locale in the first
-LOCALE-PRIORITY:
-  - zh_CN
-  - en_US
+LOCALE-PRIORITY: en_US
 
 # Options
 OPTIONS:

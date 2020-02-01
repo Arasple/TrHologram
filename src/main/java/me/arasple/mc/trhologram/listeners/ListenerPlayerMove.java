@@ -17,8 +17,8 @@ public class ListenerPlayerMove implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        HologramManager.getHolograms().stream().forEach(hologram -> {
-            if (hologram.isVisible(player)) {
+        HologramManager.getHolograms().forEach(hologram -> {
+            if (hologram.isVisible(player) && !hologram.getViewers().contains(player.getUniqueId())) {
                 hologram.display(player);
             } else {
                 hologram.destroy(player);

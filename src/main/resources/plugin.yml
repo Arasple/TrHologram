@@ -6,4 +6,4 @@ version: ${version}
 
 built-time: ${built}
 
-description: Hologram
+description: Better Hologram
