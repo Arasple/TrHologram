@@ -45,7 +45,7 @@ public abstract class HoloPackets {
 
     public abstract void sendEntityMetadata(Player player, int entityId, Object... objects);
 
-    public abstract Object getMetaEntityProperties(boolean onFire, boolean crouched, boolean unused, boolean sprinting, boolean swimming, boolean invisible, boolean glowing, boolean flyingElytra);
+    public abstract Object getMetaEntityProperties(boolean onFire, boolean crouched, boolean sprinting, boolean swimming, boolean invisible, boolean glowing, boolean flyingElytra);
 
     public abstract Object getMetaEntityGravity(boolean gravity);
 

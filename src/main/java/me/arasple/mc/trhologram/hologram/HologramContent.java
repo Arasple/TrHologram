@@ -27,11 +27,13 @@ public class HologramContent {
     private Location location;
     private String text;
     private Mat mat;
+    private List<UUID> viewing;
 
     public HologramContent(String text) {
         setText(text);
         this.id = ORIGINAL_ID++;
         this.uuid = UUID.randomUUID();
+        this.viewing = Lists.newArrayList();
     }
 
     public static List<HologramContent> createList(List<String> lines) {
@@ -58,7 +60,10 @@ public class HologramContent {
 
     public void display(Player... players) {
         for (Player player : players) {
-            HoloPackets.getInst().spawnArmorStand(player, id, uuid, location);
+            if (!this.viewing.contains(player.getUniqueId())) {
+                HoloPackets.getInst().spawnArmorStand(player, id, uuid, location);
+                viewing.add(player.getUniqueId());
+            }
         }
         update(players);
     }
@@ -66,6 +71,7 @@ public class HologramContent {
     public void destroy(Player... players) {
         for (Player player : players) {
             HoloPackets.getInst().destroyArmorStand(player, id);
+            this.viewing.remove(player.getUniqueId());
         }
     }
 

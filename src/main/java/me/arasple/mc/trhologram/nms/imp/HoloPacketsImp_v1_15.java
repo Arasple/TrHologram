@@ -56,8 +56,10 @@ public class HoloPacketsImp_v1_15 extends HoloPackets {
     @Override
     public void initArmorStandAsHologram(Player player, int entityId) {
         sendEntityMetadata(player, entityId,
-                getMetaEntityProperties(false, false, false, false, false, true, false, false),
+                getMetaEntityProperties(false, true, true, true, true, true, true),
+                getMetaEntityGravity(false),
                 getMetaEntityCustomNameVisible(true),
+                getMetaEntitySilenced(true),
                 getMetaArmorStandProperties(true, false, true, true)
         );
     }
@@ -100,17 +102,17 @@ public class HoloPacketsImp_v1_15 extends HoloPackets {
     }
 
     @Override
-    public Object getMetaEntityProperties(boolean onFire, boolean crouched, boolean unused, boolean sprinting, boolean swimming, boolean invisible, boolean glowing, boolean flyingElytra) {
+    public Object getMetaEntityProperties(boolean onFire, boolean crouched, boolean sprinting, boolean swimming, boolean invisible, boolean glowing, boolean flyingElytra) {
         byte bits = 0;
         bits += onFire ? 1 : 0;
         bits += crouched ? 2 : 0;
-        bits += unused ? 4 : 0;
         bits += sprinting ? 8 : 0;
         bits += swimming ? 10 : 0;
         bits += invisible ? 20 : 0;
         bits += glowing ? 40 : 0;
         bits += flyingElytra ? 80 : 0;
-        return new Item<>(new DataWatcherObject<>(0, DataWatcherRegistry.a), bits);
+
+        return new Item<Byte>(new DataWatcherObject<>(0, DataWatcherRegistry.a), bits);
     }
 
     @Override
