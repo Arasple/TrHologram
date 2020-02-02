@@ -45,16 +45,14 @@ public class HoloInteract implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        new RayTrace(player.getEyeLocation(), player.getLocation().getDirection(), 5.0D, 0.5D) {
+        new RayTrace(player.getEyeLocation(), player.getLocation().getDirection(), 10.0D, 0.5D) {
             @Override
             public void onTrace(Location location) {
                 HologramManager.getHolograms().stream().filter(hologram -> hologram.isViewing(player)).forEach(hologram -> {
                     hologram.getContents().forEach(content -> {
-                        if (content.getLocation().clone().add(0, 2.2, 0).distanceSquared(location) < 0.05) {
+                        if (content.getLocation().distanceSquared(location) < 3.0D) {
                             player.sendMessage("Tracked: " + content.getText());
                             stop();
-                        } else {
-                            player.sendTitle("", String.valueOf(content.getLocation().clone().add(0, 2.2, 0).distanceSquared(location)));
                         }
                     });
                 });

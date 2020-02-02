@@ -11,8 +11,10 @@ import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.*;
+
 
 /**
  * @author Arasple
@@ -143,6 +145,24 @@ public class HoloPacketsImp_v1_15 extends HoloPackets {
         bits += noBasePlate ? 8 : 0;
         bits += marker ? 10 : 0;
         return new Item<>(new DataWatcherObject<>(13, DataWatcherRegistry.a), bits);
+    }
+
+    @Override
+    public Vector getLookDirection(Object packet) {
+        float yaw = (float) SimpleReflection.getFieldValue(PacketPlayInFlying.class, packet, "yaw");
+        float pitch = (float) SimpleReflection.getFieldValue(PacketPlayInFlying.class, packet, "pitch");
+        double pitchRadians = Math.toRadians(-pitch);
+        double yawRadians = Math.toRadians(-yaw);
+        double sinPitch = Math.sin(pitchRadians);
+        double cosPitch = Math.cos(pitchRadians);
+        double sinYaw = Math.sin(yawRadians);
+        double cosYaw = Math.cos(yawRadians);
+        Vector v = new Vector(-cosPitch * sinYaw, sinPitch, -cosPitch * cosYaw);
+        return new Vector(-v.getX(), v.getY(), -v.getZ());
+    }
+
+    public void sendArmorstandRotation() {
+
     }
 
     private Object setPacket(Class<?> nms, Object packet, Map<String, Object> sets) {

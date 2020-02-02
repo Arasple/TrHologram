@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.UUID;
 
@@ -58,5 +59,8 @@ public abstract class HoloPackets {
     public abstract Object getMetaEntityCustomName(String name);
 
     public abstract Object getMetaArmorStandProperties(boolean isSmall, boolean hasArms, boolean noBasePlate, boolean marker);
+
+    public abstract Vector getLookDirection(Object packet);
+
 
 }
