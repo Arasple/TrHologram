@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 public class HologramContent {
 
-    private static int ORIGINAL_ID = 233333 + Numbers.getRandomInteger(0, 233333);
+    private static int ORIGINAL_ID = 20000 + Numbers.getRandomInteger(1, 10000);
 
     private int id;
     private UUID uuid;

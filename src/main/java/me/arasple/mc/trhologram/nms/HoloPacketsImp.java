@@ -23,9 +23,11 @@ import java.util.UUID;
 public class HoloPacketsImp extends HoloPackets {
 
     static {
-        SimpleReflection.saveField(PacketPlayOutSpawnEntity.class);
-        SimpleReflection.saveField(PacketPlayOutEntityTeleport.class);
-        SimpleReflection.saveField(PacketPlayOutEntityMetadata.class);
+        SimpleReflection.checkAndSave(
+                PacketPlayOutSpawnEntity.class,
+                PacketPlayOutEntityTeleport.class,
+                PacketPlayOutEntityMetadata.class
+        );
     }
 
     @Override
@@ -76,8 +78,8 @@ public class HoloPacketsImp extends HoloPackets {
                 .put("b", location.getX())
                 .put("c", location.getY())
                 .put("d", location.getZ())
-                .put("e", 0)
-                .put("f", 0)
+                .put("e", (byte) 0)
+                .put("f", (byte) 0)
                 .put("g", false)
                 .build())
         );
@@ -94,7 +96,7 @@ public class HoloPacketsImp extends HoloPackets {
         for (Object object : objects) {
             items.add((DataWatcher.Item<?>) object);
         }
-        System.out.println("Sending data to " + player.getName() + " of " + items.size() + " of entity " + entityId + " ...");
+        System.out.println("Sending entity metadata of " + items.size() + " to " + player.getName() + " (EID: " + entityId + " )");
         TPacketHandler.sendPacket(player, setPacket(PacketPlayOutEntityMetadata.class, new PacketPlayOutEntityMetadata(), new MapBuilder()
                 .put("a", entityId)
                 .put("b", items)
@@ -140,7 +142,7 @@ public class HoloPacketsImp extends HoloPackets {
     public Object getMetaArmorStandProperties(boolean isSmall, boolean hasArms, boolean noBasePlate, boolean marker) {
         byte bits = 0;
         bits += (isSmall ? 1 : 0);
-        bits += (hasArms ? 2 : 0);
+        bits += (hasArms ? 4 : 0);
         bits += (noBasePlate ? 8 : 0);
         bits += (marker ? 10 : 0);
         return new DataWatcher.Item<>(new DataWatcherObject<>(13, DataWatcherRegistry.a), bits);
