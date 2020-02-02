@@ -28,6 +28,17 @@ public class TrHologramAPI {
         return null;
     }
 
+    public static HologramContent getHologramContentByEntityId(int id) {
+        for (Hologram hologram : HologramManager.getHolograms()) {
+            for (HologramContent line : hologram.getContents()) {
+                if (line.getId() == id) {
+                    return line;
+                }
+            }
+        }
+        return null;
+    }
+
     public static List<String> getHologramIds() {
         List<String> ids = Lists.newArrayList();
         HologramManager.getHolograms().forEach(hologram -> ids.add(hologram.getName()));

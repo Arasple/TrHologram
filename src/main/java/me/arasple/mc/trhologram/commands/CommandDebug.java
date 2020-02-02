@@ -28,20 +28,6 @@ public class CommandDebug extends BaseMainCommand {
                     System.out.println("---: " + hologramContent.getText());
                 });
             });
-//
-//            Hologram hologram = new Hologram("test", player.getLocation(), Arrays.asList(
-//                    "&8&l「  &2&lTr&a&lHologram &6&l· &b&l轻便的高级全息系统  &8&l」",
-//                    "",
-//                    "&7名称: &2%player_name%",
-//                    "&7时间: &3%server_time_hh:ss%",
-//                    "&7可视距离: &35m",
-//                    "",
-//                    "&8&m                          "
-//            ), null, "10", 20);
-//
-//            hologram.display(player);
-//            hologram.runTask();
-//            HologramManager.getHolograms().add(hologram);
         } else {
             HologramManager.getHolograms().clear();
         }

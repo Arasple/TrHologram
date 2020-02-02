@@ -1,0 +1,11 @@
+Test:
+  viewDistance: 10.0
+  viewCondition: ''
+  update: 100
+  location: world,21.0,68.0,124.0
+  contents:
+    - '&3Created a new hologram named &aTest'
+    - Item:<head:%player_name%>
+    - ??
+    - 我弗了
+  actions: []

@@ -1,8 +1,14 @@
 package me.arasple.mc.trhologram.nms;
 
-import io.izzel.taboolib.module.inject.TInject;
+import io.izzel.taboolib.module.lite.SimpleVersionControl;
+import me.arasple.mc.trhologram.TrHologram;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+
+import java.io.IOException;
+import java.util.UUID;
 
 /**
  * @author Arasple
@@ -10,76 +16,44 @@ import org.bukkit.entity.Player;
  */
 public abstract class HoloPackets {
 
-    @TInject(asm = "me.arasple.mc.trhologram.nms.imp.HoloPacketsImp")
     private static HoloPackets instance;
+
+    static {
+        try {
+            instance = (HoloPackets) SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.HoloPacketsImp").useNMS().translate(TrHologram.getPlugin()).newInstance();
+        } catch (InstantiationException | IllegalAccessException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static HoloPackets getInst() {
         return instance;
     }
 
-    /**
-     * 生成一个盔甲架实体数据包
-     *
-     * @param location 坐标
-     * @return EntityArmorStand
-     */
-    public abstract Object createArmorStand(Location location);
+    public abstract void spawnArmorStand(Player player, int entityId, UUID uuid, Location location);
 
-    /**
-     * 设置一个盔甲架实体的显示名称
-     *
-     * @param armorstand EntityArmorStand
-     * @param name       Display Name
-     */
-    public abstract void setArmorstandName(Object armorstand, String name);
+    public abstract void destroyArmorStand(Player player, int entityId);
 
-    /**
-     * 设置盔甲架名称是否可视
-     *
-     * @param armorstand EntityArmorStand
-     * @param visible    Display Name
-     */
-    public abstract void setArmorstandVisible(Object armorstand, boolean visible);
+    public abstract void initArmorStandAsHologram(Player player, int entityId);
 
-    /**
-     * 为玩家显示盔甲架实体
-     *
-     * @param armorstand EntityArmorStand
-     * @param player     Players
-     */
-    public abstract void displayArmorstand(Object armorstand, Player player);
+    public abstract void updateArmorStandDisplayName(Player player, int entityId, String name);
 
-    /**
-     * 发送数据包更新盔甲架实体的属性
-     *
-     * @param armorstand EntityArmorStand
-     * @param player     Players
-     */
-    public abstract void updateArmorstand(Object armorstand, Player player);
+    public abstract void updateArmorStandLocation(Player player, int entityId, Location location);
 
-    /**
-     * 发送摧毁盔甲架实体的数据包
-     *
-     * @param armorstand EntityArmorStand
-     * @param player     Players
-     */
-    public abstract void destroyArmorstand(Object armorstand, Player player);
+    public abstract void updateArmorStandEquipmentItem(Player player, int entityId, EquipmentSlot slot, ItemStack itemStack);
 
-    /**
-     * 发送传送盔甲架实体的数据包
-     *
-     * @param armorstand  盔甲架实体
-     * @param destination 目的地
-     * @param player      玩家
-     */
-    public abstract void teleportArmorstand(Object armorstand, Location destination, Player player);
+    public abstract void sendEntityMetadata(Player player, int entityId, Object... objects);
 
-    /**
-     * 取得实体 ID
-     *
-     * @param armorstand EntityArmorStand
-     * @return Entity ID
-     */
-    public abstract int getEntityId(Object armorstand);
+    public abstract Object getMetaEntityProperties(boolean onFire, boolean crouched, boolean sprinting, boolean swimming, boolean invisible, boolean glowing, boolean flyingElytra);
+
+    public abstract Object getMetaEntityGravity(boolean gravity);
+
+    public abstract Object getMetaEntitySilenced(boolean silenced);
+
+    public abstract Object getMetaEntityCustomNameVisible(boolean visible);
+
+    public abstract Object getMetaEntityCustomName(String name);
+
+    public abstract Object getMetaArmorStandProperties(boolean isSmall, boolean hasArms, boolean noBasePlate, boolean marker);
 
 }

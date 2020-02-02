@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import me.arasple.mc.trhologram.TrHologram;
 import me.arasple.mc.trhologram.action.base.AbstractAction;
+import me.arasple.mc.trhologram.item.Mat;
 import me.arasple.mc.trhologram.utils.JavaScript;
 import me.arasple.mc.trhologram.utils.Locations;
 import org.bukkit.Bukkit;
@@ -155,7 +156,7 @@ public class Hologram {
         this.viewers = viewers;
     }
 
-    private List<Player> getViewersAsPlayer() {
+    public List<Player> getViewersAsPlayer() {
         List<Player> players = Lists.newArrayList();
         viewers.forEach(viewer -> {
             Player player = Bukkit.getPlayer(viewer);
@@ -193,19 +194,20 @@ public class Hologram {
         int size = getContents().size();
         for (int i = 0; i < contents.size(); i++) {
             if (size > i) {
-                getContents().get(i).setText(contents.get(i));
+                HologramContent content = getContents().get(i);
+                if (content.getMat() != null || Mat.readMat(contents.get(i)) != null) {
+                    getViewersAsPlayer().forEach(content::destroy);
+                    getContents().set(i, new HologramContent(contents.get(i)));
+                } else {
+                    content.setText(contents.get(i));
+                }
             } else {
                 HologramContent content = new HologramContent(contents.get(i));
                 getContents().add(content);
             }
         }
         initOffsets();
-        getContents().forEach(content -> {
-            if (!content.isArmorstandInited()) {
-                content.initArmorstand();
-                getViewersAsPlayer().forEach(content::display);
-            }
-        });
+        getContents().forEach(content -> getViewersAsPlayer().forEach(content::display));
     }
 
     public List<AbstractAction> getActions() {

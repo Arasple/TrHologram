@@ -2,13 +2,17 @@ package me.arasple.mc.trhologram.hologram;
 
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.util.Strings;
+import io.izzel.taboolib.util.lite.Numbers;
+import me.arasple.mc.trhologram.item.Mat;
 import me.arasple.mc.trhologram.nms.HoloPackets;
 import me.arasple.mc.trhologram.utils.Locations;
 import me.arasple.mc.trhologram.utils.Vars;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Arasple
@@ -16,12 +20,18 @@ import java.util.List;
  */
 public class HologramContent {
 
+    private static int ORIGINAL_ID = 233333 + Numbers.getRandomInteger(0, 233333);
+
+    private int id;
+    private UUID uuid;
     private Location location;
     private String text;
-    private Object armorstand;
+    private Mat mat;
 
     public HologramContent(String text) {
-        this.text = text;
+        setText(text);
+        this.id = ORIGINAL_ID++;
+        this.uuid = UUID.randomUUID();
     }
 
     public static List<HologramContent> createList(List<String> lines) {
@@ -32,40 +42,35 @@ public class HologramContent {
 
     public void updateLocation(Player... players) {
         for (Player player : players) {
-            HoloPackets.getInst().teleportArmorstand(getArmorstand(), location, player);
+            HoloPackets.getInst().updateArmorStandLocation(player, id, location);
         }
     }
 
     public void update(Player... players) {
         for (Player player : players) {
-            HoloPackets.getInst().setArmorstandName(getArmorstand(), Vars.replace(player, text));
-            HoloPackets.getInst().updateArmorstand(getArmorstand(), player);
+            if (getMat() != null) {
+                HoloPackets.getInst().updateArmorStandEquipmentItem(player, id, EquipmentSlot.HEAD, getMat().createItem(player));
+            } else {
+                HoloPackets.getInst().updateArmorStandDisplayName(player, id, Vars.replace(player, text));
+            }
         }
     }
 
     public void display(Player... players) {
         for (Player player : players) {
-            HoloPackets.getInst().setArmorstandName(getArmorstand(), Vars.replace(player, text));
-            HoloPackets.getInst().displayArmorstand(getArmorstand(), player);
+            HoloPackets.getInst().spawnArmorStand(player, id, uuid, location);
         }
-    }
-
-    public void hide(Player... players) {
-        for (Player player : players) {
-            HoloPackets.getInst().setArmorstandVisible(getArmorstand(), false);
-            HoloPackets.getInst().updateArmorstand(getArmorstand(), player);
-            HoloPackets.getInst().setArmorstandVisible(getArmorstand(), true);
-        }
+        update(players);
     }
 
     public void destroy(Player... players) {
         for (Player player : players) {
-            HoloPackets.getInst().destroyArmorstand(getArmorstand(), player);
+            HoloPackets.getInst().destroyArmorStand(player, id);
         }
     }
 
-    public void initArmorstand() {
-        armorstand = HoloPackets.getInst().createArmorStand(location);
+    private void readMat() {
+        this.mat = Mat.readMat(this.text);
     }
 
     /*
@@ -81,8 +86,7 @@ public class HologramContent {
     }
 
     public void setLocation(Location location, List<Player> players) {
-        this.location = location;
-
+        this.location = getMat() != null ? location.add(0, 0, 0) : location;
         if (!Locations.equals(this.location, location) && players.size() > 0) {
             players.forEach(this::updateLocation);
         }
@@ -94,25 +98,23 @@ public class HologramContent {
 
     public void setText(String text) {
         this.text = text;
+        readMat();
     }
 
-    public Object getArmorstand() {
-        if (!isArmorstandInited()) {
-            initArmorstand();
-        }
-        return armorstand;
+    public Mat getMat() {
+        return mat;
     }
 
-    public boolean isArmorstandInited() {
-        return armorstand != null;
+    public void setMat(Mat mat) {
+        this.mat = mat;
     }
 
     public int getId() {
-        return HoloPackets.getInst().getEntityId(armorstand);
+        return id;
     }
 
     public boolean isEmpty() {
-        return Strings.isEmpty(getText());
+        return Strings.isEmpty(getText()) && getMat() == null;
     }
 
 }

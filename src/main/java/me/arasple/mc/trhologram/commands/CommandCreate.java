@@ -26,11 +26,11 @@ public class CommandCreate extends BaseSubCommand {
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
+        Catchers.getPlayerdata().remove(player.getName());
         if (args.length >= 1) {
             createHologram(player, args[0]);
             return;
         }
-        Catchers.getPlayerdata().remove(player.getName());
         Catchers.call(player, new Catchers.Catcher() {
             @Override
             public Catchers.Catcher before() {
