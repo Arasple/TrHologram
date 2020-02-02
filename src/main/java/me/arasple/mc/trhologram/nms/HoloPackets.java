@@ -1,5 +1,6 @@
 package me.arasple.mc.trhologram.nms;
 
+import io.izzel.taboolib.Version;
 import io.izzel.taboolib.module.lite.SimpleVersionControl;
 import me.arasple.mc.trhologram.TrHologram;
 import org.bukkit.Location;
@@ -20,7 +21,7 @@ public abstract class HoloPackets {
 
     static {
         try {
-            instance = (HoloPackets) SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.HoloPacketsImp").useNMS().translate(TrHologram.getPlugin()).newInstance();
+            instance = (HoloPackets) SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.imp.HoloPacketsImp_" + Version.getCurrentVersion().name()).useNMS().translate(TrHologram.getPlugin()).newInstance();
         } catch (InstantiationException | IllegalAccessException | IOException e) {
             e.printStackTrace();
         }
@@ -44,7 +45,7 @@ public abstract class HoloPackets {
 
     public abstract void sendEntityMetadata(Player player, int entityId, Object... objects);
 
-    public abstract Object getMetaEntityProperties(boolean onFire, boolean crouched, boolean sprinting, boolean swimming, boolean invisible, boolean glowing, boolean flyingElytra);
+    public abstract Object getMetaEntityProperties(boolean onFire, boolean crouched, boolean unused, boolean sprinting, boolean swimming, boolean invisible, boolean glowing, boolean flyingElytra);
 
     public abstract Object getMetaEntityGravity(boolean gravity);
 

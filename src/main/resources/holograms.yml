@@ -6,6 +6,3 @@ Test:
   contents:
     - '&3Created a new hologram named &aTest'
     - Item:<head:%player_name%>
-    - ??
-    - 我弗了
-  actions: []

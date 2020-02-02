@@ -3,7 +3,6 @@ package me.arasple.mc.trhologram;
 import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trhologram.hologram.HologramManager;
-import me.arasple.mc.trhologram.updater.Updater;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.InputStreamReader;
@@ -22,7 +21,7 @@ public class TrHologramLoader {
     void init() {
         TLocale.sendToConsole("PLUGIN.LOADING");
         updateConfig();
-        Updater.init(TrHologram.getPlugin());
+//        Updater.init(TrHologram.getPlugin());
     }
 
     void load() {

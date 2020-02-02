@@ -1,0 +1,7 @@
+{
+  "location": "world,x,y,z",
+  "contents": [
+    "line1",
+    "line2"
+  ]
+}
