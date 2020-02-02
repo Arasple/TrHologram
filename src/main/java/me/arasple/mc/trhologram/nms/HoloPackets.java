@@ -1,14 +1,13 @@
 package me.arasple.mc.trhologram.nms;
 
 import io.izzel.taboolib.Version;
-import io.izzel.taboolib.module.lite.SimpleVersionControl;
-import me.arasple.mc.trhologram.TrHologram;
+import io.izzel.taboolib.module.inject.TSchedule;
+import me.arasple.mc.trhologram.nms.imp.HoloPacketsImp_v1_15;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -19,11 +18,14 @@ public abstract class HoloPackets {
 
     private static HoloPackets instance;
 
-    static {
-        try {
-            instance = (HoloPackets) SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.imp.HoloPacketsImp_" + Version.getCurrentVersion().name()).useNMS().translate(TrHologram.getPlugin()).newInstance();
-        } catch (InstantiationException | IllegalAccessException | IOException e) {
-            e.printStackTrace();
+    @TSchedule
+    static void init() {
+        if (Version.getCurrentVersion() == Version.v1_15) {
+            instance = new HoloPacketsImp_v1_15();
+        } else if (Version.getCurrentVersion() == Version.v1_14) {
+
+        } else {
+
         }
     }
 
