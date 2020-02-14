@@ -107,7 +107,7 @@ public class Updater implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        if (old && !noticed.contains(p.getUniqueId()) && p.hasPermission("trmenu.admin")) {
+        if (old && !noticed.contains(p.getUniqueId()) && p.hasPermission("trhologram.admin")) {
             noticed.add(p.getUniqueId());
             Bukkit.getScheduler().runTaskLaterAsynchronously(TrHologram.getPlugin(), () -> TLocale.sendTo(p, "PLUGIN.UPDATER.OLD", newVersion), 1);
         }

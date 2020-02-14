@@ -17,7 +17,17 @@ public class ActionSound extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        new SoundPack(getContent()).play(player);
+        String sound = getContent(player);
+        new SoundPack(sound).play(player);
+    }
+
+    @Override
+    public void setContent(String content) {
+        String[] split = content.split("-");
+        if (split.length == 1) {
+            content += "-1-1";
+        }
+        super.setContent(content);
     }
 
 }

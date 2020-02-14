@@ -2,13 +2,15 @@ package me.arasple.mc.trhologram.hologram;
 
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.gson.Gson;
-import io.izzel.taboolib.module.config.TConfigWatcher;
 import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Files;
+import io.izzel.taboolib.util.lite.Particles;
+import io.izzel.taboolib.util.lite.Sounds;
 import me.arasple.mc.trhologram.TrHologram;
 import me.arasple.mc.trhologram.action.TrAction;
 import me.arasple.mc.trhologram.api.TrHologramAPI;
+import me.arasple.mc.trhologram.utils.FileWatcher;
 import me.arasple.mc.trhologram.utils.Locations;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -37,7 +39,6 @@ public class HologramManager {
                 hologramData.set(key, null);
             }
         });
-
     }
 
     public static List<Hologram> getHolograms() {
@@ -50,7 +51,7 @@ public class HologramManager {
 
     @TSchedule
     private static void loadHolograms() {
-        loadHolograms(null);
+        loadHolograms(Bukkit.getConsoleSender());
     }
 
     public static void loadHolograms(CommandSender sender) {
@@ -60,8 +61,9 @@ public class HologramManager {
 
             List<File> hologramFiles = grabFiles(FOLDER);
             holograms.removeIf(hologram -> {
-                if (hologramFiles.stream().noneMatch(f -> f.getName().equals(hologram.getName()))) {
-                    deleteHologram(hologram.getName());
+                if (hologramFiles.stream().noneMatch(f -> f.getName().replaceAll("(?i).yml", "").equals(hologram.getName()))) {
+                    Files.deepDelete(new File(hologram.getLoadedFrom()));
+                    hologram.destroyAll();
                     return true;
                 }
                 return false;
@@ -79,16 +81,18 @@ public class HologramManager {
                 hologram.update();
                 hologram.setLoadedFrom(file.getPath());
             }
-            if (sender != null) {
+            if (sender != null && !holograms.isEmpty()) {
                 TLocale.sendTo(sender, "HOLOGRAM.LOADED-SUCCESS", holograms.size(), (System.currentTimeMillis() - start));
                 getHolograms().forEach(hologram -> {
                     File file = new File(hologram.getLoadedFrom());
                     if (file != null && file.exists()) {
-                        TConfigWatcher.getInst().addSimpleListener(file, () -> {
+                        FileWatcher.getWatcher().addSimpleListener(file, () -> {
                             if (!writing) {
                                 applySection(hologram, YamlConfiguration.loadConfiguration(file));
                             }
                         });
+                    } else {
+                        TrHologram.LOGGER.warn("Hologram " + hologram.getName() + " has empty file, auto-reload function will not work");
                     }
                 });
             }
@@ -99,6 +103,9 @@ public class HologramManager {
             e.printStackTrace();
         }
         restartTasks();
+        getHolograms().forEach(hologram -> {
+            Bukkit.getOnlinePlayers().forEach(hologram::display);
+        });
     }
 
     private static void applySection(Hologram hologram, YamlConfiguration data) {
@@ -108,6 +115,9 @@ public class HologramManager {
         hologram.setViewCondition(data.getString("viewCondition"));
         hologram.setViewDistance(data.getString("viewDistance"));
         hologram.setUpdate(data.getInt("update", 100));
+        Location location = hologram.getLocation();
+        Particles.TOTEM.display(location.getX(), location.getY(), location.getZ(), 1, 1, location, 3);
+        Sounds.ITEM_BOTTLE_FILL.playSound(location);
     }
 
     private static List<File> grabFiles(File folder) {
@@ -127,17 +137,17 @@ public class HologramManager {
     }
 
     public static void createHologram(String id, Location location, String content) {
-        Hologram hologram = new Hologram(id, location, Collections.singletonList(content), Lists.newArrayList(), "null", "-1", 100);
+        Hologram hologram = new Hologram(id, location, Collections.singletonList(content), Lists.newArrayList(), "null", "20", 100);
         File file = Files.file(FOLDER.getPath() + "/" + id + ".yml");
         hologram.setLoadedFrom(file.getPath());
         holograms.add(hologram);
         Bukkit.getOnlinePlayers().stream().filter(hologram::isVisible).forEach(hologram::display);
-        write();
-        TConfigWatcher.getInst().addSimpleListener(file, () -> {
+        FileWatcher.getWatcher().addSimpleListener(file, () -> {
             if (!writing) {
                 applySection(hologram, YamlConfiguration.loadConfiguration(file));
             }
         });
+        write();
     }
 
     public static void deleteHologram(String id) {

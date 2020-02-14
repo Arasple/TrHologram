@@ -20,16 +20,16 @@ import java.util.Collections;
  */
 public class ActionCatcher extends AbstractAction {
 
+    private static boolean isCancelWord(String word) {
+        return TrHologram.SETTINGS.getList("OPTIONS.CATCHER-CANCEL-WORDS", Collections.singletonList("quit|exit|cancel|return|break")).stream().anyMatch(k -> word.split(" ")[0].matches("(?i)" + k));
+    }
+
     private int type;
     private String require;
     private String beforeInputAction;
     private String inputValidAction;
     private String inputInvalidAction;
     private String cancelAction;
-
-    private static boolean isCancelWord(String word) {
-        return TrHologram.SETTINGS.getList("OPTIONS.CATCHER-CANCEL-WORDS", Collections.singletonList("quit|exit|cancel|return|break")).stream().anyMatch(k -> word.split(" ")[0].matches("(?i)" + k));
-    }
 
     @Override
     public String getName() {
@@ -150,5 +150,6 @@ public class ActionCatcher extends AbstractAction {
             }
         }
     }
+
 
 }

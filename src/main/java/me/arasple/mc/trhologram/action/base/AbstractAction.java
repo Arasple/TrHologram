@@ -4,6 +4,7 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trhologram.TrHologram;
 import me.arasple.mc.trhologram.utils.JavaScript;
+import me.arasple.mc.trhologram.utils.Vars;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -48,7 +49,6 @@ public abstract class AbstractAction {
             }
             return;
         }
-
         onExecute(player);
     }
 
@@ -77,6 +77,10 @@ public abstract class AbstractAction {
 
     public String getContent() {
         return content;
+    }
+
+    public String getContent(Player player) {
+        return Vars.replace(player, getContent());
     }
 
     public void setContent(String content) {
@@ -108,11 +112,7 @@ public abstract class AbstractAction {
 
     @Override
     public String toString() {
-        return "AbstractAction{" +
-                "name='" + this.getClass().getName() + '\'' +
-                "content='" + content + '\'' +
-                ", options=" + options +
-                '}';
+        return "AbstractAction{" + "content='" + content + '\'' + ", options=" + options + '}';
     }
 
 }

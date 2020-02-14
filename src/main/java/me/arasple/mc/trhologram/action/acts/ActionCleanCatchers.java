@@ -1,22 +1,23 @@
 package me.arasple.mc.trhologram.action.acts;
 
+import io.izzel.taboolib.util.lite.Catchers;
 import me.arasple.mc.trhologram.action.base.AbstractAction;
 import org.bukkit.entity.Player;
 
 /**
  * @author Arasple
- * @date 2019/12/21 20:34
+ * @date 2020/1/15 16:29
  */
-public class ActionTell extends AbstractAction {
+public class ActionCleanCatchers extends AbstractAction {
 
     @Override
     public String getName() {
-        return "talk|message|send|tell";
+        return "catcher(s)?-(clean|clear)|(clear|clean)-catcher(s)?";
     }
 
     @Override
     public void onExecute(Player player) {
-        player.sendMessage(getContent(player));
+        Catchers.getPlayerdata().remove(player.getName());
     }
 
 }

@@ -1,9 +1,9 @@
 package me.arasple.mc.trhologram.nms;
 
 import io.izzel.taboolib.Version;
-import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.module.lite.SimpleVersionControl;
 import me.arasple.mc.trhologram.TrHologram;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
@@ -19,13 +19,13 @@ public abstract class HoloPackets {
 
     private static HoloPackets instance;
 
-    @TSchedule
-    static void init() {
+    static {
         try {
             if (Version.getCurrentVersion() == Version.v1_15) {
                 instance = (HoloPackets) SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.imp.HoloPacketsImp_v1_15").useCache().translate(TrHologram.getPlugin()).newInstance();
             }
         } catch (Throwable e) {
+            TrHologram.LOGGER.error("An error occurred while adapting your server version " + Bukkit.getVersion() + ", please make sure your version is supported. Plugin will not work");
             e.printStackTrace();
         }
     }

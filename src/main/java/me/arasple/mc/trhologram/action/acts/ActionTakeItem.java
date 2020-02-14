@@ -2,7 +2,6 @@ package me.arasple.mc.trhologram.action.acts;
 
 import com.google.common.collect.Lists;
 import me.arasple.mc.trhologram.action.base.AbstractAction;
-import me.arasple.mc.trhologram.utils.Vars;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -32,7 +31,7 @@ public class ActionTakeItem extends AbstractAction {
 
     public List<RequiredItem> getRequirements(Player player) {
         List<RequiredItem> items = Lists.newArrayList();
-        Arrays.stream(Vars.replace(player, getContent()).split(";")).forEach(item -> items.add(RequiredItem.valueOf(item)));
+        Arrays.stream(getContent(player).split(";")).forEach(item -> items.add(RequiredItem.valueOf(item)));
         return items;
     }
 
@@ -58,6 +57,48 @@ public class ActionTakeItem extends AbstractAction {
             this.amount = amount;
             this.hasName = hasName;
             this.hasLore = hasLore;
+        }
+
+        boolean isRequired(ItemStack itemStack) {
+            return (material == null || itemStack.getType().name().equalsIgnoreCase(material))
+                    && (damage == -1 || Integer.valueOf(itemStack.getDurability()).equals(damage))
+                    && (hasName == null || hasName.equals(itemStack.getItemMeta().hasDisplayName()))
+                    && (hasLore == null || hasLore.equals(itemStack.getItemMeta().hasLore()))
+                    && (name == null || (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName().contains(name)))
+                    && (lore == null || (itemStack.getItemMeta().hasLore() && itemStack.getItemMeta().getLore().toString().contains(lore)));
+        }
+
+        public boolean hasItem(Player player) {
+            int checkAmount = amount;
+            for (ItemStack itemStack : player.getInventory().getContents()) {
+                if (itemStack != null && !itemStack.getType().equals(Material.AIR) && isRequired(itemStack)) {
+                    checkAmount -= itemStack.getAmount();
+                    if (checkAmount <= 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        void takeItem(Player player) {
+            int takeAmount = amount;
+            ItemStack[] contents = player.getInventory().getContents();
+            for (int i = 0; i < contents.length; i++) {
+                ItemStack itemStack = contents[i];
+                if (itemStack != null && !itemStack.getType().equals(Material.AIR) && isRequired(itemStack)) {
+                    takeAmount -= itemStack.getAmount();
+                    if (takeAmount < 0) {
+                        itemStack.setAmount(itemStack.getAmount() - (takeAmount + itemStack.getAmount()));
+                        return;
+                    } else {
+                        player.getInventory().setItem(i, null);
+                        if (takeAmount == 0) {
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         public static RequiredItem valueOf(String source) {
@@ -107,48 +148,6 @@ public class ActionTakeItem extends AbstractAction {
                 }
             }
             return new RequiredItem(material, name, lore, damage, amount, hasName, hasLore);
-        }
-
-        boolean isRequired(ItemStack itemStack) {
-            return (material == null || itemStack.getType().name().equalsIgnoreCase(material))
-                    && (damage == -1 || Integer.valueOf(itemStack.getDurability()).equals(damage))
-                    && (hasName == null || hasName.equals(itemStack.getItemMeta().hasDisplayName()))
-                    && (hasLore == null || hasLore.equals(itemStack.getItemMeta().hasLore()))
-                    && (name == null || (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName().contains(name)))
-                    && (lore == null || (itemStack.getItemMeta().hasLore() && itemStack.getItemMeta().getLore().toString().contains(lore)));
-        }
-
-        public boolean hasItem(Player player) {
-            int checkAmount = amount;
-            for (ItemStack itemStack : player.getInventory().getContents()) {
-                if (itemStack != null && !itemStack.getType().equals(Material.AIR) && isRequired(itemStack)) {
-                    checkAmount -= itemStack.getAmount();
-                    if (checkAmount <= 0) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        void takeItem(Player player) {
-            int takeAmount = amount;
-            ItemStack[] contents = player.getInventory().getContents();
-            for (int i = 0; i < contents.length; i++) {
-                ItemStack itemStack = contents[i];
-                if (itemStack != null && !itemStack.getType().equals(Material.AIR) && isRequired(itemStack)) {
-                    takeAmount -= itemStack.getAmount();
-                    if (takeAmount < 0) {
-                        itemStack.setAmount(itemStack.getAmount() - (takeAmount + itemStack.getAmount()));
-                        return;
-                    } else {
-                        player.getInventory().setItem(i, null);
-                        if (takeAmount == 0) {
-                            return;
-                        }
-                    }
-                }
-            }
         }
 
     }

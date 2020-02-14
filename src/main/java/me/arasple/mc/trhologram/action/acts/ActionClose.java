@@ -7,23 +7,18 @@ import org.bukkit.entity.Player;
 
 /**
  * @author Arasple
- * @date 2019/12/28 18:51
+ * @date 2019/12/28 19:07
  */
-public class ActionCommandOp extends AbstractAction {
+public class ActionClose extends AbstractAction {
 
     @Override
     public String getName() {
-        return "op";
+        return "close|shut";
     }
 
     @Override
     public void onExecute(Player player) {
-        Bukkit.getScheduler().runTask(TrHologram.getPlugin(), () -> {
-            boolean isOp = player.isOp();
-            player.setOp(true);
-            player.chat("/" + getContent(player));
-            player.setOp(isOp);
-        });
+        Bukkit.getScheduler().runTask(TrHologram.getPlugin(), player::closeInventory);
     }
 
 }

@@ -3,7 +3,6 @@ package me.arasple.mc.trhologram.action.acts;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.module.compat.EconomyHook;
 import me.arasple.mc.trhologram.action.base.AbstractAction;
-import me.arasple.mc.trhologram.utils.Vars;
 import org.bukkit.entity.Player;
 
 /**
@@ -21,7 +20,7 @@ public class ActionGiveMoney extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        double value = NumberUtils.toDouble(Vars.replace(player, getContent()), -1);
+        double value = NumberUtils.toDouble(getContent(player), -1);
         if (value > 0) {
             EconomyHook.add(player, value);
         }

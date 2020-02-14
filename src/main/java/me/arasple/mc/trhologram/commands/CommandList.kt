@@ -18,7 +18,7 @@ class CommandList : BaseSubCommand() {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
         TLocale.sendTo(sender, "COMMANDS.LIST")
-        HologramManager.getHolograms().forEach(Consumer { hologram -> TellrawJson.create().append(Strings.replaceWithOrder(TLocale.asString("COMMANDS.LIST-FORMAT"), hologram.name)).hoverText("§7点击立即传送!").clickCommand("/minecraft:tp " + sender.name + " " + hologram.location.x + " " + hologram.location.y + " " + hologram.location.z).send(sender) })
+        HologramManager.getHolograms().forEach(Consumer { hologram -> TellrawJson.create().append(Strings.replaceWithOrder(TLocale.asString("COMMANDS.LIST-FORMAT"), hologram.name)).hoverText("§7点击立即传送!").clickCommand("/minecraft:tp " + sender.name + " " + hologram.location.x + " " + (hologram.location.y + 1) + " " + hologram.location.z).send(sender) })
         sender.sendMessage("")
     }
 

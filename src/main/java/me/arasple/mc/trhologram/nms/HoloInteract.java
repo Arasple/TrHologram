@@ -7,6 +7,7 @@ import me.arasple.mc.trhologram.TrHologram;
 import me.arasple.mc.trhologram.api.TrHologramAPI;
 import me.arasple.mc.trhologram.api.events.HologramInteractEvent;
 import me.arasple.mc.trhologram.hologram.Hologram;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
@@ -27,7 +28,7 @@ public class HoloInteract implements Listener {
                 int id = (int) packet.read("a");
                 Hologram hologram = TrHologramAPI.getHologramByEntityId(id);
                 if (hologram != null) {
-                    new HologramInteractEvent(player, hologram).call();
+                    Bukkit.getScheduler().runTask(TrHologram.getPlugin(), () -> new HologramInteractEvent(player, hologram).call());
                 }
             }
         } catch (Throwable e) {

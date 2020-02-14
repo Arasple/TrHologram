@@ -2,7 +2,6 @@ package me.arasple.mc.trhologram.action.acts;
 
 import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trhologram.action.base.AbstractAction;
-import me.arasple.mc.trhologram.utils.Vars;
 import org.bukkit.entity.Player;
 
 /**
@@ -18,7 +17,7 @@ public class ActionActionbar extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        TLocale.Display.sendActionBar(player, Vars.replace(player, getContent()));
+        TLocale.Display.sendActionBar(player, getContent(player));
     }
 
 }

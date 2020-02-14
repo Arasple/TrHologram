@@ -4,6 +4,9 @@ main: me.arasple.mc.trhologram.TrHologram
 api-version: 1.13
 version: ${version}
 
+softdepend:
+  - TrMenu
+
 built-time: ${built}
 
 description: Better Hologram

@@ -20,6 +20,8 @@ import java.util.UUID;
  */
 public class HologramContent {
 
+    // Random and uniqure starts entity ID
+
     private static int ORIGINAL_ID = 119789 + Numbers.getRandomInteger(1, 44959);
 
     private int id;
@@ -62,6 +64,9 @@ public class HologramContent {
         for (Player player : players) {
             if (!this.viewing.contains(player.getUniqueId())) {
                 HoloPackets.getInst().spawnArmorStand(player, id, uuid, location);
+                if (mat != null) {
+                    HoloPackets.getInst().sendEntityMetadata(player, id, HoloPackets.getInst().getMetaEntityCustomNameVisible(false));
+                }
                 viewing.add(player.getUniqueId());
             }
         }
