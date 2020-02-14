@@ -1,21 +1,25 @@
 package me.arasple.mc.trhologram.hologram;
 
 import com.google.common.collect.Lists;
-import io.izzel.taboolib.module.config.TConfig;
-import io.izzel.taboolib.module.inject.TInject;
+import io.izzel.taboolib.internal.gson.Gson;
+import io.izzel.taboolib.module.config.TConfigWatcher;
 import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.module.locale.TLocale;
+import io.izzel.taboolib.util.Files;
+import me.arasple.mc.trhologram.TrHologram;
 import me.arasple.mc.trhologram.action.TrAction;
 import me.arasple.mc.trhologram.api.TrHologramAPI;
 import me.arasple.mc.trhologram.utils.Locations;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Arasple
@@ -23,35 +27,25 @@ import java.util.Set;
  */
 public class HologramManager {
 
-    @TInject("holograms.yml")
-    private static TConfig hologramsData;
+    private static final File FOLDER = new File(TrHologram.getPlugin().getDataFolder(), "holograms");
     private static List<Hologram> holograms = Lists.newArrayList();
     private static boolean writing;
 
-    @TSchedule
-    static void setup() {
-        hologramsData.listener(() -> {
-            if (!writing) {
-                correctData();
-                loadHolograms();
+    private static void correctData(YamlConfiguration hologramData) {
+        hologramData.getValues(false).keySet().forEach(key -> {
+            if (!key.matches("(?i)viewDistance|viewCondition|update|location|contents|actions")) {
+                hologramData.set(key, null);
             }
         });
-    }
 
-    private static void correctData() {
-        hologramsData.getValues(false).keySet().forEach(key -> {
-            if (!hologramsData.contains(key + ".contents")) {
-                hologramsData.set(key, null);
-            }
-        });
     }
 
     public static List<Hologram> getHolograms() {
         return holograms;
     }
 
-    public static TConfig getHologramsData() {
-        return hologramsData;
+    public static File getFolder() {
+        return FOLDER;
     }
 
     @TSchedule
@@ -62,32 +56,41 @@ public class HologramManager {
     public static void loadHolograms(CommandSender sender) {
         try {
             long start = System.currentTimeMillis();
-            Set<String> hologramNames = hologramsData.getValues(false).keySet();
+            Gson gson = new Gson();
+
+            List<File> hologramFiles = grabFiles(FOLDER);
             holograms.removeIf(hologram -> {
-                if (!hologramNames.contains(hologram.getName())) {
+                if (hologramFiles.stream().noneMatch(f -> f.getName().equals(hologram.getName()))) {
                     deleteHologram(hologram.getName());
                     return true;
                 }
                 return false;
             });
-            hologramNames.forEach(name -> {
-                ConfigurationSection section = hologramsData.getConfigurationSection(name);
+            for (File file : hologramFiles) {
+                String name = file.getName().replaceAll("(?i).yml", "");
+                YamlConfiguration json = YamlConfiguration.loadConfiguration(file);
                 Hologram hologram = TrHologramAPI.getHologramById(name);
                 if (hologram == null) {
-                    hologram = new Hologram(name, Locations.from(section.getString("location")), section.getStringList("contents"), TrAction.readActions(section.getStringList("actions")), section.getString("viewCondition"), section.getString("viewDistance", "-1"), section.getInt("update", 100));
+                    hologram = new Hologram(name, Locations.from(json.getString("location")), json.getStringList("contents"), TrAction.readActions(json.getStringList("actions")), json.getString("viewCondition", "100"), json.getString("viewDistance"), json.getInt("update", 100));
                     getHolograms().add(hologram);
                 } else {
-                    hologram.setLocation(Locations.from(section.getString("location")));
-                    hologram.setContents(section.getStringList("contents"));
-                    hologram.setActions(TrAction.readActions(section.getStringList("actions")));
-                    hologram.setViewCondition(section.getString("viewCondition"));
-                    hologram.setViewDistance(section.getString("viewDistance"));
-                    hologram.setUpdate(section.getInt("update", 100));
+                    applySection(hologram, json);
                 }
                 hologram.update();
-            });
+                hologram.setLoadedFrom(file.getPath());
+            }
             if (sender != null) {
                 TLocale.sendTo(sender, "HOLOGRAM.LOADED-SUCCESS", holograms.size(), (System.currentTimeMillis() - start));
+                getHolograms().forEach(hologram -> {
+                    File file = new File(hologram.getLoadedFrom());
+                    if (file != null && file.exists()) {
+                        TConfigWatcher.getInst().addSimpleListener(file, () -> {
+                            if (!writing) {
+                                applySection(hologram, YamlConfiguration.loadConfiguration(file));
+                            }
+                        });
+                    }
+                });
             }
         } catch (Throwable e) {
             if (sender != null) {
@@ -98,23 +101,49 @@ public class HologramManager {
         restartTasks();
     }
 
+    private static void applySection(Hologram hologram, YamlConfiguration data) {
+        hologram.setLocation(Locations.from(data.getString("location")));
+        hologram.setContents(data.getStringList("contents"));
+        hologram.setActions(TrAction.readActions(data.getStringList("actions")));
+        hologram.setViewCondition(data.getString("viewCondition"));
+        hologram.setViewDistance(data.getString("viewDistance"));
+        hologram.setUpdate(data.getInt("update", 100));
+    }
+
+    private static List<File> grabFiles(File folder) {
+        List<File> files = new ArrayList<>();
+        if (folder.isDirectory()) {
+            for (File file : folder.listFiles()) {
+                files.addAll(grabFiles(file));
+            }
+        } else if (folder.getName().toLowerCase().endsWith(".yml") && folder.length() > 0) {
+            files.add(folder);
+        }
+        return files;
+    }
+
     private static void restartTasks() {
         holograms.forEach(Hologram::runTask);
     }
 
     public static void createHologram(String id, Location location, String content) {
         Hologram hologram = new Hologram(id, location, Collections.singletonList(content), Lists.newArrayList(), "null", "-1", 100);
+        File file = Files.file(FOLDER.getPath() + "/" + id + ".yml");
+        hologram.setLoadedFrom(file.getPath());
         holograms.add(hologram);
         Bukkit.getOnlinePlayers().stream().filter(hologram::isVisible).forEach(hologram::display);
         write();
+        TConfigWatcher.getInst().addSimpleListener(file, () -> {
+            if (!writing) {
+                applySection(hologram, YamlConfiguration.loadConfiguration(file));
+            }
+        });
     }
 
     public static void deleteHologram(String id) {
         holograms.removeIf(hologram -> {
             if (hologram.getName().equalsIgnoreCase(id)) {
-                if (hologramsData.contains(hologram.getName())) {
-                    hologramsData.set(hologram.getName(), null);
-                }
+                Files.deepDelete(new File(hologram.getLoadedFrom()));
                 hologram.destroyAll();
                 return true;
             }
@@ -127,14 +156,21 @@ public class HologramManager {
     public static void write() {
         writing = true;
         holograms.forEach(hologram -> {
-            hologramsData.set(hologram.getName() + ".viewDistance", hologram.getExactViewDistance());
-            hologramsData.set(hologram.getName() + ".viewCondition", hologram.getViewCondition());
-            hologramsData.set(hologram.getName() + ".update", hologram.getUpdate());
-            hologramsData.set(hologram.getName() + ".location", Locations.write(hologram.getLocation()));
-            hologramsData.set(hologram.getName() + ".contents", hologram.getContentsAsList());
-            hologramsData.set(hologram.getName() + ".actions", Lists.newArrayList());
+            File file = new File(hologram.getLoadedFrom());
+            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+            correctData(yaml);
+            yaml.set("viewDistance", hologram.getExactViewDistance());
+            yaml.set("viewCondition", hologram.getViewCondition());
+            yaml.set("update", hologram.getUpdate());
+            yaml.set("location", Locations.write(hologram.getLocation()));
+            yaml.set("contents", hologram.getContentsAsList());
+            yaml.set("actions", Lists.newArrayList());
+            try {
+                yaml.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
-        hologramsData.saveToFile();
         writing = false;
     }
 

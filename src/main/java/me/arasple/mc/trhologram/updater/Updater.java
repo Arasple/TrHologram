@@ -27,6 +27,7 @@ import java.util.UUID;
  */
 public class Updater implements Listener {
 
+    private static boolean autoUpdate;
     private static List<UUID> noticed = new ArrayList<>();
     private static String url;
     private static double version;
@@ -37,19 +38,13 @@ public class Updater implements Listener {
         url = "https://api.github.com/repos/Arasple/" + plugin.getName() + "/releases/latest";
         version = TrHologram.getTrVersion();
         newVersion = version;
+        setAutoUpdate();
 
         if (!String.valueOf(version).equalsIgnoreCase(plugin.getDescription().getVersion().split("-")[0])) {
             TLocale.sendToConsole("ERROR.VERSION");
             Bukkit.shutdown();
         }
-
         Bukkit.getPluginManager().registerEvents(new Updater(), plugin);
-        startTask();
-    }
-
-    private static void startTask() {
-        grabInfo();
-        notifyOld();
     }
 
     private static void notifyOld() {
@@ -69,7 +64,7 @@ public class Updater implements Listener {
         }
     }
 
-    @TSchedule(delay = 60 * 5, period = 10 * 60 * 20, async = true)
+    @TSchedule(delay = 20, period = 10 * 60 * 20, async = true)
     private static void grabInfo() {
         if (old) {
             return;
@@ -83,8 +78,13 @@ public class Updater implements Listener {
                 old = true;
             }
             newVersion = latestVersion;
+            notifyOld();
         } catch (Exception ignored) {
         }
+    }
+
+    public static boolean isAutoUpdate() {
+        return autoUpdate;
     }
 
     public static boolean isOld() {
@@ -99,11 +99,15 @@ public class Updater implements Listener {
         return version;
     }
 
+    public static void setAutoUpdate() {
+        autoUpdate = TrHologram.SETTINGS.getBoolean("OPTIONS.AUTO-UPDATE", false);
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        if (old && !noticed.contains(p.getUniqueId()) && p.hasPermission("trhologram.admin")) {
+        if (old && !noticed.contains(p.getUniqueId()) && p.hasPermission("trmenu.admin")) {
             noticed.add(p.getUniqueId());
             Bukkit.getScheduler().runTaskLaterAsynchronously(TrHologram.getPlugin(), () -> TLocale.sendTo(p, "PLUGIN.UPDATER.OLD", newVersion), 1);
         }

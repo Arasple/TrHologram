@@ -11,27 +11,19 @@ import me.arasple.mc.trhologram.hologram.HologramManager;
  * @author Arasple
  * @date 2020/1/1 16:57
  */
-@Plugin.Version(5.15)
+@Plugin.Version(5.17)
 public final class TrHologram extends Plugin {
 
     @TInject("settings.yml")
-    private static TConfig settings;
-    @TInject("§2Tr§aHologram")
-    private static TLogger logger;
+    public final static TConfig SETTINGS = null;
+    @TInject("§dTr§5Hologram")
+    public final static TLogger LOGGER = null;
     @TInject(state = TInject.State.LOADING, init = "init", active = "load", cancel = "unload")
-    private static TrHologramLoader loader;
+    private final static TrHologramLoader LOADER = null;
 
     @Override
     public void onStopping() {
         HologramManager.getHolograms().forEach(Hologram::destroyAll);
-    }
-
-    public static TConfig getSettings() {
-        return settings;
-    }
-
-    public static TLogger getTLogger() {
-        return logger;
     }
 
     public static double getTrVersion() {

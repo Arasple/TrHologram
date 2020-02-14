@@ -28,7 +28,7 @@ public class ActionCatcher extends AbstractAction {
     private String cancelAction;
 
     private static boolean isCancelWord(String word) {
-        return TrHologram.getSettings().getList("OPTIONS.CATCHER-CANCEL-WORDS", Collections.singletonList("quit|exit|cancel|return|break")).stream().anyMatch(k -> word.split(" ")[0].matches("(?i)" + k));
+        return TrHologram.SETTINGS.getList("OPTIONS.CATCHER-CANCEL-WORDS", Collections.singletonList("quit|exit|cancel|return|break")).stream().anyMatch(k -> word.split(" ")[0].matches("(?i)" + k));
     }
 
     @Override
@@ -150,6 +150,5 @@ public class ActionCatcher extends AbstractAction {
             }
         }
     }
-
 
 }

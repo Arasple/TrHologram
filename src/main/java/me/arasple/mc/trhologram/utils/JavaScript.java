@@ -27,7 +27,7 @@ public class JavaScript {
 
         if (Strings.isEmpty(script) || "null".equalsIgnoreCase(script)) {
             return true;
-        } else if (script.matches("true|false")) {
+        } else if (script.matches("(?i)true|false")) {
             return Boolean.parseBoolean(script);
         } else if (script.matches("(?i)no|yes")) {
             return !"no".equalsIgnoreCase(script);

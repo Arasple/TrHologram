@@ -2,12 +2,12 @@ package me.arasple.mc.trhologram.nms;
 
 import io.izzel.taboolib.Version;
 import io.izzel.taboolib.module.inject.TSchedule;
-import me.arasple.mc.trhologram.nms.imp.HoloPacketsImp_v1_15;
+import io.izzel.taboolib.module.lite.SimpleVersionControl;
+import me.arasple.mc.trhologram.TrHologram;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import java.util.UUID;
 
@@ -21,12 +21,12 @@ public abstract class HoloPackets {
 
     @TSchedule
     static void init() {
-        if (Version.getCurrentVersion() == Version.v1_15) {
-            instance = new HoloPacketsImp_v1_15();
-        } else if (Version.getCurrentVersion() == Version.v1_14) {
-
-        } else {
-
+        try {
+            if (Version.getCurrentVersion() == Version.v1_15) {
+                instance = (HoloPackets) SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.imp.HoloPacketsImp_v1_15").useCache().translate(TrHologram.getPlugin()).newInstance();
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
     }
 
@@ -59,8 +59,6 @@ public abstract class HoloPackets {
     public abstract Object getMetaEntityCustomName(String name);
 
     public abstract Object getMetaArmorStandProperties(boolean isSmall, boolean hasArms, boolean noBasePlate, boolean marker);
-
-    public abstract Vector getLookDirection(Object packet);
 
 
 }

@@ -7,6 +7,7 @@ import me.arasple.mc.trhologram.action.base.AbstractAction;
 import me.arasple.mc.trhologram.item.Mat;
 import me.arasple.mc.trhologram.utils.JavaScript;
 import me.arasple.mc.trhologram.utils.Locations;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -29,7 +30,9 @@ public class Hologram {
     private String viewCondition;
     private String viewDistance;
     private double finalViewDistance;
+    private String loadedFrom;
     private int update;
+    private List<Integer> updateIndexs;
     private BukkitRunnable task;
 
     public Hologram(String name, Location location, List<String> contents) {
@@ -50,7 +53,9 @@ public class Hologram {
         this.viewDistance = viewDistance;
         this.finalViewDistance = NumberUtils.toDouble(viewDistance, -1);
         this.update = update;
+        this.updateIndexs = Lists.newArrayList();
         initOffsets();
+        setUpdateIndexs();
     }
 
     public void runTask() {
@@ -91,7 +96,7 @@ public class Hologram {
             if (!isVisible(player)) {
                 destroy(player);
             } else {
-                contents.forEach(l -> l.update(player));
+                getUpdateIndexs().forEach(i -> getContents().get(i).update(player));
             }
         });
         viewers.removeIf(uuid -> !Bukkit.getOfflinePlayer(uuid).isOnline() || !isVisible(Bukkit.getPlayer(uuid)));
@@ -134,6 +139,15 @@ public class Hologram {
             location.subtract(0, 0.25, 0);
         });
         getContents().removeIf(HologramContent::isEmpty);
+    }
+
+    private void setUpdateIndexs() {
+        updateIndexs.clear();
+        for (int i = 0; i < getContents().size(); i++) {
+            if (PlaceholderAPI.containsPlaceholders(getContents().get(i).getText())) {
+                updateIndexs.add(i);
+            }
+        }
     }
 
     /*
@@ -207,6 +221,7 @@ public class Hologram {
             }
         }
         initOffsets();
+        setUpdateIndexs();
         getContents().forEach(content -> getViewersAsPlayer().forEach(content::display));
     }
 
@@ -247,12 +262,25 @@ public class Hologram {
         this.finalViewDistance = finalViewDistance;
     }
 
+    public String getLoadedFrom() {
+        return loadedFrom;
+    }
+
+    public void setLoadedFrom(String loadedFrom) {
+        this.loadedFrom = loadedFrom;
+    }
+
     public int getUpdate() {
         return update;
     }
 
     public void setUpdate(int update) {
         this.update = update;
+    }
+
+
+    public List<Integer> getUpdateIndexs() {
+        return updateIndexs;
     }
 
     public boolean isViewing(Player player) {
