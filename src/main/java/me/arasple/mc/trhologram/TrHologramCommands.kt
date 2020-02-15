@@ -20,7 +20,7 @@ class TrHologramCommands : BaseMainCommand() {
     var create: BaseSubCommand = CommandCreate()
     @SubCommand(description = "Delete hologram")
     var delete: BaseSubCommand = CommandDelete()
-    @SubCommand(description = "Delete hologram")
+    @SubCommand(description = "Edit hologram")
     var edit: BaseSubCommand = CommandEdit()
     @SubCommand(description = "Reload holograms")
     var reload: BaseSubCommand = CommandReload()

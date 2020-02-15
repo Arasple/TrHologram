@@ -4,9 +4,6 @@ import io.izzel.taboolib.loader.Plugin;
 import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.logger.TLogger;
-import me.arasple.mc.trhologram.hologram.Hologram;
-import me.arasple.mc.trhologram.hologram.HologramManager;
-import me.arasple.mc.trhologram.utils.FileWatcher;
 
 /**
  * @author Arasple
@@ -19,14 +16,8 @@ public final class TrHologram extends Plugin {
     public final static TConfig SETTINGS = null;
     @TInject("§2Tr§aHologram")
     public final static TLogger LOGGER = null;
-    @TInject(state = TInject.State.LOADING, init = "init", active = "load", cancel = "unload")
+    @TInject(state = TInject.State.LOADING, init = "init", active = "active", cancel = "cancel")
     private final static TrHologramLoader LOADER = null;
-
-    @Override
-    public void onStopping() {
-        HologramManager.getHolograms().forEach(Hologram::destroyAll);
-        FileWatcher.getWatcher().unregisterAll();
-    }
 
     public static double getTrVersion() {
         return 1.0;

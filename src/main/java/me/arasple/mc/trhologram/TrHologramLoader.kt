@@ -2,8 +2,10 @@ package me.arasple.mc.trhologram
 
 import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.locale.TLocale
+import me.arasple.mc.trhologram.hologram.Hologram
 import me.arasple.mc.trhologram.hologram.HologramManager
 import me.arasple.mc.trhologram.updater.Updater
+import me.arasple.mc.trhologram.utils.FileWatcher
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.InputStreamReader
 import java.util.function.Consumer
@@ -14,19 +16,21 @@ import java.util.function.Consumer
  */
 class TrHologramLoader {
 
-    fun unload() {
-        HologramManager.write()
-        TLocale.sendToConsole("PLUGIN.DISABLED")
-    }
-
     fun init() {
         TLocale.sendToConsole("PLUGIN.LOADING")
         Updater.init(TrHologram.getPlugin())
         updateConfig()
     }
 
-    fun load() {
+    fun active() {
         TLocale.sendToConsole("PLUGIN.ENABLED", TrHologram.getPlugin().description.version)
+    }
+
+    fun cancel() {
+        HologramManager.getHolograms().forEach(Consumer { obj: Hologram -> obj.destroyAll() })
+        FileWatcher.getWatcher().unregisterAll()
+        HologramManager.write()
+        TLocale.sendToConsole("PLUGIN.DISABLED")
     }
 
     private fun updateConfig() {

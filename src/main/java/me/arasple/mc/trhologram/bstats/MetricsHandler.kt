@@ -14,6 +14,7 @@ object MetricsHandler {
 
     @TSchedule
     fun init() {
+
         val metrics = Metrics(TrHologram.getPlugin(), 6387)
         metrics.addCustomChart(Metrics.SingleLineChart("holograms", Callable { HologramManager.getHolograms().size }))
     }
