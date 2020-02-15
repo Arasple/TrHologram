@@ -40,8 +40,8 @@ dependencies {
     compile 'io.izzel.taboolib:TabooLib:5.17:all'
     compile 'io.izzel.taboolib.loader:TabooLibloader:1.4:all'
     compile 'me.clip:placeholderapi:2.10.4'
-    shadow fileTree(dir: 'libs', includes: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    shadow fileTree(dir: 'libs', includes: ['*.jar'])
 }
 
 shadowJar {

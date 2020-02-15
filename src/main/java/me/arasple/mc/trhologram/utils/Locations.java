@@ -3,12 +3,18 @@ package me.arasple.mc.trhologram.utils;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 /**
  * @author Arasple
  * @date 2020/1/30 13:15
  */
 public class Locations {
+
+    public static Location getLocationForHologram(Player player) {
+        Location playerLocation = player.getLocation().clone();
+        return new Location(playerLocation.getWorld(), Double.parseDouble(String.format("%.1f", playerLocation.getX())), playerLocation.getBlockY() - 1, Double.parseDouble(String.format("%.1f", playerLocation.getZ())));
+    }
 
     public static String write(Location location) {
         return location.getWorld().getName() + "," + location.getX() + "," + location.getY() + "," + location.getZ();

@@ -8,7 +8,7 @@ import io.izzel.taboolib.util.lite.Catchers
 import io.izzel.taboolib.util.lite.Catchers.Catcher
 import me.arasple.mc.trhologram.api.TrHologramAPI
 import me.arasple.mc.trhologram.hologram.HologramManager
-import org.bukkit.Location
+import me.arasple.mc.trhologram.utils.Locations
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -51,7 +51,7 @@ class CommandCreate : BaseSubCommand() {
         if (TrHologramAPI.getHologramById(input) != null) {
             TLocale.sendTo(player, "COMMANDS.CREATE.EXISTED")
         } else {
-            HologramManager.createHologram(input, Location(player.world, player.location.blockX.toDouble(), (player.location.blockY - 1).toDouble(), player.location.blockZ.toDouble()), "&3Created a new hologram named &a$input")
+            HologramManager.createHologram(input, Locations.getLocationForHologram(player), "&3Created a new hologram named &a$input")
             TLocale.sendTo(player, "COMMANDS.CREATE.SUCCESS")
         }
     }

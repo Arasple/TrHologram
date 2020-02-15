@@ -7,8 +7,8 @@ import me.arasple.mc.trhologram.TrHologram
 import me.arasple.mc.trhologram.commands.CommandDelete
 import me.arasple.mc.trhologram.editor.sub.ContentEditor
 import me.arasple.mc.trhologram.hologram.Hologram
+import me.arasple.mc.trhologram.utils.Locations
 import org.bukkit.Bukkit
-import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -45,7 +45,7 @@ object EditorMenu {
                 when (e.rawSlot) {
                     1 -> ContentEditor.openEditor(hologram, e.whoClicked as Player)
                     2 -> {
-                        hologram.location = Location(e.whoClicked.world, e.whoClicked.location.blockX.toDouble(), (e.whoClicked.location.blockY - 1).toDouble(), e.whoClicked.location.blockZ.toDouble())
+                        hologram.location = Locations.getLocationForHologram(e.whoClicked as Player?)
                         Sounds.ENTITY_ENDERMAN_TELEPORT.playSound(hologram.location)
                     }
                     3 -> CommandDelete.deleteHologram(e.whoClicked as Player, hologram.name)
