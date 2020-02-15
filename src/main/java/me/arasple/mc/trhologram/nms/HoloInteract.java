@@ -1,6 +1,5 @@
 package me.arasple.mc.trhologram.nms;
 
-import io.izzel.taboolib.module.inject.TListener;
 import io.izzel.taboolib.module.packet.Packet;
 import io.izzel.taboolib.module.packet.TPacket;
 import me.arasple.mc.trhologram.TrHologram;
@@ -9,14 +8,12 @@ import me.arasple.mc.trhologram.api.events.HologramInteractEvent;
 import me.arasple.mc.trhologram.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 
 /**
  * @author Arasple
  * @date 2020/1/29 22:16
  */
-@TListener
-public class HoloInteract implements Listener {
+public class HoloInteract {
 
     @TPacket(type = TPacket.Type.RECEIVE)
     static boolean interactEntity(Player player, Packet packet) {

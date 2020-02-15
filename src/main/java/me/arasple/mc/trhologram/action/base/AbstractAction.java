@@ -78,12 +78,12 @@ public abstract class AbstractAction {
         return content;
     }
 
-    public String getContent(Player player) {
-        return Vars.replace(player, getContent());
-    }
-
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getContent(Player player) {
+        return Vars.replace(player, getContent());
     }
 
     public HashMap<EnumOption, String> getOptions() {

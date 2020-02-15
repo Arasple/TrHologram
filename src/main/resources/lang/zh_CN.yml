@@ -1,7 +1,7 @@
 PLUGIN:
   LOADING:
     - ''
-    - '&2Tr&aHologram &7正在载入中...'
+    - '&2Tr&aHologram &7正在载入中... &8{0}'
     - ''
   ENABLED: '&8[&2Tr&aHologram&8] &bINFO &8| &3加载完毕. TrHologram &av{0} &3现已启用, 敬请使用.'
   DISABLED: '&8[&2Tr&aHologram&8] &bINFO &8| &7感谢使用本插件, 您在论坛为本插件评分即是对作者最大的鼓励!'

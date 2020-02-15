@@ -7,7 +7,7 @@ import io.izzel.taboolib.module.command.base.CommandType
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.lite.Catchers
 import me.arasple.mc.trhologram.api.TrHologramAPI
-import me.arasple.mc.trhologram.edit.EditorMenu
+import me.arasple.mc.trhologram.editor.EditorMenu
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

@@ -28,10 +28,9 @@ public class HologramContent {
 
     // Random and uniqure starts entity ID
 
-    private static int ORIGINAL_ID = 119789 + Numbers.getRandomInteger(1, 44959);
     private static final Pattern VIEW_CONDITION = Pattern.compile("<(?i)(require(ment)?|condition):( )?(.+>)");
     private static final Pattern UPDATE_PERIOD = Pattern.compile("<(?i)(update|refresh):( )?([0-9]+[.]?[0-9]*>)");
-
+    private static int ORIGINAL_ID = 119789 + Numbers.getRandomInteger(0, 7763);
     private int id;
     private UUID uuid;
 
@@ -60,16 +59,16 @@ public class HologramContent {
 
     public void updateLocation(Location location, Player... players) {
         for (Player player : players) {
-            HoloPackets.getInst().updateArmorStandLocation(player, id, location);
+            getHoloPackets().updateArmorStandLocation(player, id, location);
         }
     }
 
     public void update(Player... players) {
         for (Player player : players) {
             if (getMat() != null) {
-                HoloPackets.getInst().updateArmorStandEquipmentItem(player, id, EquipmentSlot.HEAD, getMat().createItem(player));
+                getHoloPackets().updateArmorStandEquipmentItem(player, id, EquipmentSlot.HEAD, getMat().createItem(player));
             } else {
-                HoloPackets.getInst().updateArmorStandDisplayName(player, id, Vars.replace(player, text));
+                getHoloPackets().updateArmorStandDisplayName(player, id, Vars.replace(player, text));
             }
         }
     }
@@ -77,9 +76,9 @@ public class HologramContent {
     public void display(Location location, Player... players) {
         for (Player player : players) {
             if (!this.viewing.contains(player.getUniqueId())) {
-                HoloPackets.getInst().spawnArmorStand(player, id, uuid, location);
+                getHoloPackets().spawnArmorStand(player, id, uuid, location);
                 if (mat != null) {
-                    HoloPackets.getInst().sendEntityMetadata(player, id, HoloPackets.getInst().getMetaEntityCustomNameVisible(false));
+                    getHoloPackets().sendEntityMetadata(player, id, getHoloPackets().getMetaEntityCustomNameVisible(false));
                 }
                 viewing.add(player.getUniqueId());
             }
@@ -89,7 +88,7 @@ public class HologramContent {
 
     public void destroy(Player... players) {
         for (Player player : players) {
-            HoloPackets.getInst().destroyArmorStand(player, id);
+            getHoloPackets().destroyArmorStand(player, id);
             this.viewing.remove(player.getUniqueId());
         }
     }
@@ -114,11 +113,11 @@ public class HologramContent {
                 }
                 getViewersAsPlayer().forEach(player -> {
                     if (!isVisible(player) && !hide.contains(player.getUniqueId())) {
-                        HoloPackets.getInst().sendEntityMetadata(player, id, HoloPackets.getInst().getMetaEntityCustomNameVisible(false));
+                        getHoloPackets().sendEntityMetadata(player, id, getHoloPackets().getMetaEntityCustomNameVisible(false));
                         hide.add(player.getUniqueId());
                     } else {
                         if (isVisible(player) && hide.contains(player.getUniqueId())) {
-                            HoloPackets.getInst().sendEntityMetadata(player, id, HoloPackets.getInst().getMetaEntityCustomNameVisible(true));
+                            getHoloPackets().sendEntityMetadata(player, id, getHoloPackets().getMetaEntityCustomNameVisible(true));
                             hide.remove(player.getUniqueId());
                         }
                         update(player);
@@ -214,7 +213,8 @@ public class HologramContent {
         return Strings.isEmpty(getText()) && getMat() == null;
     }
 
-    public void delete() {
-
+    private HoloPackets getHoloPackets() {
+        return HoloPackets.getInst();
     }
+
 }

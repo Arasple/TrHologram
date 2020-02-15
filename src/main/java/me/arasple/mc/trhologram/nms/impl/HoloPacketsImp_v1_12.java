@@ -1,12 +1,13 @@
-package me.arasple.mc.trhologram.nms.imp;
+package me.arasple.mc.trhologram.nms.impl;
 
 import io.izzel.taboolib.module.lite.SimpleReflection;
 import io.izzel.taboolib.module.packet.TPacketHandler;
 import me.arasple.mc.trhologram.nms.HoloPackets;
 import me.arasple.mc.trhologram.utils.MapBuilder;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_12_R1.DataWatcher.Item;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +22,7 @@ import java.util.UUID;
  * @author Arasple
  * @date 2020/2/1 22:40
  */
-public class HoloPacketsImp_v1_8 extends HoloPackets {
+public class HoloPacketsImp_v1_12 extends HoloPackets {
 
     static {
         SimpleReflection.checkAndSave(
@@ -35,10 +36,17 @@ public class HoloPacketsImp_v1_8 extends HoloPackets {
     public void spawnArmorStand(Player player, int entityId, UUID uuid, Location location) {
         TPacketHandler.sendPacket(player, setPacket(PacketPlayOutSpawnEntity.class, new PacketPlayOutSpawnEntity(), new MapBuilder()
                 .put("a", entityId)
-                .put("b", location.getX())
-                .put("c", location.getY())
-                .put("d", location.getZ())
-                .put("j", 78)
+                .put("b", uuid)
+                .put("c", location.getX())
+                .put("d", location.getY())
+                .put("e", location.getZ())
+                .put("f", 0)
+                .put("g", 0)
+                .put("h", 0)
+                .put("i", 0)
+                .put("j", 0)
+                .put("k", 78)
+                .put("l", 0)
                 .build())
         );
         initArmorStandAsHologram(player, entityId);
@@ -81,14 +89,14 @@ public class HoloPacketsImp_v1_8 extends HoloPackets {
 
     @Override
     public void updateArmorStandEquipmentItem(Player player, int entityId, EquipmentSlot slot, ItemStack itemStack) {
-        TPacketHandler.sendPacket(player, new PacketPlayOutEntityEquipment(entityId, 5, CraftItemStack.asNMSCopy(itemStack)));
+        TPacketHandler.sendPacket(player, new PacketPlayOutEntityEquipment(entityId, EnumItemSlot.valueOf(slot.name()), CraftItemStack.asNMSCopy(itemStack)));
     }
 
     @Override
     public void sendEntityMetadata(Player player, int entityId, Object... objects) {
-        List<DataWatcher.WatchableObject> items = new ArrayList<>();
+        List<Item<?>> items = new ArrayList<>();
         for (Object object : objects) {
-            items.add((DataWatcher.WatchableObject) object);
+            items.add((Item<?>) object);
         }
         TPacketHandler.sendPacket(player, setPacket(PacketPlayOutEntityMetadata.class, new PacketPlayOutEntityMetadata(), new MapBuilder()
                 .put("a", entityId)
@@ -105,39 +113,40 @@ public class HoloPacketsImp_v1_8 extends HoloPackets {
         bits += sprinting ? 8 : 0;
         bits += swimming ? 10 : 0;
         bits += invisible ? 20 : 0;
+        bits += glowing ? 40 : 0;
+        bits += flyingElytra ? 80 : 0;
 
-        return new DataWatcher.WatchableObject(0, 0, bits);
+        return new Item<>(new DataWatcherObject<>(0, DataWatcherRegistry.a), bits);
     }
 
     @Override
     public Object getMetaEntityGravity(boolean gravity) {
-        return null;
+        return new Item<>(new DataWatcherObject<>(5, DataWatcherRegistry.h), gravity);
     }
 
     @Override
     public Object getMetaEntitySilenced(boolean silenced) {
-        return new DataWatcher.WatchableObject(0, 4, (byte) (silenced ? 1 : 0));
+        return new Item<>(new DataWatcherObject<>(4, DataWatcherRegistry.h), silenced);
     }
 
     @Override
     public Object getMetaEntityCustomNameVisible(boolean visible) {
-        return new DataWatcher.WatchableObject(0, 3, (byte) (visible ? 1 : 0));
+        return new Item<>(new DataWatcherObject<>(3, DataWatcherRegistry.h), visible);
     }
 
     @Override
     public Object getMetaEntityCustomName(String name) {
-        return new DataWatcher.WatchableObject(4, 2, name);
+        return new Item<>(new DataWatcherObject<>(2, DataWatcherRegistry.d), name);
     }
 
     @Override
     public Object getMetaArmorStandProperties(boolean isSmall, boolean hasArms, boolean noBasePlate, boolean marker) {
         byte bits = 0;
         bits += isSmall ? 1 : 0;
-        bits += hasArms ? 2 : 0;
+        bits += hasArms ? 4 : 0;
         bits += noBasePlate ? 8 : 0;
         bits += marker ? 10 : 0;
-
-        return new DataWatcher.WatchableObject(0, 10, bits);
+        return new Item<>(new DataWatcherObject<>(13, DataWatcherRegistry.a), bits);
     }
 
     private Object setPacket(Class<?> nms, Object packet, Map<String, Object> sets) {

@@ -1,4 +1,4 @@
-package me.arasple.mc.trhologram.nms.imp;
+package me.arasple.mc.trhologram.nms.impl;
 
 import io.izzel.taboolib.module.lite.SimpleReflection;
 import io.izzel.taboolib.module.packet.TPacketHandler;

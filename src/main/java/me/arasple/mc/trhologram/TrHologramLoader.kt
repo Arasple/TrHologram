@@ -4,6 +4,7 @@ import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trhologram.hologram.Hologram
 import me.arasple.mc.trhologram.hologram.HologramManager
+import me.arasple.mc.trhologram.nms.HoloPackets
 import me.arasple.mc.trhologram.updater.Updater
 import me.arasple.mc.trhologram.utils.FileWatcher
 import org.bukkit.configuration.file.YamlConfiguration
@@ -17,7 +18,7 @@ import java.util.function.Consumer
 class TrHologramLoader {
 
     fun init() {
-        TLocale.sendToConsole("PLUGIN.LOADING")
+        HoloPackets.init()
         Updater.init(TrHologram.getPlugin())
         updateConfig()
     }

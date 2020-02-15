@@ -23,23 +23,27 @@ import java.util.List;
 public class HolographicDisplaysMigrater {
 
     @TSchedule
-    private static void migrate() throws IOException {
+    public static void migrate() throws IOException {
         File file = new File(TrHologram.getPlugin().getDataFolder().getParentFile(), "HolographicDisplays/database.yml");
         if (file.exists()) {
             YamlConfiguration database = YamlConfiguration.loadConfiguration(file);
             List<String> migrated = Lists.newArrayList();
             database.getKeys(false).forEach(id -> {
                 ConfigurationSection hologram = database.getConfigurationSection(id);
-                if (hologram.contains("location") && hologram.contains("lines") && !hologram.getStringList("lines").isEmpty()) {
+                if (hologram.contains("location") && hologram.contains("lines")) {
                     migrated.add(id);
-                    HologramManager.createHologram(id, Locations.from(hologram.getString("location")).subtract(0, 1.2, 0), hologram.getStringList("lines").toArray(new String[0]));
+                    List<String> contents = hologram.getStringList("lines");
+                    if (contents.isEmpty()) {
+                        contents.add("Default hologram. Chnage it with &b/trhd edit " + id);
+                    }
+                    HologramManager.createHologram(id, Locations.from(hologram.getString("location")).subtract(0, 2.5, 0), contents.toArray(new String[0]));
                     database.set(id, null);
                 }
             });
             if (migrated.size() > 0) {
                 TLocale.sendToConsole("MIGRATED", migrated.size());
-                Commands.dispatchCommand(Bukkit.getConsoleSender(), "holographicdisplays reload");
                 database.save(file);
+                Commands.dispatchCommand(Bukkit.getConsoleSender(), "holographicdisplays:hd reload");
             }
         }
     }

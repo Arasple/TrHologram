@@ -1,11 +1,11 @@
-package me.arasple.mc.trhologram.edit
+package me.arasple.mc.trhologram.editor
 
 import io.izzel.taboolib.module.inject.TListener
 import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trhologram.TrHologram
 import me.arasple.mc.trhologram.commands.CommandDelete
-import me.arasple.mc.trhologram.edit.sub.ContentEditor
+import me.arasple.mc.trhologram.editor.sub.ContentEditor
 import me.arasple.mc.trhologram.hologram.Hologram
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -31,6 +31,7 @@ object EditorMenu {
         menu.setItem(3, Items.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.DELETE")))
 
         player.openInventory(menu)
+        Sounds.BLOCK_CHEST_OPEN.playSound(player, 1f, 0f)
     }
 
     @TListener

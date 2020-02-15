@@ -26,6 +26,8 @@ class TrHologramCommands : BaseMainCommand() {
     var reload: BaseSubCommand = CommandReload()
     @SubCommand(description = "List holograms")
     var list: BaseSubCommand = CommandList()
+    @SubCommand(description = "Migrate from Holographic Displays")
+    var migrate: BaseSubCommand = CommandMigrate()
     @SubCommand(description = "Debug hologram")
     var debug: BaseSubCommand = CommandDebug()
 
