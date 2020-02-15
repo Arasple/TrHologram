@@ -8,7 +8,7 @@ plugins {
 
 configurations {
     group = 'me.arasple.mc.trhologram'
-    version = '0.1'
+    version = '1.0-alpha'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8

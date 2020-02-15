@@ -1,14 +1,40 @@
-# Do not change
+# 不要更改
 CONFIG-VERSION: 0
 
-# Locale loading priority
-# Put your locale in the first
+# 本地语言加载顺序
 LOCALE-PRIORITY:
   - zh_CN
   - en_US
 
-# Options
+# 选项
 OPTIONS:
-  # Auto updater
-  # Enable this option, if there is a new version, it will be downloaded automatically when the server is shut down
-  AUTO-UPDATE: false
+  # 自动重载是否播放音效
+  AUTO-RELOAD-SOUND: true
+  # 每行全息图的盔甲架高度距离
+  ARMORSTAND-DISTANCE: 0.25
+
+# 菜单自定义显示物品
+GUIS:
+  EDITOR:
+    CONTENTS:
+      material: WRITABLE_BOOK
+      name: '&3编辑内容'
+      lore:
+        - ''
+        - '&7点击按钮编辑该全息图的内容'
+        - ''
+    MOVE:
+      material: ENDER_PEARL
+      name: '&2移动位置'
+      lore:
+        - ''
+        - '&7点击移动该全息图到你当前的位置'
+        - ''
+    DELETE:
+      material: LAVA_BUCKET
+      name: '&6删除'
+      lore:
+        - ''
+        - '&8[&6&l!&8] &c该操作不可逆，永久删除'
+        - '&7点击即可删除该全息图'
+        - ''

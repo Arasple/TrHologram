@@ -14,6 +14,7 @@ import java.util.UUID;
 /**
  * @author Arasple
  * @date 2020/1/29 20:12
+ * 部分代码来自 https://github.com/VolmitSoftware/Mortar
  */
 public abstract class HoloPackets {
 
@@ -21,9 +22,8 @@ public abstract class HoloPackets {
 
     static {
         try {
-            if (Version.getCurrentVersion() == Version.v1_15) {
-                instance = (HoloPackets) SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.imp.HoloPacketsImp_v1_15").useCache().translate(TrHologram.getPlugin()).newInstance();
-            }
+            String version = Version.isAfter(Version.v1_13) ? "15" : Version.isAfter(Version.v1_9) ? "12" : "8";
+            instance = (HoloPackets) SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.imp.HoloPacketsImp_v1_" + version).useCache().translate(TrHologram.getPlugin()).newInstance();
         } catch (Throwable e) {
             TrHologram.LOGGER.error("An error occurred while adapting your server version " + Bukkit.getVersion() + ", please make sure your version is supported. Plugin will not work");
             e.printStackTrace();

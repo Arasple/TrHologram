@@ -15,7 +15,7 @@ public class Locations {
     }
 
     public static Location from(String loc) {
-        String[] location = loc.split(",");
+        String[] location = loc.replaceAll(", ", ",").split(",");
         return new Location(Bukkit.getWorld(location[0]), NumberUtils.toDouble(location[1]), NumberUtils.toDouble(location[2]), NumberUtils.toDouble(location[3]));
     }
 

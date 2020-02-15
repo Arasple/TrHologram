@@ -5,8 +5,9 @@ api-version: 1.13
 version: ${version}
 
 softdepend:
-  - TrMenu
+  - PlaceholderAPI
+  - HolographicDisplays
 
 built-time: ${built}
 
-description: Better Hologram
+description: Better Holographic Displays

@@ -5,7 +5,6 @@ import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trhologram.TrHologram;
 import me.arasple.mc.trhologram.utils.JavaScript;
 import me.arasple.mc.trhologram.utils.Vars;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -33,7 +32,7 @@ public abstract class AbstractAction {
             return;
         }
         if (options.containsKey(EnumOption.PLAYERS)) {
-            Bukkit.getOnlinePlayers().stream().filter(p -> (boolean) JavaScript.run(p, options.get(EnumOption.PLAYERS))).collect(Collectors.toList()).forEach(x -> onExecute(x, getContent() != null ? PlaceholderAPI.setBracketPlaceholders(player, getContent()) : null));
+            Bukkit.getOnlinePlayers().stream().filter(p -> (boolean) JavaScript.run(p, options.get(EnumOption.PLAYERS))).collect(Collectors.toList()).forEach(x -> onExecute(x, getContent() != null ? Vars.setBracketPlaceholders(player, getContent()) : null));
             return;
         }
         if (options.containsKey(EnumOption.DELAY)) {

@@ -1,5 +1,6 @@
 package me.arasple.mc.trhologram.action;
 
+import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trhologram.TrHologram;
@@ -10,10 +11,7 @@ import me.arasple.mc.trhologram.utils.JavaScript;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 
 /**
@@ -130,6 +128,24 @@ public class TrAction {
         action.setContent(line);
         action.setOptions(options);
         return action;
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static List<ActionGroups> readActionGroups(Object actions) {
+        List<ActionGroups> actionGroups = Lists.newArrayList();
+        if (actions instanceof List && !((List) actions).isEmpty()) {
+            boolean isConditionalGroups = ((List) actions).get(0) instanceof LinkedHashMap;
+            if (isConditionalGroups) {
+                ((List) actions).forEach(obj -> {
+                    LinkedHashMap section = (LinkedHashMap) obj;
+                    actionGroups.add(new ActionGroups(NumberUtils.toInt(String.valueOf(section.getOrDefault("priority", -1))), section.containsKey("condition") ? String.valueOf(section.get("condition")) : null, TrAction.readActions((List<String>) section.getOrDefault("list", Lists.newArrayList()))));
+                });
+            } else {
+                actionGroups.add(new ActionGroups(-1, null, TrAction.readActions((List<String>) actions)));
+            }
+            return actionGroups;
+        }
+        return null;
     }
 
 }

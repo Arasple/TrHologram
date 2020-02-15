@@ -1,16 +1,16 @@
 PLUGIN:
   LOADING:
     - ''
-    - '&5Tr&dHologram &7正在载入中...'
+    - '&2Tr&aHologram &7正在载入中...'
     - ''
-  ENABLED: '&8[&5Tr&dHologram&8] &bINFO &8| &3加载完毕. TrHologram &av{0} &3现已启用, 敬请使用.'
-  DISABLED: '&8[&5Tr&dHologram&8] &bINFO &8| &7感谢使用本插件, 您在论坛为本插件评分即是对作者最大的鼓励!'
-  HOOKED: '&8[&5Tr&dHologram&8] &eDEPEND &8| &7成功检测并挂钩软依赖插件 &6{0}&7...'
+  ENABLED: '&8[&2Tr&aHologram&8] &bINFO &8| &3加载完毕. TrHologram &av{0} &3现已启用, 敬请使用.'
+  DISABLED: '&8[&2Tr&aHologram&8] &bINFO &8| &7感谢使用本插件, 您在论坛为本插件评分即是对作者最大的鼓励!'
+  HOOKED: '&8[&2Tr&aHologram&8] &eDEPEND &8| &7成功检测并挂钩软依赖插件 &6{0}&7...'
   UPDATER:
-    LATEST: '&8[&5Tr&dHologram&8] &2你正在运行最新版的 &3TrHologram&a.'
-    DEV: '&8[&5Tr&dHologram&8] &6你正在运行开发版本的 TrHologram, 请及时反馈漏洞!'
+    LATEST: '&8[&2Tr&aHologram&8] &2你正在运行最新版的 &3TrHologram&a.'
+    DEV: '&8[&2Tr&aHologram&8] &6你正在运行开发版本的 TrHologram, 请及时反馈漏洞!'
     OLD:
-      - '&8[&5Tr&dHologram&8] &b检测到有新版本 &av{0}&b, 可在此下载'
+      - '&8[&2Tr&aHologram&8] &b检测到有新版本 &av{0}&b, 可在此下载'
       - '&2https://github.com/Arasple/TrHologram/releases'
     TOO-OLD:
       - "&8--------------------------------------------------"
@@ -24,29 +24,26 @@ PLUGIN:
       - "&8# &4服务器将在 &c&l{0} secs &4后继续启动..."
       - "&r"
       - "&8--------------------------------------------------"
-    CONFIRM: '&8[&5Tr&dHologram&8] &eUPDATER &8| &7确认此操作, 请输入 &3/TrHologram Update Confirmed&7.'
-    DOWNLOADING: '&8[&5Tr&dHologram&8] &eUPDATER &8| &7正在下载最新版 TrHologram &3v{0} &7...'
-    DOWNLOAD-COMPLETED: '&8[&5Tr&dHologram&8] &eUPDATER &8| &a成功下载最新版 TrHologram, 重启服务器即可享受更新...'
-    DOWNLOAD-FAILED: '&8[&5Tr&dHologram&8] &eUPDATER &8| &c无法下载最新版 TrHologram ...'
 
 ERROR:
-  VERSION: '&8[&5Tr&dHologram&8] &cERROR &8| &7检测版本号时发生异常... 关闭服务器!'
+  VERSION: '&8[&2Tr&aHologram&8] &cERROR &8| &7检测版本号时发生异常... 关闭服务器!'
   JS:
-    - '&8[&5Tr&dHologram&8] &cERROR &8| &c表达式计算时出错: &2{0}'
+    - '&8[&2Tr&aHologram&8] &cERROR &8| &c表达式计算时出错: &2{0}'
     - '&6{1}'
     - '&8{2}'
 
 HOLOGRAM:
-  LOADED-SUCCESS: '&8[&5Tr&dHologram&8] &bINFO &8| &7成功加载了 &a{0} &7个有效全息图... &8[&7{1} Ms&8]'
-  LOADED-FAILURE: '&8[&5Tr&dHologram&8] &6WARN &8| &7部分全息图加载失败, 请检测诊断错误.'
-  NOT-EXIST: '&8[&5Tr&dHologram&8] &7目标全息图不存在...'
+  LOADED-SUCCESS: '&8[&2Tr&aHologram&8] &bINFO &8| &7成功加载了 &a{0} &7个有效全息图... &8[&7{1} Ms&8]'
+  LOADED-FAILURE: '&8[&2Tr&aHologram&8] &6WARN &8| &7部分全息图加载失败, 请检测诊断错误.'
+  AUTO-RELOADED: '&8[&2Tr&aHologram&8] &3RELOAD &8| &7自动重新载入了全息图 &2{0}&7...'
+  NOT-EXIST: '&8[&2Tr&aHologram&8] &7目标全息图不存在...'
 
-MIGRATE: '&8[&5Tr&dHologram&8] &bINFO &8| &3成功检测并导入了 &aHolographicDisplays &3的全息图总计 &a{0} &3个...'
+MIGRATED: '&8[&2Tr&aHologram&8] &bINFO &8| &3成功检测并导入了 &aHolographicDisplays &3的全息图总计 &a{0} &3个...'
 
 HASTEBIN:
-  PROCESSING: '&8[&5Tr&dHologram&8] &7请稍等...'
-  SUCCESS: '&8[&5Tr&dHologram&8] &3你的内容已被粘贴到 &a{0}'
-  FAILED: '&8[&5Tr&dHologram&8] &c试图粘贴到 Hastebin 过程中出错.'
+  PROCESSING: '&8[&2Tr&aHologram&8] &7请稍等...'
+  SUCCESS: '&8[&2Tr&aHologram&8] &3你的内容已被粘贴到 &a{0}'
+  FAILED: '&8[&2Tr&aHologram&8] &c试图粘贴到 Hastebin 过程中出错.'
 
 COMMANDS:
   QUIT:
@@ -80,9 +77,26 @@ COMMANDS:
       ==: TITLE
       title: '&6&l删除成功'
       subtitle: '&7&l已删除该全息图'
+  EDIT:
+    INPUT-NAME:
+      ==: TITLE
+      title: '&3&l编辑的全息图名称'
+      subtitle: '&7&l请输入需管理的全息图名称'
+      stay: 100
+    NOT-EXIST:
+      ==: TITLE
+      title: '&c&l编辑失败'
+      subtitle: '&7&l不存在该名称的全息图'
+    BOOK-EDIT:
+      ==: ACTION
+      text: '&3&l已给予你一本编辑书，右键打开即可编辑全息图!'
+    BOOK-EDIT-SUCCESS:
+      ==: TITLE
+      title: '&a&l成功编辑'
+      subtitle: '&7&l全息内容行已更新'
   LIST:
     - '&8--------------------------------------------------'
-    - '&5Tr&dHologram &7- Hologram List *&8(点击全息图名称可快速传送)'
+    - '&2Tr&aHologram &7- Hologram List *&8(点击全息图名称可快速传送)'
     - ''
   LIST-FORMAT:
     - '&8▫ &3{0}'
@@ -90,10 +104,11 @@ COMMANDS:
     ==: JSON
     text:
       - '&8--------------------------------------------------'
-      - '&5Tr&dHologram &7- Advanced Hologram Manager &6*{0}'
+      - '&2Tr&aHologram &7- Advanced Hologram Manager &6*{0}'
       - ''
       - '&8▪ <&7/&2{1} Create@create> &8— &7 引导创建一个新的全息图'
       - '&8▪ <&7/&2{1} Delete@delete> &8— &7 删除一个全息图'
+      - '&8▪ <&7/&2{1} Edit@edit> &8— &7 管理一个全息图'
       - '&8▪ <&7/&2{1} List@list> &8— &7 列出所有全息图'
       - '&8▪ <&7/&2{1} Reload@reload> &8— &7 重新载入所有全息图'
       - ''
@@ -107,6 +122,10 @@ COMMANDS:
         hover: |-
           &7点击这里引导删除一个新的全息图.
         command: '/trhologram delete'
+      edit:
+        hover: |-
+          &7点击这里引导编辑管理一个全息图
+        command: '/trhologram edit'
       list:
         hover: |-
           &7点击这里快捷执行此命令.
@@ -115,13 +134,3 @@ COMMANDS:
         hover: |-
           &7点击这里快捷执行此命令.
         command: '/trhologram reload'
-  ITEM-TO-JSON:
-    ==: JSON
-    text: '&8[&5Tr&dHologram&8] &7已将物品转换为 JSON 内容: <&3&n{0}@copy>'
-    args:
-      copy:
-        hover: '&7点击复制'
-        suggest: '{0}'
-  JSON-TO-ITEM:
-    SUCCESS: '&8[&5Tr&dHologram&8] &3成功将 Json 转换为物品，已给予到你的背包中...'
-    FAILED: '&8[&5Tr&dHologram&8] &c无法将该 Json 内容转换为物品...'

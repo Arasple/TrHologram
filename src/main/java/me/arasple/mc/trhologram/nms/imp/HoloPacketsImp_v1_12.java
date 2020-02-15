@@ -4,22 +4,25 @@ import io.izzel.taboolib.module.lite.SimpleReflection;
 import io.izzel.taboolib.module.packet.TPacketHandler;
 import me.arasple.mc.trhologram.nms.HoloPackets;
 import me.arasple.mc.trhologram.utils.MapBuilder;
-import net.minecraft.server.v1_15_R1.*;
-import net.minecraft.server.v1_15_R1.DataWatcher.Item;
+import net.minecraft.server.v1_12_R1.DataWatcher.Item;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 
 /**
  * @author Arasple
  * @date 2020/2/1 22:40
  */
-public class HoloPacketsImp_v1_15 extends HoloPackets {
+public class HoloPacketsImp_v1_12 extends HoloPackets {
 
     static {
         SimpleReflection.checkAndSave(
@@ -42,7 +45,7 @@ public class HoloPacketsImp_v1_15 extends HoloPackets {
                 .put("h", 0)
                 .put("i", 0)
                 .put("j", 0)
-                .put("k", EntityTypes.ARMOR_STAND)
+                .put("k", 78)
                 .put("l", 0)
                 .build())
         );
@@ -118,22 +121,22 @@ public class HoloPacketsImp_v1_15 extends HoloPackets {
 
     @Override
     public Object getMetaEntityGravity(boolean gravity) {
-        return new Item<>(new DataWatcherObject<>(5, DataWatcherRegistry.i), gravity);
+        return new Item<>(new DataWatcherObject<>(5, DataWatcherRegistry.h), gravity);
     }
 
     @Override
     public Object getMetaEntitySilenced(boolean silenced) {
-        return new Item<>(new DataWatcherObject<>(4, DataWatcherRegistry.i), silenced);
+        return new Item<>(new DataWatcherObject<>(4, DataWatcherRegistry.h), silenced);
     }
 
     @Override
     public Object getMetaEntityCustomNameVisible(boolean visible) {
-        return new Item<>(new DataWatcherObject<>(3, DataWatcherRegistry.i), visible);
+        return new Item<>(new DataWatcherObject<>(3, DataWatcherRegistry.h), visible);
     }
 
     @Override
     public Object getMetaEntityCustomName(String name) {
-        return new Item<>(new DataWatcherObject<>(2, DataWatcherRegistry.f), Optional.of(new ChatComponentText(name)));
+        return new Item<>(new DataWatcherObject<>(2, DataWatcherRegistry.d), name);
     }
 
     @Override

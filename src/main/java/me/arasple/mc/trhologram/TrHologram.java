@@ -17,7 +17,7 @@ public final class TrHologram extends Plugin {
 
     @TInject("settings.yml")
     public final static TConfig SETTINGS = null;
-    @TInject("§5Tr§dHologram")
+    @TInject("§2Tr§aHologram")
     public final static TLogger LOGGER = null;
     @TInject(state = TInject.State.LOADING, init = "init", active = "load", cancel = "unload")
     private final static TrHologramLoader LOADER = null;
@@ -29,7 +29,7 @@ public final class TrHologram extends Plugin {
     }
 
     public static double getTrVersion() {
-        return 0.1;
+        return 1.0;
     }
 
 }
