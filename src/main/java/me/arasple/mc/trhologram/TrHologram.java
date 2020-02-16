@@ -2,6 +2,7 @@ package me.arasple.mc.trhologram;
 
 import io.izzel.taboolib.loader.Plugin;
 import io.izzel.taboolib.module.config.TConfig;
+import io.izzel.taboolib.module.dependency.Dependency;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.logger.TLogger;
 
@@ -10,6 +11,7 @@ import io.izzel.taboolib.module.locale.logger.TLogger;
  * @date 2020/1/1 16:57
  */
 @Plugin.Version(5.17)
+@Dependency(maven = "org:kotlinlang:kotlin-stdlib:1.3.50", url = "https://skymc.oss-cn-shanghai.aliyuncs.com/libs/kotlin-stdlib-1.3.50.jar")
 public final class TrHologram extends Plugin {
 
     @TInject("settings.yml")

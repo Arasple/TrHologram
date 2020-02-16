@@ -33,9 +33,12 @@ ERROR:
     - '&8{2}'
 
 HOLOGRAM:
+  AUTO-RELOADED: '&8[&2Tr&aHologram&8] &3RELOAD &8| &7已自动重载全息图 &2{0}&7...'
+  AUTO-RELOAD-FAILED:
+    - '&8[&2Tr&aHologram&8] &3RELOAD &8| &7自动重新全息图 &6{0} &7过程中出错, 请诊断异常...'
+    - '&8{1}'
   LOADED-SUCCESS: '&8[&2Tr&aHologram&8] &bINFO &8| &7成功加载了 &a{0} &7个有效全息图... &8[&7{1} Ms&8]'
   LOADED-FAILURE: '&8[&2Tr&aHologram&8] &6WARN &8| &7部分全息图加载失败, 请检测诊断错误.'
-  AUTO-RELOADED: '&8[&2Tr&aHologram&8] &3RELOAD &8| &7自动重新载入了全息图 &2{0}&7...'
   NOT-EXIST: '&8[&2Tr&aHologram&8] &7目标全息图不存在...'
 
 MIGRATED: '&8[&2Tr&aHologram&8] &bINFO &8| &3成功检测并导入了 &aHolographicDisplays &3的全息图总计 &a{0} &3个...'

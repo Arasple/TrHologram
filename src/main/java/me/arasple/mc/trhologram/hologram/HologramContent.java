@@ -97,11 +97,15 @@ public class HologramContent {
         return this.viewing.contains(player.getUniqueId());
     }
 
-    public void runTask() {
+    public void cancelTask() {
         try {
             task.cancel();
         } catch (Throwable ignored) {
         }
+    }
+
+    public void runTask() {
+        cancelTask();
         if (update < 0) {
             return;
         }

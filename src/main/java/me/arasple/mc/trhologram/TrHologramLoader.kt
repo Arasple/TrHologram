@@ -30,7 +30,7 @@ class TrHologramLoader {
     fun cancel() {
         HologramManager.getHolograms().forEach(Consumer { obj: Hologram -> obj.destroyAll() })
         FileWatcher.getWatcher().unregisterAll()
-        HologramManager.write()
+        HologramManager.forceWrite()
         TLocale.sendToConsole("PLUGIN.DISABLED")
     }
 

@@ -3,9 +3,9 @@ package me.arasple.mc.trhologram.nms;
 import io.izzel.taboolib.module.packet.Packet;
 import io.izzel.taboolib.module.packet.TPacket;
 import me.arasple.mc.trhologram.TrHologram;
-import me.arasple.mc.trhologram.api.TrHologramAPI;
 import me.arasple.mc.trhologram.api.events.HologramInteractEvent;
 import me.arasple.mc.trhologram.hologram.Hologram;
+import me.arasple.mc.trhologram.hologram.HologramContent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -23,9 +23,14 @@ public class HoloInteract {
             }
             if (packet.is("PacketPlayInUseEntity")) {
                 int id = (int) packet.read("a");
-                Hologram hologram = TrHologramAPI.getHologramByEntityId(id);
-                if (hologram != null) {
-                    Bukkit.getScheduler().runTask(TrHologram.getPlugin(), () -> new HologramInteractEvent(player, hologram).call());
+
+                for (Hologram hologram : Hologram.getTrHolograms()) {
+                    for (HologramContent line : hologram.getContents()) {
+                        if (line.getId() == id) {
+                            Bukkit.getScheduler().runTask(TrHologram.getPlugin(), () -> new HologramInteractEvent(player, hologram).call());
+                            break;
+                        }
+                    }
                 }
             }
         } catch (Throwable e) {

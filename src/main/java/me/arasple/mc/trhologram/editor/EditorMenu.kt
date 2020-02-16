@@ -45,10 +45,14 @@ object EditorMenu {
                 when (e.rawSlot) {
                     1 -> ContentEditor.openEditor(hologram, e.whoClicked as Player)
                     2 -> {
+                        e.whoClicked.closeInventory()
                         hologram.location = Locations.getLocationForHologram(e.whoClicked as Player?)
                         Sounds.ENTITY_ENDERMAN_TELEPORT.playSound(hologram.location)
                     }
-                    3 -> CommandDelete.deleteHologram(e.whoClicked as Player, hologram.name)
+                    3 -> {
+                        e.whoClicked.closeInventory()
+                        CommandDelete.deleteHologram(e.whoClicked as Player, hologram.name)
+                    }
                 }
             }
         }

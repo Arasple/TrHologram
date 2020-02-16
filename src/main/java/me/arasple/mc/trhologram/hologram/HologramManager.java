@@ -83,9 +83,12 @@ public class HologramManager {
                     if (file != null && file.exists()) {
                         FileWatcher.getWatcher().addSimpleListener(file, () -> {
                             if (!writing) {
-                                hologram.applySection();
-                            } else {
-                                TrHologram.LOGGER.warn("Hologram " + hologram.getName() + " is currently saving to file, auto-reload function will not work");
+                                try {
+                                    hologram.applySection();
+                                    TLocale.sendToConsole("HOLOGRAM.AUTO-RELOADED", hologram.getName());
+                                } catch (Throwable e) {
+                                    TLocale.sendToConsole("HOLOGRAM.AUTO-RELOAD-FAILED", hologram.getName(), Arrays.toString(e.getStackTrace()));
+                                }
                             }
                         });
                     } else {
@@ -127,7 +130,12 @@ public class HologramManager {
         Bukkit.getOnlinePlayers().stream().filter(hologram::isVisible).forEach(hologram::display);
         FileWatcher.getWatcher().addSimpleListener(file, () -> {
             if (!writing) {
-                hologram.applySection();
+                try {
+                    hologram.applySection();
+                    TLocale.sendToConsole("HOLOGRAM.AUTO-RELOADED", hologram.getName());
+                } catch (Throwable e) {
+                    TLocale.sendToConsole("HOLOGRAM.AUTO-RELOAD-FAILED", hologram.getName(), Arrays.toString(e.getStackTrace()));
+                }
             }
         });
 
@@ -139,6 +147,7 @@ public class HologramManager {
             if (hologram.getName().equalsIgnoreCase(id)) {
                 Files.deepDelete(new File(hologram.getLoadedFrom()));
                 hologram.destroyAll();
+                hologram.cancelTask();
                 return true;
             }
             return false;
@@ -149,8 +158,16 @@ public class HologramManager {
     @TSchedule(delay = 20 * 30, period = 20 * 3 * 60)
     public static void write() {
         writing = true;
-        holograms.forEach(HologramManager::write);
-        writing = false;
+        for (Hologram hologram : holograms) {
+            write(hologram);
+        }
+        Bukkit.getScheduler().runTaskLater(TrHologram.getPlugin(), () -> writing = false, 20);
+    }
+
+    public static void forceWrite() {
+        for (Hologram hologram : holograms) {
+            write(hologram);
+        }
     }
 
     public static void write(Hologram hologram) {

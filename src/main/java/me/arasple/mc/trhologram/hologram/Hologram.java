@@ -2,7 +2,6 @@ package me.arasple.mc.trhologram.hologram;
 
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
-import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Sounds;
 import me.arasple.mc.trhologram.TrHologram;
@@ -17,6 +16,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +25,8 @@ import java.util.UUID;
  * @date 2020/1/29 20:06
  */
 public class Hologram {
+
+    private static List<Hologram> trHolograms;
 
     private String name;
     private List<UUID> viewers;
@@ -36,6 +38,10 @@ public class Hologram {
     private String viewDistance;
     private double finalViewDistance;
     private String loadedFrom;
+
+    public Hologram(String name, Location location, String... contents) {
+        this(name, location, Arrays.asList(contents), null, null, null);
+    }
 
     public Hologram(String name, Location location, List<String> contents) {
         this(name, location, contents, null, null, null);
@@ -55,6 +61,8 @@ public class Hologram {
         this.viewCondition = viewCondition;
         this.viewDistance = viewDistance;
         this.finalViewDistance = NumberUtils.toDouble(viewDistance, -1);
+
+        trHolograms.add(this);
     }
 
     /**
@@ -188,6 +196,10 @@ public class Hologram {
         return contents;
     }
 
+    public static List<Hologram> getTrHolograms() {
+        return trHolograms;
+    }
+
     public void setContents(List<String> contents) {
         this.rawContents = contents;
         while (contents.size() < getContents().size()) {
@@ -279,7 +291,6 @@ public class Hologram {
         setViewCondition(data.getString("viewCondition"));
         setViewDistance(data.getString("viewDistance"));
         Location location = getLocation();
-        TLocale.sendToConsole("HOLOGRAM.AUTO-RELOADED", getName());
         if (TrHologram.SETTINGS.getBoolean("OPTIONS.AUTO-RELOAD-SOUND")) {
             Sounds.ITEM_BOTTLE_FILL.playSound(location, 1, 0);
         }
@@ -291,6 +302,20 @@ public class Hologram {
 
     public void runTask() {
         getContents().forEach(HologramContent::runTask);
+    }
+
+    public void setContents(String... contents) {
+        setContents(Arrays.asList(contents));
+    }
+
+    public void cancelTask() {
+        getContents().forEach(HologramContent::cancelTask);
+    }
+
+    public void delete() {
+        cancelTask();
+        destroyAll();
+        trHolograms.remove(this);
     }
 
     @Override

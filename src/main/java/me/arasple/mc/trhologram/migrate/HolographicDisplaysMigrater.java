@@ -1,15 +1,16 @@
 package me.arasple.mc.trhologram.migrate;
 
 import com.google.common.collect.Lists;
+import io.izzel.taboolib.Version;
 import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.module.locale.TLocale;
-import io.izzel.taboolib.util.Commands;
 import me.arasple.mc.trhologram.TrHologram;
 import me.arasple.mc.trhologram.hologram.HologramManager;
 import me.arasple.mc.trhologram.utils.Locations;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +44,10 @@ public class HolographicDisplaysMigrater {
             if (migrated.size() > 0) {
                 TLocale.sendToConsole("MIGRATED", migrated.size());
                 database.save(file);
-                Commands.dispatchCommand(Bukkit.getConsoleSender(), "holographicdisplays:hd reload");
+                Plugin plugin = Bukkit.getPluginManager().getPlugin("HolographicDisplays");
+                if (plugin != null && plugin.isEnabled() && !Version.isAfter(Version.v1_13)) {
+                    Bukkit.getPluginManager().disablePlugin(plugin);
+                }
             }
         }
     }
