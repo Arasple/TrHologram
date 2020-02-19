@@ -45,8 +45,6 @@ public class Updater implements Listener {
             Bukkit.shutdown();
         }
         Bukkit.getPluginManager().registerEvents(new Updater(), plugin);
-        grabInfo();
-        notifyOld();
     }
 
     private static void notifyOld() {
@@ -78,6 +76,7 @@ public class Updater implements Listener {
             double latestVersion = json.get("tag_name").getAsDouble();
             if (latestVersion > version) {
                 old = true;
+                notifyOld();
             }
             newVersion = latestVersion;
         } catch (Exception ignored) {
