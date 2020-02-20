@@ -2,7 +2,7 @@ package me.arasple.mc.trhologram.bstats
 
 import io.izzel.taboolib.module.inject.TSchedule
 import me.arasple.mc.trhologram.TrHologram
-import me.arasple.mc.trhologram.hologram.HologramManager
+import me.arasple.mc.trhologram.hologram.Hologram
 import org.bstats.bukkit.Metrics
 import java.util.concurrent.Callable
 
@@ -16,7 +16,7 @@ object MetricsHandler {
     fun init() {
 
         val metrics = Metrics(TrHologram.getPlugin(), 6387)
-        metrics.addCustomChart(Metrics.SingleLineChart("holograms", Callable { HologramManager.getHolograms().size }))
+        metrics.addCustomChart(Metrics.SingleLineChart("holograms", Callable { Hologram.HOLOGRAMS.values.sumBy { x -> x.size } }))
     }
 
 }

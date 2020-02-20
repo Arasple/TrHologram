@@ -17,10 +17,10 @@ class ListenerPlayerMove : Listener {
     @EventHandler
     fun onMove(e: PlayerMoveEvent) {
         val player = e.player
-        Hologram.getTrHolograms().forEach(Consumer { hologram: Hologram ->
-            if (hologram.isVisible(player) && !hologram.viewers.contains(player.uniqueId)) {
+        Hologram.getHolograms().forEach(Consumer { hologram ->
+            if (hologram.isVisible(player) && !hologram.viewers.contains(player)) {
                 hologram.display(player)
-            } else if (!hologram.isVisible(player) && hologram.viewers.contains(player.uniqueId)) {
+            } else if (!hologram.isVisible(player) && hologram.viewers.contains(player)) {
                 hologram.destroy(player)
             }
         })

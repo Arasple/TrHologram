@@ -12,6 +12,8 @@ OPTIONS:
   AUTO-RELOAD-SOUND: true
   # 每行全息图的盔甲架高度距离
   ARMORSTAND-DISTANCE: 0.25
+  # 是否使用小盔甲架 (非特殊情况不要关)
+  ARMORSTAND-SMALL: true
 
 # 菜单自定义显示物品
 GUIS:

@@ -30,7 +30,7 @@ object ContentEditor {
     fun openEditor(hologram: Hologram, player: Player) {
         player.closeInventory()
 
-        val book = ItemBuilder(BookBuilder(Materials.WRITABLE_BOOK.parseItem()).title("TrHologramEditor_" + hologram.name).author("TrHologramEditor_" + hologram.name).pagesRaw(hologram.rawContents).build()).name("&3编辑全全息图 &a" + hologram.name).lore("", "&7右键该书本即可打开编辑!", "&7蹲下+右键可访问管理 GUI").colored().build()
+        val book = ItemBuilder(BookBuilder(Materials.WRITABLE_BOOK.parseItem()).title("TrHologramEditor_" + hologram.id).author("TrHologramEditor_" + hologram.id).pagesRaw(hologram.contents).build()).name("&3编辑全全息图 &a" + hologram.id).lore("", "&7右键该书本即可打开编辑!", "&7蹲下+右键可访问管理 GUI").colored().build()
         player.inventory.addItem(book)
         Sounds.ENTITY_ITEM_PICKUP.playSound(player)
         TLocale.sendTo(player, "COMMANDS.EDIT.BOOK-EDIT")
@@ -71,7 +71,7 @@ object ContentEditor {
             if (e.player.hasPermission("trhologram.admin") && author != null && title != null && author.startsWith("TrHologramEditor_") && title.startsWith("TrHologramEditor_") && author.substring(17) == title.substring(17)) {
                 val hologram = TrHologramAPI.getHologramById(author.substring(17))
                 if (hologram != null) {
-                    hologram.setContents(e.newBookMeta.pages)
+                    hologram.updateLines(e.newBookMeta.pages)
                     HologramManager.write(hologram)
                     Sounds.ITEM_BOTTLE_FILL.playSound(e.player)
                     TLocale.sendTo(e.player, "COMMANDS.EDIT.BOOK-EDIT-SUCCESS")

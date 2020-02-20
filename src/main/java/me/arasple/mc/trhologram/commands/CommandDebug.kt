@@ -1,10 +1,19 @@
 package me.arasple.mc.trhologram.commands
 
-import io.izzel.taboolib.module.command.base.Argument
+import io.izzel.taboolib.loader.Plugin
 import io.izzel.taboolib.module.command.base.BaseSubCommand
-import me.arasple.mc.trhologram.api.TrHologramAPI
+import io.izzel.taboolib.util.Files
+import me.arasple.mc.trhologram.TrHologram
+import me.arasple.mc.trhologram.hologram.Hologram
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
+import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.entity.Player
+import org.bukkit.metadata.FixedMetadataValue
+import org.bukkit.scheduler.BukkitTask
+import org.bukkit.scheduler.BukkitWorker
+import java.io.InputStreamReader
 
 /**
  * @author Arasple
@@ -12,15 +21,28 @@ import org.bukkit.command.CommandSender
  */
 class CommandDebug : BaseSubCommand() {
 
-    override fun getArguments(): Array<Argument> {
-        return arrayOf(Argument("Hologram Name", true))
-    }
-
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
-        val hologram = TrHologramAPI.getHologramById(args[0])
-        if (hologram != null) {
-            sender.sendMessage("As String: §7$hologram")
+        if (sender is Player) {
+            val player = sender
+            if (player.hasMetadata("TrHologram-Debug")) {
+                player.removeMetadata("TrHologram-Debug", TrHologram.getPlugin())
+                sender.sendMessage("§7Canceled...")
+            } else {
+                player.setMetadata("TrHologram-Debug", FixedMetadataValue(TrHologram.getPlugin(), ""))
+                sender.sendMessage("§aEnabled...")
+            }
+            return
         }
+
+        sender.sendMessage("§3--------------------------------------------------")
+        sender.sendMessage("")
+        sender.sendMessage("§2Total Holograms: §6" + Hologram.HOLOGRAMS.values.sumBy { x -> x.size })
+        sender.sendMessage("§2Running Tasks: §6" + Bukkit.getScheduler().activeWorkers.stream().filter { t: BukkitWorker -> t.owner === TrHologram.getPlugin() }.count() + Bukkit.getScheduler().pendingTasks.stream().filter { t: BukkitTask -> t.owner === TrHologram.getPlugin() }.count())
+        sender.sendMessage("§2TabooLib: §f" + Plugin.getVersion())
+        sender.sendMessage("")
+        sender.sendMessage("§2TrHologram Built-Time: §b" + YamlConfiguration.loadConfiguration(InputStreamReader(Files.getResource(TrHologram.getPlugin(), "plugin.yml"))).getString("built-time", "Null"))
+        sender.sendMessage("")
+        sender.sendMessage("§3--------------------------------------------------")
     }
 
 }

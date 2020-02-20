@@ -56,7 +56,7 @@ public class Mat {
         }
     }
 
-    public static Mat readMat(String text) {
+    public static Mat mat(String text) {
         if (text.toLowerCase().startsWith("item:") || text.toLowerCase().startsWith("icon:")) {
             return new Mat(text.substring(5));
         }

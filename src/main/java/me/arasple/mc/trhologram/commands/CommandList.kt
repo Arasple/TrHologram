@@ -7,7 +7,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.ArrayUtil
 import io.izzel.taboolib.util.Strings
-import me.arasple.mc.trhologram.hologram.HologramManager
+import me.arasple.mc.trhologram.hologram.Hologram
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -25,7 +25,7 @@ class CommandList : BaseSubCommand() {
         val filter = if (args.isNotEmpty()) ArrayUtil.arrayJoin(args, 0).toLowerCase() else null
 
         TLocale.sendTo(sender, "COMMANDS.LIST")
-        HologramManager.getHolograms().stream().filter { hologram -> filter == null || hologram.name.contains(filter, true) }.forEach { hologram -> TellrawJson.create().append(Strings.replaceWithOrder(TLocale.asString("COMMANDS.LIST-FORMAT"), hologram.name)).hoverText("§7点击立即传送!").clickCommand("/minecraft:tp " + sender.name + " " + hologram.location.x + " " + (hologram.location.y + 1) + " " + hologram.location.z).send(sender) }
+        Hologram.getHolograms().stream().filter { hologram -> filter == null || hologram.id.contains(filter, true) }.forEach { hologram -> TellrawJson.create().append(Strings.replaceWithOrder(TLocale.asString("COMMANDS.LIST-FORMAT"), hologram.id)).hoverText("§7点击立即传送!").clickCommand("/minecraft:tp " + sender.name + " " + hologram.loc.x + " " + (hologram.loc.y + 1) + " " + hologram.loc.z).send(sender) }
         sender.sendMessage("")
     }
 

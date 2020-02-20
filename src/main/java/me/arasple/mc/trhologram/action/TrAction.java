@@ -145,7 +145,7 @@ public class TrAction {
             }
             return actionGroups;
         }
-        return null;
+        return actionGroups;
     }
 
 }

@@ -18,7 +18,7 @@ class ListenerHologramInteract : Listener {
     @EventHandler
     fun onHologramInteract(e: HologramInteractEvent) {
         val actionGroups = e.hologram.actions
-        if (actionGroups != null && actionGroups.isNotEmpty()) {
+        if (actionGroups.isNotEmpty()) {
             actionGroups.sortBy { a -> a.priority }
             for (action in actionGroups.reversed()) {
                 if (Strings.isEmpty(action.requirement) || JavaScript.run(e.player, action.requirement) as Boolean) {

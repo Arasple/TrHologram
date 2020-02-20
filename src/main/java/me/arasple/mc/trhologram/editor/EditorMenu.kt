@@ -25,7 +25,7 @@ import org.bukkit.inventory.InventoryHolder
 object EditorMenu {
 
     fun openEditor(hologram: Hologram, player: Player) {
-        val menu = Bukkit.createInventory(Holder(hologram), InventoryType.HOPPER, "管理全息图 " + hologram.name)
+        val menu = Bukkit.createInventory(Holder(hologram), InventoryType.HOPPER, "Hologram - " + hologram.id)
         menu.setItem(1, Items.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.CONTENTS")))
         menu.setItem(2, Items.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.MOVE")))
         menu.setItem(3, Items.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.DELETE")))
@@ -37,7 +37,7 @@ object EditorMenu {
     @TListener
     private class EventListener : Listener {
 
-        @EventHandler(priority = EventPriority.HIGHEST)
+        @EventHandler(priority = EventPriority.LOWEST)
         fun onClick(e: InventoryClickEvent) {
             if (e.inventory.holder is Holder) {
                 val hologram = (e.inventory.holder as Holder).hologram
@@ -46,12 +46,12 @@ object EditorMenu {
                     1 -> ContentEditor.openEditor(hologram, e.whoClicked as Player)
                     2 -> {
                         e.whoClicked.closeInventory()
-                        hologram.location = Locations.getLocationForHologram(e.whoClicked as Player?)
-                        Sounds.ENTITY_ENDERMAN_TELEPORT.playSound(hologram.location)
+                        hologram.loc = Locations.getLocationForHologram(e.whoClicked as Player?)
+                        Sounds.ENTITY_ENDERMAN_TELEPORT.playSound(hologram.loc)
                     }
                     3 -> {
                         e.whoClicked.closeInventory()
-                        CommandDelete.deleteHologram(e.whoClicked as Player, hologram.name)
+                        CommandDelete.deleteHologram(e.whoClicked as Player, hologram.id)
                     }
                 }
             }

@@ -5,7 +5,6 @@ import me.arasple.mc.trhologram.hologram.Hologram
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
-import java.util.function.Consumer
 
 /**
  * @author Arasple
@@ -16,7 +15,9 @@ class ListenerPlayerQuit : Listener {
 
     @EventHandler
     fun onQuit(e: PlayerQuitEvent) {
-        Hologram.getTrHolograms().forEach(Consumer { hologram: Hologram -> hologram.viewers.remove(e.player.uniqueId) })
+        Hologram.getHolograms().forEach { hologram ->
+            hologram.removeViewer(e.player)
+        }
     }
 
 }

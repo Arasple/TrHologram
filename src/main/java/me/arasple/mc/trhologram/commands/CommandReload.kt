@@ -2,10 +2,10 @@ package me.arasple.mc.trhologram.commands
 
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.command.base.CommandType
+import me.arasple.mc.trhologram.hologram.Hologram
 import me.arasple.mc.trhologram.hologram.HologramManager
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
-import java.util.function.Consumer
 
 /**
  * @author Arasple
@@ -14,8 +14,7 @@ import java.util.function.Consumer
 class CommandReload : BaseSubCommand() {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
-        HologramManager.getHolograms().forEach(Consumer { hologram -> hologram.destroyAll() })
-        HologramManager.getHolograms().clear()
+        Hologram.getHolograms().forEach { hologram -> hologram.destroyAll() }
         HologramManager.loadHolograms(sender)
     }
 

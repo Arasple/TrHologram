@@ -15,7 +15,7 @@ class ListenerPlayerJoin : Listener {
 
     @EventHandler
     fun onJoin(e: PlayerJoinEvent) {
-        Hologram.getTrHolograms().stream().filter { hologram: Hologram -> hologram.isVisible(e.player) }.forEach { hologram: Hologram -> hologram.display(e.player) }
+        Hologram.getHolograms().stream().filter { hologram -> hologram.isVisible(e.player) }.forEach { hologram -> hologram.display(e.player) }
     }
 
 }

@@ -1,6 +1,5 @@
 package me.arasple.mc.trhologram.utils;
 
-import io.izzel.taboolib.Version;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,7 +13,7 @@ public class Locations {
 
     public static Location getLocationForHologram(Player player) {
         Location playerLocation = player.getLocation().clone();
-        return new Location(playerLocation.getWorld(), Double.parseDouble(String.format("%.1f", playerLocation.getX())), playerLocation.getBlockY() - (Version.isAfter(Version.v1_14) ? 1 : -1), Double.parseDouble(String.format("%.1f", playerLocation.getZ())));
+        return new Location(playerLocation.getWorld(), Double.parseDouble(String.format("%.1f", playerLocation.getX())), playerLocation.getBlockY(), Double.parseDouble(String.format("%.1f", playerLocation.getZ())));
     }
 
     public static String write(Location location) {
