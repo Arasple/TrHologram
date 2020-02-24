@@ -107,15 +107,12 @@ object HologramManager {
     }
 
     fun deleteHologram(id: String) {
-        Hologram.getHolograms().removeIf { hologram ->
-            if (hologram.id.equals(id, ignoreCase = true)) {
-                hologram.delete()
-                if (hologram.loadedFrom != null) {
-                    Files.deepDelete(File(hologram.loadedFrom))
-                }
-                return@removeIf true
+        val hologram = Hologram.getHolograms().firstOrNull { it.id.equals(id, ignoreCase = true) }
+        if (hologram != null) {
+            hologram.delete()
+            if (hologram.loadedFrom != null) {
+                Files.deepDelete(File(hologram.loadedFrom))
             }
-            false
         }
         write()
     }
@@ -124,19 +121,21 @@ object HologramManager {
     fun write() {
         writing = true
         for (hologram in Hologram.getHolograms()) {
-            write(hologram)
+            write(hologram, true)
         }
         Bukkit.getScheduler().runTaskLater(TrHologram.getPlugin(), Runnable { writing = false }, 20)
     }
 
     fun forceWrite() {
         for (hologram in Hologram.getHolograms()) {
-            write(hologram)
+            write(hologram, true)
         }
     }
 
-    fun write(hologram: Hologram) {
-        writing = true
+    fun write(hologram: Hologram, force: Boolean) {
+        if (!force) {
+            writing = true
+        }
         val loadedFrom = hologram.loadedFrom ?: return
         val file = File(loadedFrom)
         val yaml = YamlConfiguration.loadConfiguration(file)
@@ -150,7 +149,7 @@ object HologramManager {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        if (TrHologram.getPlugin().isEnabled) {
+        if (!force) {
             Bukkit.getScheduler().runTaskLater(TrHologram.getPlugin(), Runnable { writing = false }, 20)
         }
     }

@@ -1,53 +1,52 @@
 PLUGIN:
   LOADING:
     - ''
-    - '&2Tr&aHologram &7正在载入中... &8{0}'
+    - '&2Tr&aHologram &7loading... &8{0}'
     - ''
-  UN-SUPPORTED-VERSION: '&8[&2Tr&aHologram&8] &cERROR &8| &c暂时不支持你的版本 &4{0} &c, 插件停用中...'
-  ENABLED: '&8[&2Tr&aHologram&8] &bINFO &8| &3加载完毕. TrHologram &av{0} &3现已启用, 敬请使用.'
-  DISABLED: '&8[&2Tr&aHologram&8] &bINFO &8| &7感谢使用本插件, 您在论坛为本插件评分即是对作者最大的鼓励!'
-  HOOKED: '&8[&2Tr&aHologram&8] &eDEPEND &8| &7成功检测并挂钩软依赖插件 &6{0}&7...'
+  UN-SUPPORTED-VERSION: '&8[&2Tr&aHologram&8] &cERROR &8| &cUnsupported version &4{0} &c...'
+  ENABLED: '&8[&2Tr&aHologram&8] &bINFO &8| &3Loaded. TrHologram &av{0} &3has been enabled.'
+  DISABLED: '&8[&2Tr&aHologram&8] &bINFO &8| &7Disabled. Thanks for using :)'
+  HOOKED: '&8[&2Tr&aHologram&8] &eDEPEND &8| &7Hooked &6{0}&7...'
   UPDATER:
-    LATEST: '&8[&2Tr&aHologram&8] &2你正在运行最新版的 &3TrHologram&a.'
-    DEV: '&8[&2Tr&aHologram&8] &6你正在运行开发版本的 TrHologram, 请及时反馈漏洞!'
+    LATEST: '&8[&2Tr&aHologram&8] &2You''re running the latest version of &3TrHologram&a.'
+    DEV: '&8[&2Tr&aHologram&8] &6You''re running the development version of &3TrHologram&6.'
     OLD:
-      - '&8[&2Tr&aHologram&8] &b检测到有新版本 &av{0}&b, 可在此下载'
+      - '&8[&2Tr&aHologram&8] &bFound a new available version &av{0}&b, download it here'
       - '&2https://github.com/Arasple/TrHologram/releases'
     TOO-OLD:
       - "&8--------------------------------------------------"
       - "&r"
-      - "&8# &4您所运行的 &cTrHologram &4版本过旧, 可能潜在很多漏洞"
-      - "&8# &4请及时更新到最新版本以便获得更好的插件体验!"
+      - "&8# &4The version of &cTrHologram &4you are running is too old"
+      - "&8# &4Please update to the latest version in time!"
       - "&8# &r"
-      - "&8# &4Mcbbs: &chttps://www.mcbbs.net/thread-923397-1-1.html"
+      - "&8# &4Github: &chttps://github.com/Arasple/TrHologram/releases/latest"
       - "&8# &r"
       - "&8# &r"
-      - "&8# &4服务器将在 &c&l{0} secs &4后继续启动..."
+      - "&8# &4The server will start in &c&l{0} secs &4..."
       - "&r"
-      - "&8--------------------------------------------------"
 
 ERROR:
-  VERSION: '&8[&2Tr&aHologram&8] &cERROR &8| &7检测版本号时发生异常... 关闭服务器!'
+  VERSION: '&8[&2Tr&aHologram&8] &cERROR &8| &7Plugin version error. Please re-download the plugin.'
   JS:
-    - '&8[&2Tr&aHologram&8] &cERROR &8| &c表达式计算时出错: &2{0}'
+    - '&8[&2Tr&aHologram&8] &cERROR &8| &cExpression error: &2{0}'
     - '&6{1}'
     - '&8{2}'
 
 HOLOGRAM:
-  AUTO-RELOADED: '&8[&2Tr&aHologram&8] &3RELOAD &8| &7已自动重载全息图 &2{0}&7...'
+  AUTO-RELOADED: '&8[&2Tr&aHologram&8] &3RELOAD &8| &7Auto-reloaded hologram &2{0}&7...'
   AUTO-RELOAD-FAILED:
-    - '&8[&2Tr&aHologram&8] &3RELOAD &8| &7自动重新全息图 &6{0} &7过程中出错, 请诊断异常...'
+    - '&8[&2Tr&aHologram&8] &3RELOAD &8| &7Failed to auto-reload hologram &6{0} &7, please check the errors...'
     - '&8{1}'
-  LOADED-SUCCESS: '&8[&2Tr&aHologram&8] &bINFO &8| &7成功加载了 &a{0} &7个有效全息图... &8[&7{1} Ms&8]'
-  LOADED-FAILURE: '&8[&2Tr&aHologram&8] &6WARN &8| &7部分全息图加载失败, 请检测诊断错误.'
-  NOT-EXIST: '&8[&2Tr&aHologram&8] &7目标全息图不存在...'
+  LOADED-SUCCESS: '&8[&2Tr&aHologram&8] &bINFO &8| &7Loaded &a{0} &7holograms... &8[&7{1} Ms&8]'
+  LOADED-FAILURE: '&8[&2Tr&aHologram&8] &6WARN &8| &7There''re some holograms failed to load. Please check these errors...'
+  NOT-EXIST: '&8[&2Tr&aHologram&8] &7Hologram doesn''t exist...'
 
-MIGRATED: '&8[&2Tr&aHologram&8] &bINFO &8| &3成功检测并导入了 &aHolographicDisplays &3的全息图总计 &a{0} &3个...'
+MIGRATED: '&8[&2Tr&aHologram&8] &bINFO &8| &3Migrated &aHolographicDisplays &3holograms in total &a{0} &3...'
 
 HASTEBIN:
-  PROCESSING: '&8[&2Tr&aHologram&8] &7请稍等...'
-  SUCCESS: '&8[&2Tr&aHologram&8] &3你的内容已被粘贴到 &a{0}'
-  FAILED: '&8[&2Tr&aHologram&8] &c试图粘贴到 Hastebin 过程中出错.'
+  PROCESSING: '&8[&2Tr&aHologram&8] &7Please wait...'
+  SUCCESS: '&8[&2Tr&aHologram&8] &3Your content has been pasted on &a{0}'
+  FAILED: '&8[&2Tr&aHologram&8] &cFailed to pasted content on hastebin.'
 
 COMMANDS:
   QUIT:

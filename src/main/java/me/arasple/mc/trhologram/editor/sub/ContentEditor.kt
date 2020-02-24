@@ -3,10 +3,12 @@ package me.arasple.mc.trhologram.editor.sub
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.inject.TListener
 import io.izzel.taboolib.module.locale.TLocale
+import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.book.builder.BookBuilder
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.lite.Materials
 import io.izzel.taboolib.util.lite.Sounds
+import me.arasple.mc.trhologram.TrHologram
 import me.arasple.mc.trhologram.api.TrHologramAPI
 import me.arasple.mc.trhologram.editor.EditorMenu
 import me.arasple.mc.trhologram.hologram.Hologram
@@ -15,6 +17,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerEditBookEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
@@ -30,7 +33,7 @@ object ContentEditor {
     fun openEditor(hologram: Hologram, player: Player) {
         player.closeInventory()
 
-        val book = ItemBuilder(BookBuilder(Materials.WRITABLE_BOOK.parseItem()).title("TrHologramEditor_" + hologram.id).author("TrHologramEditor_" + hologram.id).pagesRaw(hologram.contents).build()).name("&3编辑全全息图 &a" + hologram.id).lore("", "&7右键该书本即可打开编辑!", "&7蹲下+右键可访问管理 GUI").colored().build()
+        val book = ItemBuilder(BookBuilder(Materials.WRITABLE_BOOK.parseItem()).title("TrHologramEditor_" + hologram.id).author("TrHologramEditor_" + hologram.id).pagesRaw(hologram.contents).build()).name(Strings.replaceWithOrder(TrHologram.SETTINGS.getStringColored("GUIS.EDITOR.BOOK.name"), hologram.id)).lore(TrHologram.SETTINGS.getStringListColored("GUIS.EDITOR.BOOK.lore")).build()
         player.inventory.addItem(book)
         Sounds.ENTITY_ITEM_PICKUP.playSound(player)
         TLocale.sendTo(player, "COMMANDS.EDIT.BOOK-EDIT")
@@ -51,7 +54,7 @@ object ContentEditor {
             } catch (ignored: Throwable) {
             }
 
-            if (e.player.isSneaking && item != null && item.itemMeta is BookMeta) {
+            if (e.action == Action.LEFT_CLICK_BLOCK && item != null && item.itemMeta is BookMeta) {
                 val author = (item.itemMeta as BookMeta).author
                 val title = (item.itemMeta as BookMeta).title
                 if (e.player.hasPermission("trhologram.admin") && author != null && title != null && author.startsWith("TrHologramEditor_") && title.startsWith("TrHologramEditor_") && author.substring(17) == title.substring(17)) {
@@ -72,7 +75,7 @@ object ContentEditor {
                 val hologram = TrHologramAPI.getHologramById(author.substring(17))
                 if (hologram != null) {
                     hologram.updateLines(e.newBookMeta.pages)
-                    HologramManager.write(hologram)
+                    HologramManager.write(hologram, false)
                     Sounds.ITEM_BOTTLE_FILL.playSound(e.player)
                     TLocale.sendTo(e.player, "COMMANDS.EDIT.BOOK-EDIT-SUCCESS")
                 }

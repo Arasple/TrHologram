@@ -28,4 +28,5 @@ public class Locations {
     public static boolean equals(Location loc1, Location loc2) {
         return loc1 != null && loc2 != null && write(loc1).equalsIgnoreCase(write(loc2));
     }
+
 }

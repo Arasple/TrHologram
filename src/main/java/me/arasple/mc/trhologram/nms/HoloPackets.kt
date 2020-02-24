@@ -16,7 +16,8 @@ import java.util.*
  * @author Arasple
  * @date 2020/2/15 21:02
  * -
- * 部分代码参考自 https://github.com/VolmitSoftware/Mortar
+ * 部分代码参考自项目
+ * https://github.com/VolmitSoftware/Mortar
  */
 abstract class HoloPackets() {
 
@@ -48,7 +49,19 @@ abstract class HoloPackets() {
 
         fun init() {
             try {
-                INSTANCE = SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.impl.HoloPacketsImp_${Version.getCurrentVersion().name}").translate(TrHologram.getPlugin()).newInstance() as HoloPackets
+                val version =
+                        when {
+                            Version.isAfter(Version.v1_13) -> Version.v1_15
+                            Version.isAfter(Version.v1_11) -> Version.v1_12
+                            Version.isAfter(Version.v1_9) -> Version.v1_9
+                            else -> Version.vNull
+                        }
+                if (version == Version.vNull) {
+                    TLocale.sendToConsole("PLUGIN.UN-SUPPORTED-VERSION", Bukkit.getVersion())
+                    Bukkit.getPluginManager().disablePlugin(TrHologram.getPlugin())
+                    return
+                }
+                INSTANCE = SimpleVersionControl.createNMS("me.arasple.mc.trhologram.nms.impl.HoloPacketsImp_${version}").translate(TrHologram.getPlugin()).newInstance() as HoloPackets
                 TLocale.sendToConsole("PLUGIN.LOADING", Bukkit.getVersion())
             } catch (e: Throwable) {
                 TrHologram.LOGGER.error("An error occurred while adapting your server version " + Version.getBukkitVersion() + ", please make sure your version is supported. Plugin will not work")

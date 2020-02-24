@@ -4,27 +4,28 @@ import io.izzel.taboolib.module.lite.SimpleReflection
 import io.izzel.taboolib.module.packet.TPacketHandler
 import me.arasple.mc.trhologram.TrHologram
 import me.arasple.mc.trhologram.nms.HoloPackets
-import net.minecraft.server.v1_14_R1.*
+import net.minecraft.server.v1_8_R3.*
 import org.bukkit.Location
-import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack
 import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
+
 /**
  * @author Arasple
- * @date 2020/2/1 22:40
+ * @date 2020/2/24 23:07
  */
-class HoloPacketsImp_v1_14 : HoloPackets() {
+@Deprecated
+class HoloPacketsImp_v1_8 : HoloPackets() {
 
     companion object {
         init {
             SimpleReflection.checkAndSave(
                     PacketPlayOutSpawnEntity::class.java,
                     PacketPlayOutEntityTeleport::class.java,
-                    PacketPlayOutEntityMetadata::class.java,
-                    PacketPlayOutMount::class.java
+                    PacketPlayOutEntityMetadata::class.java
             )
         }
     }
@@ -33,17 +34,10 @@ class HoloPacketsImp_v1_14 : HoloPackets() {
         TPacketHandler.sendPacket(player, setPacket(PacketPlayOutSpawnEntity::class.java, PacketPlayOutSpawnEntity(),
                 mapOf(
                         Pair("a", entityId),
-                        Pair("b", uuid),
-                        Pair("c", location.x),
-                        Pair("d", location.y),
-                        Pair("e", location.z),
-                        Pair("f", 0),
-                        Pair("g", 0),
-                        Pair("h", 0),
-                        Pair("i", 0),
-                        Pair("j", 0),
-                        Pair("k", EntityTypes.ARMOR_STAND),
-                        Pair("l", 0)
+                        Pair("b", location.x),
+                        Pair("c", location.y),
+                        Pair("d", location.z),
+                        Pair("j", 78)
                 )
         ))
         initArmorStandAsHologram(player, entityId)
@@ -53,17 +47,10 @@ class HoloPacketsImp_v1_14 : HoloPackets() {
         TPacketHandler.sendPacket(player, setPacket(PacketPlayOutSpawnEntity::class.java, PacketPlayOutSpawnEntity(),
                 mapOf(
                         Pair("a", entityId),
-                        Pair("b", uuid),
-                        Pair("c", location.x),
-                        Pair("d", location.y),
-                        Pair("e", location.z),
-                        Pair("f", 0),
-                        Pair("g", 0),
-                        Pair("h", 0),
-                        Pair("i", 0),
-                        Pair("j", 0),
-                        Pair("k", EntityTypes.ITEM),
-                        Pair("l", 0)
+                        Pair("b", location.x),
+                        Pair("c", location.y),
+                        Pair("d", location.z),
+                        Pair("j", 2)
                 )
         ))
         sendEntityMetadata(player, entityId, getMetaEntityGravity(true), getMetaEntityItemStack(itemStack))
@@ -75,7 +62,6 @@ class HoloPacketsImp_v1_14 : HoloPackets() {
 
     override fun initArmorStandAsHologram(player: Player, entityId: Int) {
         sendEntityMetadata(player, entityId,
-                getMetaEntityGravity(false),
                 getMetaEntityCustomNameVisible(true),
                 getMetaEntitySilenced(true),
                 getMetaEntityProperties(false, false, true, false, true, false, false),
@@ -102,22 +88,22 @@ class HoloPacketsImp_v1_14 : HoloPackets() {
     }
 
     override fun updatePassengers(player: Player, entityId: Int, vararg passengers: Int) {
-        TPacketHandler.sendPacket(player, setPacket(PacketPlayOutMount::class.java, PacketPlayOutMount(),
+        TPacketHandler.sendPacket(player, setPacket(PacketPlayOutAttachEntity::class.java, PacketPlayOutAttachEntity(),
                 mapOf(
                         Pair("a", entityId),
-                        Pair("b", passengers)
+                        Pair("b", passengers[0])
                 )
         ))
     }
 
     override fun updateArmorStandEquipmentItem(player: Player, entityId: Int, slot: EquipmentSlot, itemStack: ItemStack) {
-        TPacketHandler.sendPacket(player, PacketPlayOutEntityEquipment(entityId, EnumItemSlot.valueOf(slot.name), CraftItemStack.asNMSCopy(itemStack)))
+        TPacketHandler.sendPacket(player, PacketPlayOutEntityEquipment(entityId, 4, CraftItemStack.asNMSCopy(itemStack)))
     }
 
     override fun sendEntityMetadata(player: Player, entityId: Int, vararg objects: Any) {
-        val items: MutableList<DataWatcher.Item<*>> = ArrayList()
+        val items: MutableList<DataWatcher.WatchableObject> = ArrayList()
         for (obj in objects) {
-            items.add(obj as DataWatcher.Item<*>)
+            items.add(obj as DataWatcher.WatchableObject)
         }
         TPacketHandler.sendPacket(player, setPacket(PacketPlayOutEntityMetadata::class.java, PacketPlayOutEntityMetadata(),
                 mapOf(
@@ -127,7 +113,7 @@ class HoloPacketsImp_v1_14 : HoloPackets() {
     }
 
     override fun getMetaEntityItemStack(itemStack: ItemStack): Any {
-        return DataWatcher.Item(DataWatcherObject(7, DataWatcherRegistry.g), CraftItemStack.asNMSCopy(itemStack))
+        return DataWatcher.WatchableObject(5, 6, CraftItemStack.asNMSCopy(itemStack))
     }
 
     override fun getMetaEntityProperties(onFire: Boolean, crouched: Boolean, sprinting: Boolean, swimming: Boolean, invisible: Boolean, glowing: Boolean, flyingElytra: Boolean): Any {
@@ -136,35 +122,33 @@ class HoloPacketsImp_v1_14 : HoloPackets() {
         bits += if (crouched) 2 else 0
         bits += if (sprinting) 8 else 0
         bits += if (swimming) 10 else 0
-        bits += if (glowing) 20 else 0
         bits += if (invisible) 40 else 0
-        bits += if (flyingElytra) 80 else 0
-        return DataWatcher.Item(DataWatcherObject(0, DataWatcherRegistry.a), bits.toByte())
+        return DataWatcher.WatchableObject(0, 0, bits.toByte())
     }
 
     override fun getMetaEntityGravity(noGravity: Boolean): Any {
-        return DataWatcher.Item(DataWatcherObject(5, DataWatcherRegistry.i), noGravity)
+        return Any()
     }
 
     override fun getMetaEntitySilenced(silenced: Boolean): Any {
-        return DataWatcher.Item(DataWatcherObject(4, DataWatcherRegistry.i), silenced)
+        return DataWatcher.WatchableObject(0, 4, (if (silenced) 1 else 0).toByte())
     }
 
     override fun getMetaEntityCustomNameVisible(visible: Boolean): Any {
-        return DataWatcher.Item(DataWatcherObject(3, DataWatcherRegistry.i), visible)
+        return DataWatcher.WatchableObject(0, 3, (if (visible) 1 else 0).toByte())
     }
 
     override fun getMetaEntityCustomName(name: String): Any {
-        return DataWatcher.Item<Optional<IChatBaseComponent>>(DataWatcherObject(2, DataWatcherRegistry.f), Optional.of(ChatComponentText(name)))
+        return DataWatcher.WatchableObject(4, 2, name)
     }
 
     override fun getMetaArmorStandProperties(isSmall: Boolean, hasArms: Boolean, noBasePlate: Boolean, marker: Boolean): Any {
         var bits = 0
         bits += if (isSmall) 1 else 0
-        bits += if (hasArms) 4 else 0
+        bits += if (hasArms) 2 else 0
         bits += if (noBasePlate) 8 else 0
         bits += if (marker) 10 else 0
-        return DataWatcher.Item(DataWatcherObject(14, DataWatcherRegistry.a), bits.toByte())
+        return DataWatcher.WatchableObject(0, 10, bits.toByte())
     }
 
 }

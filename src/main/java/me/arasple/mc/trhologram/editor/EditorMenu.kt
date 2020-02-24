@@ -1,13 +1,13 @@
 package me.arasple.mc.trhologram.editor
 
 import io.izzel.taboolib.module.inject.TListener
-import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trhologram.TrHologram
 import me.arasple.mc.trhologram.commands.CommandDelete
 import me.arasple.mc.trhologram.editor.sub.ContentEditor
 import me.arasple.mc.trhologram.hologram.Hologram
 import me.arasple.mc.trhologram.utils.Locations
+import me.arasple.mc.trhologram.utils.Utils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -26,9 +26,9 @@ object EditorMenu {
 
     fun openEditor(hologram: Hologram, player: Player) {
         val menu = Bukkit.createInventory(Holder(hologram), InventoryType.HOPPER, "Hologram - " + hologram.id)
-        menu.setItem(1, Items.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.CONTENTS")))
-        menu.setItem(2, Items.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.MOVE")))
-        menu.setItem(3, Items.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.DELETE")))
+        menu.setItem(1, Utils.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.CONTENTS")))
+        menu.setItem(2, Utils.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.MOVE")))
+        menu.setItem(3, Utils.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.DELETE")))
 
         player.openInventory(menu)
         Sounds.BLOCK_CHEST_OPEN.playSound(player, 1f, 0f)
@@ -46,7 +46,7 @@ object EditorMenu {
                     1 -> ContentEditor.openEditor(hologram, e.whoClicked as Player)
                     2 -> {
                         e.whoClicked.closeInventory()
-                        hologram.loc = Locations.getLocationForHologram(e.whoClicked as Player?)
+                        hologram.updateLocation(Locations.getLocationForHologram(e.whoClicked as Player?))
                         Sounds.ENTITY_ENDERMAN_TELEPORT.playSound(hologram.loc)
                     }
                     3 -> {

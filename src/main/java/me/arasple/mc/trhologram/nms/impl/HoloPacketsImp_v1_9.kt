@@ -1,12 +1,13 @@
 package me.arasple.mc.trhologram.nms.impl
 
+import com.google.common.base.Optional
 import io.izzel.taboolib.module.lite.SimpleReflection
 import io.izzel.taboolib.module.packet.TPacketHandler
 import me.arasple.mc.trhologram.TrHologram
 import me.arasple.mc.trhologram.nms.HoloPackets
-import net.minecraft.server.v1_13_R1.*
+import net.minecraft.server.v1_9_R1.*
 import org.bukkit.Location
-import org.bukkit.craftbukkit.v1_13_R1.inventory.CraftItemStack
+import org.bukkit.craftbukkit.v1_9_R1.inventory.CraftItemStack
 import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
@@ -16,7 +17,7 @@ import java.util.*
  * @author Arasple
  * @date 2020/2/1 22:40
  */
-class HoloPacketsImp_v1_13 : HoloPackets() {
+class HoloPacketsImp_v1_9 : HoloPackets() {
 
     companion object {
         init {
@@ -42,7 +43,7 @@ class HoloPacketsImp_v1_13 : HoloPackets() {
                         Pair("h", 0),
                         Pair("i", 0),
                         Pair("j", 0),
-                        Pair("k", EntityTypes.ARMOR_STAND),
+                        Pair("k", 78),
                         Pair("l", 0)
                 )
         ))
@@ -62,7 +63,7 @@ class HoloPacketsImp_v1_13 : HoloPackets() {
                         Pair("h", 0),
                         Pair("i", 0),
                         Pair("j", 0),
-                        Pair("k", EntityTypes.ITEM),
+                        Pair("k", 2),
                         Pair("l", 0)
                 )
         ))
@@ -127,7 +128,7 @@ class HoloPacketsImp_v1_13 : HoloPackets() {
     }
 
     override fun getMetaEntityItemStack(itemStack: ItemStack): Any {
-        return DataWatcher.Item(DataWatcherObject(7, DataWatcherRegistry.g), CraftItemStack.asNMSCopy(itemStack))
+        return DataWatcher.Item(DataWatcherObject(6, DataWatcherRegistry.f), Optional.of(CraftItemStack.asNMSCopy(itemStack)))
     }
 
     override fun getMetaEntityProperties(onFire: Boolean, crouched: Boolean, sprinting: Boolean, swimming: Boolean, invisible: Boolean, glowing: Boolean, flyingElytra: Boolean): Any {
@@ -143,19 +144,19 @@ class HoloPacketsImp_v1_13 : HoloPackets() {
     }
 
     override fun getMetaEntityGravity(noGravity: Boolean): Any {
-        return DataWatcher.Item(DataWatcherObject(5, DataWatcherRegistry.i), noGravity)
+        return DataWatcher.Item(DataWatcherObject(5, DataWatcherRegistry.h), noGravity)
     }
 
     override fun getMetaEntitySilenced(silenced: Boolean): Any {
-        return DataWatcher.Item(DataWatcherObject(4, DataWatcherRegistry.i), silenced)
+        return DataWatcher.Item(DataWatcherObject(4, DataWatcherRegistry.h), silenced)
     }
 
     override fun getMetaEntityCustomNameVisible(visible: Boolean): Any {
-        return DataWatcher.Item(DataWatcherObject(3, DataWatcherRegistry.i), visible)
+        return DataWatcher.Item(DataWatcherObject(3, DataWatcherRegistry.h), visible)
     }
 
     override fun getMetaEntityCustomName(name: String): Any {
-        return DataWatcher.Item<Optional<IChatBaseComponent>>(DataWatcherObject(2, DataWatcherRegistry.f), Optional.of(ChatComponentText(name)))
+        return DataWatcher.Item(DataWatcherObject(2, DataWatcherRegistry.d), name)
     }
 
     override fun getMetaArmorStandProperties(isSmall: Boolean, hasArms: Boolean, noBasePlate: Boolean, marker: Boolean): Any {
@@ -164,7 +165,7 @@ class HoloPacketsImp_v1_13 : HoloPackets() {
         bits += if (hasArms) 4 else 0
         bits += if (noBasePlate) 8 else 0
         bits += if (marker) 10 else 0
-        return DataWatcher.Item(DataWatcherObject(14, DataWatcherRegistry.a), bits.toByte())
+        return DataWatcher.Item(DataWatcherObject(11, DataWatcherRegistry.a), bits.toByte())
     }
 
 }

@@ -146,8 +146,8 @@ class Hologram(var loadedFrom: String?, val id: String, var loc: Location, var c
     }
 
     fun delete() {
-        lines.forEach { line -> line.cancelTask() }
         destroyAll()
+        lines.forEach { line -> line.cancelTask() }
         HOLOGRAMS.values.forEach { it -> it.removeIf { it == this } }
     }
 
@@ -178,13 +178,15 @@ class Hologram(var loadedFrom: String?, val id: String, var loc: Location, var c
             } else {
                 lines.add(HologramLine(contents[i], this))
             }
-            viewers.forEach { player -> refreshLines(player) }
         }
+        viewers.forEach { player -> refreshLines(player) }
     }
 
     fun updateLocation(location: Location) {
-        if (!Locations.equals(location, location)) {
+        if (!Locations.equals(location, loc)) {
             loc = location
+            viewers.forEach { refreshLines(it) }
+            HologramManager.write(this, false)
         }
     }
 
