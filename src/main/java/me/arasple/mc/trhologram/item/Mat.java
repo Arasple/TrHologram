@@ -2,9 +2,13 @@ package me.arasple.mc.trhologram.item;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.Strings;
+import io.izzel.taboolib.util.item.Items;
 import io.izzel.taboolib.util.lite.Materials;
 import me.arasple.mc.trhologram.TrHologram;
-import me.arasple.mc.trhologram.utils.*;
+import me.arasple.mc.trhologram.utils.JavaScript;
+import me.arasple.mc.trhologram.utils.Skulls;
+import me.arasple.mc.trhologram.utils.Utils;
+import me.arasple.mc.trhologram.utils.Vars;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -48,10 +52,10 @@ public class Mat {
         }
         this.mat = rawMat.replaceAll("<([^<>].+)>", "").replaceAll(" ", "");
 
-        if (JsonItem.isJson(this.mat)) {
+        if (Utils.INSTANCE.isJson(this.mat)) {
             option = option != Option.VARIABLE ? Option.JSON : Option.VARIABLE;
             if (option == Option.JSON) {
-                staticItem = JsonItem.fromJson(rawMat);
+                staticItem = Items.fromJson(rawMat);
             }
         }
     }
@@ -82,8 +86,8 @@ public class Mat {
         if (staticItem != null) {
             return staticItem.clone();
         }
-        if (option == Option.VARIABLE && JsonItem.isJson(mat)) {
-            return JsonItem.fromJson(Vars.replace(player, mat));
+        if (option == Option.VARIABLE && Utils.INSTANCE.isJson(mat)) {
+            return Items.fromJson(Vars.replace(player, mat));
         }
         ItemStack item;
         ItemMeta meta;

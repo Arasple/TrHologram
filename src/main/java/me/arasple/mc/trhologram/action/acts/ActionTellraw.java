@@ -6,7 +6,7 @@ import io.izzel.taboolib.module.tellraw.TellrawJson;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.Variables;
 import me.arasple.mc.trhologram.action.base.AbstractAction;
-import me.arasple.mc.trhologram.utils.JsonItem;
+import me.arasple.mc.trhologram.utils.Utils;
 import me.arasple.mc.trhologram.utils.Vars;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.entity.Player;
@@ -41,7 +41,7 @@ public class ActionTellraw extends AbstractAction {
     public void setContent(String content) {
         content = TLocale.Translate.setColored(content);
         tellraw = TellrawJson.create();
-        if (JsonItem.isJson(content)) {
+        if (Utils.INSTANCE.isJson(content)) {
             this.rawJson = content;
             return;
         }

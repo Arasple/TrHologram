@@ -1,6 +1,7 @@
 package me.arasple.mc.trhologram.hologram
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trhologram.TrHologram
 import me.arasple.mc.trhologram.action.ActionGroups
@@ -30,13 +31,22 @@ class Hologram(var loadedFrom: String?, val id: String, var loc: Location, var c
 
         val HOLOGRAMS: MutableMap<String, MutableList<Hologram>> = mutableMapOf()
 
+        fun createHologram(plugin: Plugin, id: String, loc: Location, contents: List<String>): Hologram {
+            return createHologram(plugin, null, id, loc, contents, mutableListOf(), null, null)
+        }
+
+        fun createHologram(plugin: Plugin, id: String, loc: Location, contents: List<String>, actions: MutableList<ActionGroups>): Hologram {
+            return createHologram(plugin, null, id, loc, contents, actions, null, null)
+        }
+
         fun createHologram(plugin: Plugin, id: String, loc: Location, contents: List<String>, actions: MutableList<ActionGroups>, condition: String?, distance: String?): Hologram {
             return createHologram(plugin, null, id, loc, contents, actions, condition, distance)
         }
 
         fun createHologram(plugin: Plugin, file: File?, id: String, loc: Location, contents: List<String>, actions: MutableList<ActionGroups>, condition: String?, distance: String?): Hologram {
             val path = if (file == null || !file.exists()) null else file.path
-            val holo = Hologram(path, id, loc, contents, actions, condition!!, distance!!, NumberUtils.toDouble(distance, -1.0))
+            val holo = Hologram(path, id, loc, contents, actions, condition ?: "", distance
+                    ?: "", NumberUtils.toDouble(distance, -1.0))
             HOLOGRAMS.putIfAbsent(plugin.name, mutableListOf())
             HOLOGRAMS[plugin.name]?.add(holo)
             return holo
@@ -44,6 +54,26 @@ class Hologram(var loadedFrom: String?, val id: String, var loc: Location, var c
 
         fun getHolograms(): MutableList<Hologram> {
             return HOLOGRAMS.getOrDefault(TrHologram.getPlugin().name, mutableListOf())
+        }
+
+        fun display(player: Player) {
+            HOLOGRAMS.values.forEach { list ->
+                list.forEach { hologram ->
+                    if (hologram.isVisible(player) && !hologram.viewers.contains(player)) {
+                        hologram.display(player)
+                    } else if (!hologram.isVisible(player) && hologram.viewers.contains(player)) {
+                        hologram.destroy(player)
+                    }
+                }
+            }
+        }
+
+        fun destroy(player: Player) {
+            HOLOGRAMS.values.forEach { list ->
+                list.forEach { hologram ->
+                    hologram.removeViewer(player)
+                }
+            }
         }
 
     }
@@ -90,7 +120,7 @@ class Hologram(var loadedFrom: String?, val id: String, var loc: Location, var c
             return false
         }
         val distance = if (finalViewDistance > 0) finalViewDistance else NumberUtils.toDouble(JavaScript.run(player, viewDistance).toString(), -1.0).coerceAtMost(70.0)
-        return player.location.distance(loc) <= distance && JavaScript.run(player, viewCondition) as Boolean
+        return (distance <= 0 || player.location.distance(loc) <= distance) && (Strings.isEmpty(viewCondition) || JavaScript.run(player, viewCondition) as Boolean)
     }
 
     private fun refreshLines(player: Player) {
@@ -118,6 +148,7 @@ class Hologram(var loadedFrom: String?, val id: String, var loc: Location, var c
     fun delete() {
         lines.forEach { line -> line.cancelTask() }
         destroyAll()
+        HOLOGRAMS.values.forEach { it -> it.removeIf { it == this } }
     }
 
     fun removeViewer(player: Player) {

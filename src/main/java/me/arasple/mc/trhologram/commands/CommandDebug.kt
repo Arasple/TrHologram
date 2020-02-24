@@ -21,6 +21,8 @@ import java.io.InputStreamReader
  */
 class CommandDebug : BaseSubCommand() {
 
+    private val builtTime = YamlConfiguration.loadConfiguration(InputStreamReader(Files.getResource(TrHologram.getPlugin(), "plugin.yml"))).getString("built-time", "Null")
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
         if (sender is Player) {
             val player = sender
@@ -36,11 +38,17 @@ class CommandDebug : BaseSubCommand() {
 
         sender.sendMessage("§3--------------------------------------------------")
         sender.sendMessage("")
-        sender.sendMessage("§2Total Holograms: §6" + Hologram.HOLOGRAMS.values.sumBy { x -> x.size })
-        sender.sendMessage("§2Running Tasks: §6" + Bukkit.getScheduler().activeWorkers.stream().filter { t: BukkitWorker -> t.owner === TrHologram.getPlugin() }.count() + Bukkit.getScheduler().pendingTasks.stream().filter { t: BukkitTask -> t.owner === TrHologram.getPlugin() }.count())
-        sender.sendMessage("§2TabooLib: §f" + Plugin.getVersion())
+        sender.sendMessage("§2Total Holograms: ")
+        Hologram.HOLOGRAMS.forEach {
+            if (it.value.isNotEmpty()) {
+                sender.sendMessage("§r  §8[${it.key}§8] - §7${it.value.size}")
+            }
+        }
         sender.sendMessage("")
-        sender.sendMessage("§2TrHologram Built-Time: §b" + YamlConfiguration.loadConfiguration(InputStreamReader(Files.getResource(TrHologram.getPlugin(), "plugin.yml"))).getString("built-time", "Null"))
+        sender.sendMessage("§2Running Tasks: §6${Bukkit.getScheduler().activeWorkers.stream().filter { t: BukkitWorker -> t.owner === TrHologram.getPlugin() }.count() + Bukkit.getScheduler().pendingTasks.stream().filter { t: BukkitTask -> t.owner === TrHologram.getPlugin() }.count()}")
+        sender.sendMessage("§2TabooLib: §f${Plugin.getVersion()}")
+        sender.sendMessage("")
+        sender.sendMessage("§2TrHologram Built-Time: §b$builtTime")
         sender.sendMessage("")
         sender.sendMessage("§3--------------------------------------------------")
     }

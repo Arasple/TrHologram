@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class Vars {
 
-    private static final boolean isPlaceholderAPIInstalled = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+    private static final boolean IS_PLACEHOLDERAPI_INSTALLED = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
 
     public static String replace(Player player, String string) {
         return string != null ? setPlaceholders(player, string) : null;
@@ -33,7 +33,7 @@ public class Vars {
     }
 
     public static String setBracketPlaceholders(Player player, String content) {
-        return isPlaceholderAPIInstalled ? PlaceholderAPI.setBracketPlaceholders(player, content) : content;
+        return IS_PLACEHOLDERAPI_INSTALLED ? PlaceholderAPI.setBracketPlaceholders(player, content) : content;
     }
 
 }

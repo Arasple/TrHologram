@@ -218,7 +218,7 @@ open class HologramLine(private var text: String, val hologram: Hologram) {
     PRIVATE METHODS & UTILS
      */
     private fun getPackets(): HoloPackets {
-        return HoloPackets.getInst()
+        return HoloPackets.INSTANCE!!
     }
 
 

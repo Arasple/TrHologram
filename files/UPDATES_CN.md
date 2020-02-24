@@ -1,5 +1,15 @@
 # TrMenu Update Logs #
 
+#### VERSION 1.1
+  - ##### 1.10
+    - Since: 2020.2.24
+    - Updates:
+      - 取消对 1.8 的支持计划
+      - 修复了一吨 BUG
+      - 实现 1.13 以下版本的物品悬浮
+      - 每个版本独立 NMS ，更稳
+      - 完善了 API 内容
+      - 改善了大量 trash code
 #### VERSION 1.0
   - ##### 1.0-R2
     - Since: 2020.2.20

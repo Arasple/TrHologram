@@ -61,8 +61,8 @@ object HologramManager {
                 Hologram.getHolograms().forEach { hologram ->
                     if (hologram.loadedFrom != null) {
                         val file = File(hologram.loadedFrom)
-                        if (file.exists() && !FileWatcher.getWatcher().hasListener(file)) {
-                            FileWatcher.getWatcher().addSimpleListener(file) {
+                        if (file.exists() && !FileWatcher.watcher.hasListener(file)) {
+                            FileWatcher.watcher.addSimpleListener(file) {
                                 if (!writing) {
                                     try {
                                         hologram.initFromSection()
@@ -91,8 +91,8 @@ object HologramManager {
         val file = Files.file(FOLDER.path + "/" + id + ".yml")
         val holo = Hologram.createHologram(TrHologram.getPlugin(), file, id, loc, content.toList(), mutableListOf(), "null", "30")
         Bukkit.getOnlinePlayers().stream().filter { player -> holo.isVisible(player) }.forEach { player -> holo.display(player) }
-        if (!FileWatcher.getWatcher().hasListener(file)) {
-            FileWatcher.getWatcher().addSimpleListener(file) {
+        if (!FileWatcher.watcher.hasListener(file)) {
+            FileWatcher.watcher.addSimpleListener(file) {
                 if (!writing) {
                     try {
                         holo.initFromSection()
@@ -136,10 +136,9 @@ object HologramManager {
     }
 
     fun write(hologram: Hologram) {
-        if (hologram.loadedFrom == null) {
-            return
-        }
-        val file = File(hologram.loadedFrom)
+        writing = true
+        val loadedFrom = hologram.loadedFrom ?: return
+        val file = File(loadedFrom)
         val yaml = YamlConfiguration.loadConfiguration(file)
         correctData(yaml)
         yaml["viewDistance"] = hologram.viewDistance
@@ -150,6 +149,9 @@ object HologramManager {
             yaml.save(file)
         } catch (e: IOException) {
             e.printStackTrace()
+        }
+        if (TrHologram.getPlugin().isEnabled) {
+            Bukkit.getScheduler().runTaskLater(TrHologram.getPlugin(), Runnable { writing = false }, 20)
         }
     }
 

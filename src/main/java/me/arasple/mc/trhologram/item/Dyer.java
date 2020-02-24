@@ -1,4 +1,4 @@
-package me.arasple.mc.trhologram.utils;
+package me.arasple.mc.trhologram.item;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import org.bukkit.Color;

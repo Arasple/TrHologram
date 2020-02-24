@@ -4,17 +4,17 @@ import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trhologram.hologram.Hologram
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerChangedWorldEvent
 
 /**
  * @author Arasple
- * @date 2020/2/14 9:13
+ * @date 2020/2/24 15:20
  */
 @TListener
-class ListenerPlayerJoin : Listener {
+class ListenerPlayerChangeWorld : Listener {
 
     @EventHandler
-    fun onJoin(e: PlayerJoinEvent) {
+    fun onChange(e: PlayerChangedWorldEvent) {
         Hologram.display(e.player)
     }
 

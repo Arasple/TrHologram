@@ -20,21 +20,22 @@ GUIS:
   EDITOR:
     CONTENTS:
       material: WRITABLE_BOOK
-      name: '&3编辑内容'
+      name: '&b✏ &3编辑内容'
       lore:
         - ''
-        - '&7点击按钮编辑该全息图的内容'
+        - '&7点击此处获取一本书,'
+        - '&7你可以用其轻松编辑全息图!'
         - ''
     MOVE:
       material: ENDER_PEARL
-      name: '&2移动位置'
+      name: '&a◉ &2移动位置'
       lore:
         - ''
         - '&7点击移动该全息图到你当前的位置'
         - ''
     DELETE:
       material: LAVA_BUCKET
-      name: '&6删除'
+      name: '&c◆ &4删除'
       lore:
         - ''
         - '&8[&6&l!&8] &c该操作不可逆，永久删除'
