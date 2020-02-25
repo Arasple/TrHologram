@@ -3,6 +3,7 @@ package me.arasple.mc.trhologram.listeners
 import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trhologram.hologram.Hologram
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerChangedWorldEvent
 
@@ -13,7 +14,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent
 @TListener
 class ListenerPlayerChangeWorld : Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun onChange(e: PlayerChangedWorldEvent) {
         Hologram.display(e.player)
     }

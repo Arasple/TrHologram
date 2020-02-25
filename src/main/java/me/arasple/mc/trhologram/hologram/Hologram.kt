@@ -63,12 +63,13 @@ class Hologram(var loadedFrom: String?, val id: String, private var loc: Locatio
                         hologram.display(player)
                     } else if (!hologram.isVisible(player) && hologram.viewers.contains(player)) {
                         hologram.destroy(player)
+                        hologram.viewers.remove(player)
                     }
                 }
             }
         }
 
-        fun destroy(player: Player) {
+        fun destroyFor(player: Player) {
             HOLOGRAMS.values.forEach { list ->
                 list.forEach { hologram ->
                     hologram.removeViewer(player)

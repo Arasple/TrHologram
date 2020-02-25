@@ -15,7 +15,7 @@ class ListenerPlayerQuit : Listener {
 
     @EventHandler
     fun onQuit(e: PlayerQuitEvent) {
-        Hologram.destroy(e.player)
+        Hologram.destroyFor(e.player)
     }
 
 }
