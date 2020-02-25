@@ -140,9 +140,9 @@ object HologramManager {
         val file = File(loadedFrom)
         val yaml = YamlConfiguration.loadConfiguration(file)
         correctData(yaml)
-        yaml["viewDistance"] = hologram.viewDistance
+        yaml["viewDistance"] = hologram.getViewDistance()
         yaml["viewCondition"] = hologram.viewCondition
-        yaml["location"] = Locations.write(hologram.loc)
+        yaml["location"] = Locations.write(hologram.getLocation())
         yaml["contents"] = hologram.getRawContents()
         try {
             yaml.save(file)

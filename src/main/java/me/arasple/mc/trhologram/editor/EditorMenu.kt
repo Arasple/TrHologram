@@ -56,7 +56,7 @@ object EditorMenu {
                     if (nonPaper) 4 else 2 -> {
                         e.whoClicked.closeInventory()
                         hologram.updateLocation(Locations.getLocationForHologram(e.whoClicked as Player?))
-                        Sounds.ENTITY_ENDERMAN_TELEPORT.playSound(hologram.loc)
+                        Sounds.ENTITY_ENDERMAN_TELEPORT.playSound(hologram.getLocation())
                     }
                     if (nonPaper) 6 else 3 -> {
                         e.whoClicked.closeInventory()

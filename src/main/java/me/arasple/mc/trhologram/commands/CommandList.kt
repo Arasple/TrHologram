@@ -25,7 +25,7 @@ class CommandList : BaseSubCommand() {
         val filter = if (args.isNotEmpty()) ArrayUtil.arrayJoin(args, 0).toLowerCase() else null
 
         TLocale.sendTo(sender, "COMMANDS.LIST")
-        Hologram.getHolograms().stream().filter { hologram -> filter == null || hologram.id.contains(filter, true) }.forEach { hologram -> TellrawJson.create().append(Strings.replaceWithOrder(TLocale.asString("COMMANDS.LIST-FORMAT"), hologram.id)).hoverText("§7点击立即传送!").clickCommand("/minecraft:tp " + sender.name + " " + hologram.loc.x + " " + (hologram.loc.y + 1) + " " + hologram.loc.z).send(sender) }
+        Hologram.getHolograms().stream().filter { hologram -> filter == null || hologram.id.contains(filter, true) }.forEach { hologram -> TellrawJson.create().append(Strings.replaceWithOrder(TLocale.asString("COMMANDS.LIST-FORMAT"), hologram.id)).hoverText("§7点击立即传送!").clickCommand("/minecraft:tp " + sender.name + " " + hologram.getLocation().x + " " + (hologram.getLocation().y + 1) + " " + hologram.getLocation().z).send(sender) }
         sender.sendMessage("")
     }
 
