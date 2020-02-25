@@ -143,7 +143,7 @@ object HologramManager {
         yaml["viewDistance"] = hologram.viewDistance
         yaml["viewCondition"] = hologram.viewCondition
         yaml["location"] = Locations.write(hologram.loc)
-        yaml["contents"] = hologram.contents
+        yaml["contents"] = hologram.getRawContents()
         try {
             yaml.save(file)
         } catch (e: IOException) {

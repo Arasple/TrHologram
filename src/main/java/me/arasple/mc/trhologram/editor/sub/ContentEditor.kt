@@ -33,7 +33,7 @@ object ContentEditor {
     fun openEditor(hologram: Hologram, player: Player) {
         player.closeInventory()
 
-        val book = ItemBuilder(BookBuilder(Materials.WRITABLE_BOOK.parseItem()).title("TrHologramEditor_" + hologram.id).author("TrHologramEditor_" + hologram.id).pagesRaw(hologram.contents).build()).name(Strings.replaceWithOrder(TrHologram.SETTINGS.getStringColored("GUIS.EDITOR.BOOK.name"), hologram.id)).lore(TrHologram.SETTINGS.getStringListColored("GUIS.EDITOR.BOOK.lore")).build()
+        val book = ItemBuilder(BookBuilder(Materials.WRITABLE_BOOK.parseItem()).title("TrHologramEditor_" + hologram.id).author("TrHologramEditor_" + hologram.id).pagesRaw(hologram.getRawContents()).build()).name(Strings.replaceWithOrder(TrHologram.SETTINGS.getStringColored("GUIS.EDITOR.BOOK.name"), hologram.id)).lore(TrHologram.SETTINGS.getStringListColored("GUIS.EDITOR.BOOK.lore")).build()
         player.inventory.addItem(book)
         Sounds.ENTITY_ITEM_PICKUP.playSound(player)
         TLocale.sendTo(player, "COMMANDS.EDIT.BOOK-EDIT")
@@ -68,17 +68,23 @@ object ContentEditor {
         }
 
         @EventHandler(priority = EventPriority.HIGHEST)
-        fun onClick(e: PlayerEditBookEvent) {
+        fun onEdit(e: PlayerEditBookEvent) {
             val author = e.newBookMeta.author
             val title = e.newBookMeta.title
             if (e.player.hasPermission("trhologram.admin") && author != null && title != null && author.startsWith("TrHologramEditor_") && title.startsWith("TrHologramEditor_") && author.substring(17) == title.substring(17)) {
                 val hologram = TrHologramAPI.getHologramById(author.substring(17))
                 if (hologram != null) {
+                    e.isCancelled = true
                     hologram.updateLines(e.newBookMeta.pages)
                     HologramManager.write(hologram, false)
                     Sounds.ITEM_BOTTLE_FILL.playSound(e.player)
+                    print("Should be updated?")
                     TLocale.sendTo(e.player, "COMMANDS.EDIT.BOOK-EDIT-SUCCESS")
+                } else {
+                    print("Fuckto $author, $title")
                 }
+            } else {
+                print("Fuck1")
             }
         }
 

@@ -28,7 +28,6 @@ public class TrAction {
             new ActionBreak(),
             new ActionCatcher(),
             new ActionCleanCatchers(),
-            new ActionClose(),
             new ActionCommandConsole(),
             new ActionCommandOp(),
             new ActionConnect(),

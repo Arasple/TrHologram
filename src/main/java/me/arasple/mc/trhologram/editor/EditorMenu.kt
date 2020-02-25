@@ -25,10 +25,17 @@ import org.bukkit.inventory.InventoryHolder
 object EditorMenu {
 
     fun openEditor(hologram: Hologram, player: Player) {
-        val menu = Bukkit.createInventory(Holder(hologram), InventoryType.HOPPER, "Hologram - " + hologram.id)
-        menu.setItem(1, Utils.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.CONTENTS")))
-        menu.setItem(2, Utils.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.MOVE")))
-        menu.setItem(3, Utils.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.DELETE")))
+        val nonPaper = Utils.nonPaper
+        val menu =
+                if (nonPaper) {
+                    Bukkit.createInventory(Holder(hologram), 9, "Hologram - " + hologram.id)
+                } else {
+                    Bukkit.createInventory(Holder(hologram), InventoryType.HOPPER, "Hologram - " + hologram.id)
+                }
+
+        menu.setItem(if (nonPaper) 2 else 1, Utils.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.CONTENTS")))
+        menu.setItem(if (nonPaper) 4 else 2, Utils.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.MOVE")))
+        menu.setItem(if (nonPaper) 6 else 3, Utils.loadItem(TrHologram.SETTINGS.getConfigurationSection("GUIS.EDITOR.DELETE")))
 
         player.openInventory(menu)
         Sounds.BLOCK_CHEST_OPEN.playSound(player, 1f, 0f)
@@ -37,19 +44,21 @@ object EditorMenu {
     @TListener
     private class EventListener : Listener {
 
-        @EventHandler(priority = EventPriority.LOWEST)
+        @EventHandler(priority = EventPriority.HIGHEST)
         fun onClick(e: InventoryClickEvent) {
+            val nonPaper = Utils.nonPaper
+
             if (e.inventory.holder is Holder) {
                 val hologram = (e.inventory.holder as Holder).hologram
                 e.isCancelled = true
                 when (e.rawSlot) {
-                    1 -> ContentEditor.openEditor(hologram, e.whoClicked as Player)
-                    2 -> {
+                    if (nonPaper) 2 else 1 -> ContentEditor.openEditor(hologram, e.whoClicked as Player)
+                    if (nonPaper) 4 else 2 -> {
                         e.whoClicked.closeInventory()
                         hologram.updateLocation(Locations.getLocationForHologram(e.whoClicked as Player?))
                         Sounds.ENTITY_ENDERMAN_TELEPORT.playSound(hologram.loc)
                     }
-                    3 -> {
+                    if (nonPaper) 6 else 3 -> {
                         e.whoClicked.closeInventory()
                         CommandDelete.deleteHologram(e.whoClicked as Player, hologram.id)
                     }

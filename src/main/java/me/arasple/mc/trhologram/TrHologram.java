@@ -15,7 +15,7 @@ import me.arasple.mc.trhologram.utils.FileWatcher;
 @Plugin.Version(5.17)
 public final class TrHologram extends Plugin {
 
-    @TInject("settings.yml")
+    @TInject(value = "settings.yml", locale = "LOCALE")
     public final static TConfig SETTINGS = null;
     @TInject("§2Tr§aHologram")
     public final static TLogger LOGGER = null;

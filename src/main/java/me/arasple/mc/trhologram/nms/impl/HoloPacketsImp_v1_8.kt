@@ -17,7 +17,6 @@ import java.util.*
  * @author Arasple
  * @date 2020/2/24 23:07
  */
-@Deprecated
 class HoloPacketsImp_v1_8 : HoloPackets() {
 
     companion object {
@@ -34,9 +33,9 @@ class HoloPacketsImp_v1_8 : HoloPackets() {
         TPacketHandler.sendPacket(player, setPacket(PacketPlayOutSpawnEntity::class.java, PacketPlayOutSpawnEntity(),
                 mapOf(
                         Pair("a", entityId),
-                        Pair("b", location.x),
-                        Pair("c", location.y),
-                        Pair("d", location.z),
+                        Pair("b", MathHelper.floor(location.x * 32.0)),
+                        Pair("c", MathHelper.floor(location.y * 32.0)),
+                        Pair("d", MathHelper.floor(location.z * 32.0)),
                         Pair("j", 78)
                 )
         ))
@@ -47,13 +46,13 @@ class HoloPacketsImp_v1_8 : HoloPackets() {
         TPacketHandler.sendPacket(player, setPacket(PacketPlayOutSpawnEntity::class.java, PacketPlayOutSpawnEntity(),
                 mapOf(
                         Pair("a", entityId),
-                        Pair("b", location.x),
-                        Pair("c", location.y),
-                        Pair("d", location.z),
+                        Pair("b", MathHelper.floor(location.x * 32.0)),
+                        Pair("c", MathHelper.floor(location.y * 32.0)),
+                        Pair("d", MathHelper.floor(location.z * 32.0)),
                         Pair("j", 2)
                 )
         ))
-        sendEntityMetadata(player, entityId, getMetaEntityGravity(true), getMetaEntityItemStack(itemStack))
+        sendEntityMetadata(player, entityId, getMetaEntityItemStack(itemStack))
     }
 
     override fun destroyEntity(player: Player, entityId: Int) {
@@ -77,9 +76,9 @@ class HoloPacketsImp_v1_8 : HoloPackets() {
         TPacketHandler.sendPacket(player, setPacket(PacketPlayOutEntityTeleport::class.java, PacketPlayOutEntityTeleport(),
                 mapOf(
                         Pair("a", entityId),
-                        Pair("b", location.x),
-                        Pair("c", location.y),
-                        Pair("d", location.z),
+                        Pair("b", MathHelper.floor(location.x)),
+                        Pair("c", MathHelper.floor(location.y)),
+                        Pair("d", MathHelper.floor(location.z)),
                         Pair("e", 0),
                         Pair("f", 0),
                         Pair("g", false)
@@ -127,7 +126,7 @@ class HoloPacketsImp_v1_8 : HoloPackets() {
     }
 
     override fun getMetaEntityGravity(noGravity: Boolean): Any {
-        return Any()
+        TODO()
     }
 
     override fun getMetaEntitySilenced(silenced: Boolean): Any {

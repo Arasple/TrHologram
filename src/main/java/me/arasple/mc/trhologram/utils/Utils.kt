@@ -14,6 +14,14 @@ import org.bukkit.inventory.ItemStack
  */
 object Utils {
 
+    val nonPaper =
+            try {
+                Class.forName("com.destroystokyo.paper.event.server.PaperServerListPingEvent")
+                false
+            } catch (e: ClassNotFoundException) {
+                true
+            }
+
     fun loadItem(section: ConfigurationSection?): ItemStack {
         if (section != null) {
             val mat = section.getString("material")?.toUpperCase()?.replace(' ', '_')

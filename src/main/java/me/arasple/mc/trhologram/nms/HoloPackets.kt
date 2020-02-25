@@ -19,7 +19,7 @@ import java.util.*
  * 部分代码参考自项目
  * https://github.com/VolmitSoftware/Mortar
  */
-abstract class HoloPackets() {
+abstract class HoloPackets {
 
     abstract fun spawnArmorStand(player: Player, entityId: Int, uuid: UUID, location: Location)
     abstract fun spawnItem(player: Player, entityId: Int, uuid: UUID, location: Location, itemStack: ItemStack)
@@ -54,6 +54,7 @@ abstract class HoloPackets() {
                             Version.isAfter(Version.v1_13) -> Version.v1_15
                             Version.isAfter(Version.v1_11) -> Version.v1_12
                             Version.isAfter(Version.v1_9) -> Version.v1_9
+                            Version.isAfter(Version.v1_8) -> Version.v1_8
                             else -> Version.vNull
                         }
                 if (version == Version.vNull) {

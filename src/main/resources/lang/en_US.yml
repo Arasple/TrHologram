@@ -51,55 +51,55 @@ HASTEBIN:
 COMMANDS:
   QUIT:
     ==: TITLE
-    subtitle: '&7&l操作取消...'
+    subtitle: '&7&lCancelled...'
   CREATE:
     INPUT-NAME:
       ==: TITLE
-      title: '&a&l创建的全息图名称'
-      subtitle: '&7&l请输入需创建的全息图名称'
+      title: '&a&lCreate Hologram'
+      subtitle: '&7&lType a name'
       stay: 100
     EXISTED:
       ==: TITLE
-      title: '&c&l创建失败'
-      subtitle: '&7&l已经存在该名称的全息图了'
+      title: '&c&lCreate failed'
+      subtitle: '&7&lExists the same id hologram'
     SUCCESS:
       ==: TITLE
-      title: '&3&l创建成功'
-      subtitle: '&7&l支持二次编辑相关属性'
+      title: '&3&lCreated !'
+      subtitle: '&7&lYou can edit it now'
   DELETE:
     INPUT-NAME:
       ==: TITLE
-      title: '&3&l删除的全息图名称'
-      subtitle: '&7&l请输入需删除的全息图名称'
+      title: '&3&lDelete Hologram'
+      subtitle: '&7&lType a name'
       stay: 100
     NOT-EXIST:
       ==: TITLE
-      title: '&c&l删除失败'
-      subtitle: '&7&l不存在该名称的全息图'
+      title: '&c&lDelete failed'
+      subtitle: '&7&lHologram doesn''t exist'
     SUCCESS:
       ==: TITLE
-      title: '&6&l删除成功'
-      subtitle: '&7&l已删除该全息图'
+      title: '&6&lDeleted !'
+      subtitle: '&7&lSuccessfully deleted the hologram'
   EDIT:
     INPUT-NAME:
       ==: TITLE
-      title: '&3&l编辑的全息图名称'
-      subtitle: '&7&l请输入需管理的全息图名称'
+      title: '&3&lEdit Hologram'
+      subtitle: '&7&lType a name'
       stay: 100
     NOT-EXIST:
       ==: TITLE
-      title: '&c&l编辑失败'
-      subtitle: '&7&l不存在该名称的全息图'
+      title: '&c&lEdit failed'
+      subtitle: '&7&lHologram doesn''t exist'
     BOOK-EDIT:
       ==: ACTION
-      text: '&3&l已给予你一本编辑书，右键打开即可编辑全息图!'
+      text: '&3&lOffered you a edit book for this hologram'
     BOOK-EDIT-SUCCESS:
       ==: TITLE
-      title: '&a&l成功编辑'
-      subtitle: '&7&l全息内容行已更新'
+      title: '&a&lEdited'
+      subtitle: '&7&lHologram is updated now'
   LIST:
     - '&8--------------------------------------------------'
-    - '&2Tr&aHologram &7- Hologram List *&8(点击全息图名称可快速传送)'
+    - '&2Tr&aHologram &7- Hologram List *&8(Click to teleport)'
     - ''
   LIST-FORMAT:
     - '&8▫ &3{0}'
@@ -109,31 +109,31 @@ COMMANDS:
       - '&8--------------------------------------------------'
       - '&2Tr&aHologram &7- Advanced Hologram Manager &6*{0}'
       - ''
-      - '&8▪ <&7/&2{1} Create@create> &8— &7 引导创建一个新的全息图'
-      - '&8▪ <&7/&2{1} Delete@delete> &8— &7 删除一个全息图'
-      - '&8▪ <&7/&2{1} Edit@edit> &8— &7 管理一个全息图'
-      - '&8▪ <&7/&2{1} List@list> &8— &7 列出所有全息图'
-      - '&8▪ <&7/&2{1} Reload@reload> &8— &7 重新载入所有全息图'
+      - '&8▪ <&7/&2{1} Create@create> &8— &7 Create new hologram'
+      - '&8▪ <&7/&2{1} Delete@delete> &8— &7 Delete exist hologram'
+      - '&8▪ <&7/&2{1} Edit@edit> &8— &7 Manage hologram'
+      - '&8▪ <&7/&2{1} List@list> &8— &7 List all holograms'
+      - '&8▪ <&7/&2{1} Reload@reload> &8— &7 Reload all holograms'
       - ''
       - '&8--------------------------------------------------'
     args:
       create:
         hover: |-
-          &7点击这里引导创建一个新的全息图.
+          &7Click to create.
         command: '/trhologram create'
       delete:
         hover: |-
-          &7点击这里引导删除一个新的全息图.
+          &7Click to delete.
         command: '/trhologram delete'
       edit:
         hover: |-
-          &7点击这里引导编辑管理一个全息图
+          &7Click to edit.
         command: '/trhologram edit'
       list:
         hover: |-
-          &7点击这里快捷执行此命令.
+          &7Click to list holograms.
         command: '/trhologram list'
       reload:
         hover: |-
-          &7点击这里快捷执行此命令.
+          &7Click to reload all holograms.
         command: '/trhologram reload'

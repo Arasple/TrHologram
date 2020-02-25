@@ -1,50 +1,88 @@
-# 不要更改
+# Do not change
 CONFIG-VERSION: 1
 
-# 本地语言加载顺序
-LOCALE-PRIORITY:
-  - zh_CN
+# Locale
+LOCALE:
   - en_US
+  - zh_CN
+  - vi_VN
 
-# 选项
+# Options
 OPTIONS:
-  # 自动重载是否播放音效
+  # Play sound when auto reloaded
   AUTO-RELOAD-SOUND: true
-  # 每行全息图的盔甲架高度距离
+  # Distance between hologram armor stands
   ARMORSTAND-DISTANCE: 0.25
-  # 是否使用小盔甲架 (非特殊情况不要关)
+  # Should use small holograms (Do not recommend disable)
   ARMORSTAND-SMALL: true
 
-# 菜单自定义显示物品
+# Custom GUI Items
 GUIS:
   EDITOR:
     BOOK:
-      name: '&7「 &b编辑全息图 &8[{0}] &7」'
+      name: '&7「 &bEdit Hologram &8[{0}] &7」'
       lore:
         - ''
-        - '&7左键交互方块点击打开管理 GUI'
-        - '&7右键点击快捷编辑内容'
+        - '&7Left-Click block to open GUI'
+        - '&7Right-Click to edit contents'
         - ''
     CONTENTS:
       material: WRITABLE_BOOK
-      name: '&b✏ &3编辑内容'
+      name: '&b✏ &3Edit Contents'
       lore:
         - ''
-        - '&7点击此处获取一本书,'
-        - '&7你可以用其轻松编辑全息图!'
+        - '&7Click here to get a book,'
+        - '&7Where you can edit the contents'
+        - '&7of this hologram!'
         - ''
     MOVE:
       material: ENDER_PEARL
-      name: '&a◉ &2移动位置'
+      name: '&a◉ &2Move Hologram'
       lore:
         - ''
-        - '&7点击移动该全息图到你当前的位置'
+        - '&7Click to move this hologram'
+        - '&7to your location'
         - ''
     DELETE:
       material: LAVA_BUCKET
-      name: '&c◆ &4删除'
+      name: '&c◆ &4Delete Hologram'
       lore:
         - ''
-        - '&8[&6&l!&8] &c该操作不可逆，永久删除'
-        - '&7点击即可删除该全息图'
+        - '&8[&6&l!&8] &cThis operation is irreversible'
+        - '&cand will permanently delete hologram'
         - ''
+        - '&7Click to deletehologram'
+        - ''
+
+# zh_CN
+#
+#    BOOK:
+#      name: '&7「 &b编辑全息图 &8[{0}] &7」'
+#      lore:
+#        - ''
+#        - '&7左键交互方块点击打开管理 GUI'
+#        - '&7右键点击快捷编辑内容'
+#        - ''
+#    CONTENTS:
+#      material: WRITABLE_BOOK
+#      name: '&b✏ &3编辑内容'
+#      lore:
+#        - ''
+#        - '&7点击此处获取一本书,'
+#        - '&7你可以用其轻松编辑全息图!'
+#        - ''
+#    MOVE:
+#      material: ENDER_PEARL
+#      name: '&a◉ &2移动位置'
+#      lore:
+#        - ''
+#        - '&7点击移动该全息图到你当前的位置'
+#        - ''
+#    DELETE:
+#      material: LAVA_BUCKET
+#      name: '&c◆ &4删除'
+#      lore:
+#        - ''
+#        - '&8[&6&l!&8] &c该操作不可逆，永久删除'
+#        - '&7点击即可删除该全息图'
+#        - ''

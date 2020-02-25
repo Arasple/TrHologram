@@ -7,8 +7,7 @@ version: ${version}
 softdepend:
   - PlaceholderAPI
   - HolographicDisplays
-  - TrMenu
 
 built-time: ${built}
 
-description: Better Holographic Displays
+description: Powerful advanced dynamic hologram

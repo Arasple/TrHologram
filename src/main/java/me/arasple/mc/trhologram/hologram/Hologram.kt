@@ -18,7 +18,7 @@ import java.io.File
  * @author Arasple
  * @date 2020/2/20 15:14
  */
-class Hologram(var loadedFrom: String?, val id: String, var loc: Location, var contents: List<String>, var actions: MutableList<ActionGroups>, var viewCondition: String, var viewDistance: String, var finalViewDistance: Double) {
+class Hologram(var loadedFrom: String?, val id: String, var loc: Location, private var contents: List<String>, var actions: MutableList<ActionGroups>, var viewCondition: String, var viewDistance: String, var finalViewDistance: Double) {
 
     val viewers: MutableList<Player> = mutableListOf()
     val lines: MutableList<HologramLine> = mutableListOf()
@@ -195,6 +195,10 @@ class Hologram(var loadedFrom: String?, val id: String, var loc: Location, var c
         finalViewDistance = NumberUtils.toDouble(viewDistance, -1.0)
     }
 
+    fun getRawContents(): List<String> {
+        return contents
+    }
+
     /*
     LOAD FROM FILE
      */
@@ -206,7 +210,9 @@ class Hologram(var loadedFrom: String?, val id: String, var loc: Location, var c
         viewDistance = data.getString("viewDistance")!!
         updateLines(data.getStringList("contents"))
         if (TrHologram.SETTINGS.getBoolean("OPTIONS.AUTO-RELOAD-SOUND")) {
-            Sounds.ITEM_BOTTLE_FILL.playSound(loc, 1f, 0f)
+            if (Sounds.ITEM_BOTTLE_FILL.isSupported) {
+                Sounds.ITEM_BOTTLE_FILL.playSound(loc, 1f, 0f)
+            }
         }
         viewers.forEach { player: Player -> refreshLines(player) }
     }
