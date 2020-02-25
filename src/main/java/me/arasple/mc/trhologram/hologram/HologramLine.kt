@@ -204,7 +204,11 @@ open class HologramLine(private var text: String, val hologram: Hologram) {
         val updateOption = UPDATE_PERIOD.matcher(text)
         if (updateOption.find()) {
             val find = updateOption.group()
-            update = NumberUtils.toInt(find.replace(">", "").split(Regex(":"), 2).toTypedArray()[1], -1)
+            val value = NumberUtils.toInt(find.replace(">", "").split(Regex(":"), 2).toTypedArray()[1], -1)
+            if (update != value) {
+                update = value
+                runTask()
+            }
             text = text.replace(find, "")
         }
         mat = Mat.mat(text)
