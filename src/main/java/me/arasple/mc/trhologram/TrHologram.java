@@ -30,7 +30,7 @@ public final class TrHologram extends Plugin {
     }
 
     public static double getTrVersion() {
-        return 1.1;
+        return 1.11;
     }
 
 }

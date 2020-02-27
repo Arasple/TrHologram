@@ -22,6 +22,9 @@ public class Locations {
 
     public static Location from(String loc) {
         String[] location = loc.replaceAll(", ", ",").split(",");
+        if (Bukkit.getWorld(location[0]) == null) {
+            return null;
+        }
         return new Location(Bukkit.getWorld(location[0]), NumberUtils.toDouble(location[1]), NumberUtils.toDouble(location[2]), NumberUtils.toDouble(location[3]));
     }
 

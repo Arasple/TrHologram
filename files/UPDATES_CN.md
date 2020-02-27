@@ -1,6 +1,10 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.11
+    - Since: 2020.2.27
+    - Updates:
+      - Fixed issue#3
   - ##### 1.10
     - Since: 2020.2.24
     - Updates:

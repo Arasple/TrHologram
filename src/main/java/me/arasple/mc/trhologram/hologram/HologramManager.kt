@@ -49,6 +49,9 @@ object HologramManager {
                 val name = file.name.replace("(?i).yml".toRegex(), "")
                 val data = YamlConfiguration.loadConfiguration(file)
                 var hologram = TrHologramAPI.getHologramById(name)
+                if (Locations.from(data.getString("location")) == null) {
+                    continue
+                }
                 if (hologram == null) {
                     hologram = Hologram.createHologram(TrHologram.getPlugin(), name, Locations.from(data.getString("location")), data.getStringList("contents"), TrAction.readActionGroups(data["actions"]), data.getString("viewCondition", "100"), data.getString("viewDistance"))
                 } else {
@@ -56,7 +59,7 @@ object HologramManager {
                 }
                 hologram.loadedFrom = file.path
             }
-            if (sender != null && !Hologram.getHolograms().isEmpty()) {
+            if (sender != null && Hologram.getHolograms().isNotEmpty()) {
                 TLocale.sendTo(sender, "HOLOGRAM.LOADED-SUCCESS", Hologram.getHolograms().size, System.currentTimeMillis() - start)
                 Hologram.getHolograms().forEach { hologram ->
                     if (hologram.loadedFrom != null) {

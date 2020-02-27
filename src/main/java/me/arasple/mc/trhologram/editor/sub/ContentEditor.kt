@@ -80,11 +80,7 @@ object ContentEditor {
                     Sounds.ITEM_BOTTLE_FILL.playSound(e.player)
                     print("Should be updated?")
                     TLocale.sendTo(e.player, "COMMANDS.EDIT.BOOK-EDIT-SUCCESS")
-                } else {
-                    print("Fuckto $author, $title")
                 }
-            } else {
-                print("Fuck1")
             }
         }
 

@@ -223,7 +223,6 @@ class Hologram(var loadedFrom: String?, val id: String, private var loc: Locatio
                 Sounds.ITEM_BOTTLE_FILL.playSound(loc, 1f, 0f)
             }
         }
-        viewers.forEach { player: Player -> refreshLines(player) }
     }
 
     fun initFromSection() {
