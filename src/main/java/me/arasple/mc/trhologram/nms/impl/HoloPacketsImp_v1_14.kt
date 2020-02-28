@@ -165,7 +165,7 @@ class HoloPacketsImp_v1_14 : HoloPackets() {
         bits += if (hasArms) 4 else 0
         bits += if (noBasePlate) 8 else 0
         bits += if (marker) 10 else 0
-        return DataWatcher.Item(DataWatcherObject(14, DataWatcherRegistry.a), bits.toByte())
+        return DataWatcher.Item(DataWatcherObject(13, DataWatcherRegistry.a), bits.toByte())
     }
 
 }
