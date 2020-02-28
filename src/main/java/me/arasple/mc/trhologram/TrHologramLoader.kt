@@ -1,9 +1,7 @@
 package me.arasple.mc.trhologram
 
-import io.izzel.taboolib.module.command.lite.CommandBuilder
 import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.util.Files
 import me.arasple.mc.trhologram.nms.HoloPackets
 import me.arasple.mc.trhologram.updater.Updater
 import org.bukkit.configuration.file.YamlConfiguration
@@ -23,9 +21,6 @@ class TrHologramLoader {
     }
 
     fun active() {
-        CommandBuilder.create("Trhdbug", TrHologram.getPlugin()).execute { sender, _ ->
-            sender.sendMessage("§3TrHd Built-Time: §b" + YamlConfiguration.loadConfiguration(InputStreamReader(Files.getResource(TrHologram.getPlugin(), "plugin.yml"))).getString("built-time", "Null"))
-        }.build()
         TLocale.sendToConsole("PLUGIN.ENABLED", TrHologram.getPlugin().description.version)
     }
 

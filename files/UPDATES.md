@@ -4,7 +4,18 @@
   - ##### 1.11
     - Since: 2020.2.27
     - Updates:
-      - Fixed issue#3
+      > English
+      - Fixed [Issue#3](https://github.com/Arasple/TrHologram/issues/3)
+      - Fixed 1.13, 1.14 armorstand issues
+      - Fixed player can't see holograms after respawn
+      - Fixed auto reload buggy
+      
+      > 简体中文
+      - 修复了 [Issue#3](https://github.com/Arasple/TrHologram/issues/3)
+      - 修复了 1.13, 1.14 盔甲架兼容问题
+      - 修复了玩家重生后无法看到盔甲架的问题
+      - 修复了自动重载造成的重复行
+
   - ##### 1.10
     - Since: 2020.2.24
     - Updates:

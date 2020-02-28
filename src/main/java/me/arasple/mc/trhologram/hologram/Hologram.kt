@@ -174,26 +174,9 @@ class Hologram(var loadedFrom: String?, val id: String, private var loc: Locatio
 
     fun updateLines(contents: List<String>) {
         this.contents = contents
-        while (contents.size < lines.size) {
-            val line = lines[lines.size - 1]
-            viewers.forEach { player -> line.destroy(player) }
-            lines.remove(line)
-        }
-        val size: Int = lines.size
-        for (i in contents.indices) {
-            if (size > i) {
-                val line = lines[i]
-                if (line.mat == null) {
-                    line.updateDisplayText(contents[i])
-                } else {
-                    viewers.forEach { player -> line.destroy(player) }
-                    lines.remove(line)
-                    lines.add(HologramLine(contents[i], this))
-                }
-            } else {
-                lines.add(HologramLine(contents[i], this))
-            }
-        }
+        this.lines.forEach { line -> viewers.forEach { line.destroy(it) } }
+        this.lines.clear()
+        contents.forEach { this.lines.add(HologramLine(it, this)) }
         viewers.forEach { player -> refreshLines(player) }
     }
 
