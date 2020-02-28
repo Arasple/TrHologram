@@ -56,6 +56,15 @@ class Hologram(var loadedFrom: String?, val id: String, private var loc: Locatio
             return HOLOGRAMS.getOrDefault(TrHologram.getPlugin().name, mutableListOf())
         }
 
+        fun deleteHolograms(plugin: Plugin) {
+            if (HOLOGRAMS.containsKey(plugin.name)) {
+                HOLOGRAMS[plugin.name]?.forEach {
+                    it.delete(false)
+                }
+                HOLOGRAMS[plugin.name]?.clear()
+            }
+        }
+
         fun display(player: Player) {
             HOLOGRAMS.values.forEach { list ->
                 list.forEach { hologram ->
@@ -161,9 +170,15 @@ class Hologram(var loadedFrom: String?, val id: String, private var loc: Locatio
     }
 
     fun delete() {
+        delete(true)
+    }
+
+    fun delete(remove: Boolean) {
         destroyAll()
         lines.forEach { line -> line.cancelTask() }
-        HOLOGRAMS.values.forEach { it -> it.removeIf { it == this } }
+        if (remove) {
+            HOLOGRAMS.values.forEach { it -> it.removeIf { it == this } }
+        }
     }
 
     fun removeViewer(player: Player) {
