@@ -124,6 +124,20 @@ class Hologram(var loadedFrom: String?, val id: String, private var loc: Locatio
         return (distance <= 0 || player.location.distance(loc) <= distance) && (Strings.isEmpty(viewCondition) || JavaScript.run(player, viewCondition) as Boolean)
     }
 
+    private fun refreshLocations(player: Player) {
+        var location: Location = loc.clone()
+        val y = TrHologram.SETTINGS.getDouble("OPTIONS.ARMORSTAND-DISTANCE", 0.25)
+        for (i in lines.indices) {
+            val line: HologramLine = lines[i]
+            if (!line.isEmpty()) {
+                if (line.hasArmortsandSpawned(player)) {
+                    line.updateLocation(location, player)
+                }
+            }
+            location = location.clone().subtract(0.0, if (line.mat != null) y * 3 else y, 0.0)
+        }
+    }
+
     private fun refreshLines(player: Player) {
         var location: Location = loc.clone()
         val y = TrHologram.SETTINGS.getDouble("OPTIONS.ARMORSTAND-DISTANCE", 0.25)
@@ -186,7 +200,7 @@ class Hologram(var loadedFrom: String?, val id: String, private var loc: Locatio
     fun updateLocation(location: Location) {
         if (!Locations.equals(location, loc)) {
             loc = location
-            viewers.forEach { refreshLines(it) }
+            viewers.forEach { refreshLocations(it) }
             HologramManager.write(this, false)
         }
     }
@@ -205,7 +219,7 @@ class Hologram(var loadedFrom: String?, val id: String, private var loc: Locatio
     }
 
     fun getLocation(): Location {
-        return loc
+        return loc.clone()
     }
 
     /*

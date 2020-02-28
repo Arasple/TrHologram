@@ -51,7 +51,8 @@ abstract class HoloPackets {
             try {
                 val version =
                         when {
-                            Version.isAfter(Version.v1_13) -> Version.v1_15
+                            Version.isAfter(Version.v1_15) -> Version.v1_15
+                            Version.isAfter(Version.v1_13) -> Version.v1_14
                             Version.isAfter(Version.v1_11) -> Version.v1_12
                             Version.isAfter(Version.v1_9) -> Version.v1_9
                             Version.isAfter(Version.v1_8) -> Version.v1_8
