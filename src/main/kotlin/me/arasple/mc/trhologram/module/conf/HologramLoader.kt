@@ -15,6 +15,8 @@ import me.arasple.mc.trhologram.module.action.Reaction
 import me.arasple.mc.trhologram.module.condition.Condition
 import me.arasple.mc.trhologram.module.display.Hologram
 import me.arasple.mc.trhologram.module.display.texture.Texture
+import me.arasple.mc.trhologram.module.display.texture.TrMenuTexture
+import me.arasple.mc.trhologram.module.hook.HookPlugin
 import me.arasple.mc.trhologram.util.Parser
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
@@ -105,11 +107,12 @@ object HologramLoader {
             val offset = options[Property.OFFSET]?.toDoubleOrNull() ?: lineSpacing
             val isItem = itemDisplay != null
             val fix = if (isItem) 0.5 else 0.0
+            val texture = if (!HookPlugin.TRMENU) Texture.createTexture(itemDisplay!!) else TrMenuTexture(itemDisplay!!)
 
             position = position.clone(y = -(fix + offset))
 
             val hologram = when {
-                isItem -> ItemHologram(Texture.createTexture(itemDisplay!!), position, update)
+                isItem -> ItemHologram(texture, position, update)
                 line.isBlank() -> null
                 else -> TextHologram(line, position, update)
             }
