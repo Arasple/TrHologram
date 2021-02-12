@@ -1,24 +1,30 @@
 # TrHologram
 
-#### Incredible Dynamic Hologram-Plugin
+#### Modern & Lightweight Holographic-Plugin
+![](https://img.shields.io/github/last-commit/Arasple/TrHologram?logo=artstation&style=for-the-badge&color=9266CC)![](https://img.shields.io/github/issues/Arasple/TrHologram?style=for-the-badge&logo=slashdot)![](https://img.shields.io/github/release/Arasple/TrHologram?style=for-the-badge&color=00C58E&logo=ionic)
+
+---
+
+![bStats](https://bstats.org/signatures/bukkit/TrHologram.svg)
 
 ---
 
 ### Features
 
-- **Performance**
+- **Highly Optimized**
     - 100% Packet-based hologram (armorstand, item), no-lag
     - Async update tasks
 
-- **Advance**
-    - Individual update task for each component
-    - View-Distance & View-Condition & Custom offset
-    - Floating item display support
-    - Touchable hologram with custom reactions
-    - Functions, PlaceholderAPI support
-  
+- **Light & Powerful**
+    - Individual update task for each line
+    - Custom view distance & view condition
+    - Custom line spacing and offset for individual line  
+    - Support to display floating item with custom texture
+    - Interactive holograms (4 clicktypes integrated)
+    - PlaceholderAPI and custom functions support
+
 - **API**
-    - Friendly use developer API, create dynamic hologram easily
+    - Friendly developer API, create dynamic holograms easily
 
 ---
 
