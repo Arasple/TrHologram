@@ -37,7 +37,7 @@ class Position(
     }
 
     override fun toString(): String {
-        return "Position(world=${world.name}, x=$x, y=$y, z=$z)"
+        return "${world.name} ~ $x, $y, $z"
     }
 
     companion object {

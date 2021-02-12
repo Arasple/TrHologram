@@ -5,10 +5,9 @@ import io.izzel.taboolib.loader.Plugin
 import io.izzel.taboolib.loader.PluginBoot
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trhologram.api.Settings
-import me.arasple.mc.trhologram.module.display.Hologram
 import me.arasple.mc.trhologram.module.conf.HologramLoader
+import me.arasple.mc.trhologram.module.display.Hologram
 import org.bukkit.Bukkit
-import kotlin.system.measureNanoTime
 
 /**
  * @author Arasple
@@ -28,10 +27,8 @@ object TrHologram : Plugin() {
         }
 
         Settings.init()
-        measureNanoTime { HologramLoader.load() }.div(1000000.0).let {
-            TLocale.sendToConsole("Hologram.Loaded", Hologram.holograms.size, it)
-        }
 
+        HologramLoader.load(Bukkit.getConsoleSender())
         TLocale.sendToConsole("Plugin.Enabled", plugin.description.version)
     }
 

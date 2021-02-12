@@ -1,5 +1,6 @@
 package me.arasple.mc.trhologram.module.conf
 
+import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.Files
 import me.arasple.mc.trhologram.TrHologram
 import me.arasple.mc.trhologram.api.Position
@@ -16,9 +17,11 @@ import me.arasple.mc.trhologram.module.display.Hologram
 import me.arasple.mc.trhologram.module.display.texture.Texture
 import me.arasple.mc.trhologram.util.Parser
 import org.bukkit.Location
+import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.nio.charset.StandardCharsets
+import kotlin.system.measureNanoTime
 
 /**
  * @author Arasple
@@ -49,6 +52,12 @@ object HologramLoader {
         }
     }
 
+    fun load(sender: CommandSender) {
+        measureNanoTime { load() }.div(1000000.0).let {
+            TLocale.sendTo(sender, "Hologram.Loaded", Hologram.holograms.size, it)
+        }
+    }
+
     fun load(): Int {
         Hologram.clear()
         TrHologramAPI.resetIndex()
@@ -74,11 +83,11 @@ object HologramLoader {
         val contents = conf.getStringList("Contents").ifEmpty { listOf("TrHologram") }
         val actions = mutableMapOf<Type, Reaction>()
 
-        val all = conf.getStringList("Actions.All")
-        val left = conf.getStringList("Actions.Left")
-        val shiftLeft = conf.getStringList("Actions.Shift_Left")
-        val right = conf.getStringList("Actions.Right")
-        val shiftRight = conf.getStringList("Actions.Shift_Right")
+        val all = conf.get("Actions.All").toStringList()
+        val left = conf.get("Actions.Left").toStringList()
+        val shiftLeft = conf.get("Actions.Shift_Left").toStringList()
+        val right = conf.get("Actions.Right").toStringList()
+        val shiftRight = conf.get("Actions.Shift_Right").toStringList()
 
         if (all.isNotEmpty()) actions[Type.ALL] = Reaction(all)
         if (left.isNotEmpty()) actions[Type.LEFT] = Reaction(left)
@@ -116,7 +125,8 @@ object HologramLoader {
             viewCondition,
             refreshCondition,
             holograms,
-            ClickReaction(actions)
+            ClickReaction(actions),
+            file.absolutePath
         )
         Hologram.holograms.add(hologram)
         return hologram
@@ -135,5 +145,12 @@ object HologramLoader {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
+    private fun Any?.toStringList(): List<String> {
+        return when (this) {
+            is List<*> -> this as List<String>
+            else -> listOf(toString())
+        }
+    }
 
 }

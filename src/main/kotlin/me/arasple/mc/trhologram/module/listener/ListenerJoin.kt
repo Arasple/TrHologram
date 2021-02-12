@@ -2,6 +2,7 @@ package me.arasple.mc.trhologram.module.listener
 
 import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trhologram.module.display.Hologram
+import me.arasple.mc.trhologram.util.Tasks
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -15,7 +16,9 @@ class ListenerJoin : Listener {
 
     @EventHandler
     fun onJoin(e: PlayerJoinEvent) {
-        Hologram.refreshAll(e.player)
+        Tasks.delay(3) {
+            Hologram.refreshAll(e.player)
+        }
     }
 
 }

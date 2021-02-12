@@ -3,7 +3,7 @@ Location: world~0,83,24
 Options:
   Line-Spacing: 0.25
   View-Distance: 10
-  View-Condition: 'player sneaking'
+  View-Condition: 'perm **'
   Refresh-Condition: 20
 
 #
@@ -17,11 +17,12 @@ Contents:
   - 'Hello &3Tr&bHologram'
   - '{item=head:%player_name%}'
   - ''
-  - '%server_time_HH:mm:ss%{update:40}'
-  - 'Your name: &a%player_name%'
+  - '&7Date: &f%server_time_HH:mm:ss%{update:20}'
+  - '&7Name: &a%player_name%'
 
 Actions:
-  Left: [ '' ]
-  Shift_Left: [ '' ]
+  Left: 'tell color *"&3Hello, you left-clicked this hologram!"'
+  Shift_Left:
+    - 'tell color *"&7What''s up?"'
   Right: [ '' ]
   Shift_Right: [ '' ]

@@ -16,6 +16,10 @@ inline class Condition(private val expression: String) : BaseCondition {
         else eval(player, expression)
     }
 
+    override fun toString(): String {
+        return expression
+    }
+
     companion object {
 
         fun eval(player: Player, script: String): EvalResult {

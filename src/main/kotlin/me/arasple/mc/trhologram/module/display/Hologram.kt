@@ -20,11 +20,12 @@ import org.bukkit.scheduler.BukkitTask
 class Hologram(
     val id: String,
     val position: Position,
-    private val viewDistance: Double = 0.0,
-    private val viewCondition: BaseCondition? = null,
-    private val refreshCondition: Long = -1,
+    val viewDistance: Double = 0.0,
+    val viewCondition: BaseCondition? = null,
+    val refreshCondition: Long = -1,
     val components: List<HologramComponent>,
-    val reactions: ClickHandler
+    val reactions: ClickHandler,
+    val loadedPath: String? = null
 ) {
 
     companion object {

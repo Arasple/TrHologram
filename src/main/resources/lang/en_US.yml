@@ -21,6 +21,22 @@ Paster:
   Failed: '&8[&2Tr&aHologram&8] &cAn error occurred while pasting the content. Please check out console.'
 
 Command:
+  Reload: '&8[&2Tr&aHologram&8] &aFINE &8| &3Successfully reloaded the hologram &a{0}'
+  List:
+    Error: '&8[&2Tr&aHologram&8] &7NORM &8| &7No holograms are found... &8(Filter: {0})'
+    Header:
+      - ''
+      - '&8[&2Tr&aHologram&8] &aFINE &8| &7Loaded &f{0} &7holograms &8(Filter: {1}): '
+      - ''
+    Format:
+      ==: JSON
+      text: '&8- <&3{0}@hd> &7| &8(Lines: {1})&r'
+      args:
+        hd:
+          hover: '&7Click to teleport'
+          command: '/trhologram teleport {0}'
+  Not-Exists: '&8[&2Tr&aHologram&8] &7NORM &8| &7Hologram &f{0} does not exist.'
+  Deleted: '&8[&2Tr&aHologram&8] &aNORM &8| &3Deleted hologram named &3{0}&3.'
   Existed:
     - ==: TITLE
       title: '&c&lOPERATION FAILED'
