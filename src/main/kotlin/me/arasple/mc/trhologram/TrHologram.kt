@@ -9,6 +9,7 @@ import me.arasple.mc.trhologram.module.conf.HologramLoader
 import me.arasple.mc.trhologram.module.display.Hologram
 import org.bukkit.Bukkit
 
+
 /**
  * @author Arasple
  * @date 2021/1/25 12:11
@@ -27,7 +28,6 @@ object TrHologram : Plugin() {
         }
 
         Settings.init()
-
         HologramLoader.load(Bukkit.getConsoleSender())
         TLocale.sendToConsole("Plugin.Enabled", plugin.description.version)
     }

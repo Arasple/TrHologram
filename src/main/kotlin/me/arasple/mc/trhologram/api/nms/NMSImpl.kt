@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.lite.SimpleEquip
 import io.izzel.taboolib.util.item.Equipments
+import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trhologram.api.nms.packet.*
 import net.minecraft.server.v1_16_R1.*
 import net.minecraft.server.v1_16_R3.ChatComponentText
@@ -88,14 +89,12 @@ class NMSImpl : NMS() {
                 // Modify Item
                 is PacketItemModify -> {
                     var entity = 0
-                    if (it.isInvisible) entity += 0x80.toByte()
+                    val itemNull = Items.isNull(it.itemStack)
+                    if (it.isInvisible || itemNull) entity += 0x80.toByte()
                     if (it.isGlowing) entity += 0x40.toByte()
 
-                    sendEntityMetadata(
-                        player, id,
-                        getMetaEntityByte(0, entity.toByte()),
-                        getMetaItem(indexs[1], it.itemStack)
-                    )
+                    sendEntityMetadata(player, id, getMetaEntityByte(0, entity.toByte()))
+                    if (!itemNull) sendEntityMetadata(player, id, getMetaItem(indexs[1], it.itemStack))
                 }
                 // Entity Name
                 is PacketArmorStandName -> {
