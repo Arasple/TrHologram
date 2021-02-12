@@ -1,0 +1,27 @@
+Location: world~0,83,24
+
+Options:
+  Line-Spacing: 0.25
+  View-Distance: 10
+  View-Condition: 'player sneaking'
+  Refresh-Condition: 20
+
+#
+# Options:
+# {update/refresh: <ticks>} -> Hologram Tick Period
+# {item: <texture expression>} -> ItemHologram
+# {offset: <customOffset>}
+#
+
+Contents:
+  - 'Hello &3Tr&bHologram'
+  - '{item=head:%player_name%}'
+  - ''
+  - '%server_time_HH:mm:ss%{update:40}'
+  - 'Your name: &a%player_name%'
+
+Actions:
+  Left: [ '' ]
+  Shift_Left: [ '' ]
+  Right: [ '' ]
+  Shift_Right: [ '' ]

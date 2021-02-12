@@ -1,13 +1,20 @@
-name: TrHologram
-main: me.arasple.mc.trhologram.TrHologram
+name: ${name}
+main: ${main}
+
+author: Arasple
 
 api-version: 1.13
 version: ${version}
 
-softdepend:
-  - PlaceholderAPI
-  - HolographicDisplays
+lib-version: ${libVersion}
+lib-download: ${libDownload}
+loader-version: ${loaderVersion}
+
+github: https://github.com/Arasple/${name}
+description: Modern & Advanced Hologram-Plugin for Minecraft Servers
+
+softdepend: [ PlaceholderAPI ]
 
 built-time: ${built}
-
-description: Powerful advanced dynamic hologram
+built-by: ${builder}
+built-os: ${os}
