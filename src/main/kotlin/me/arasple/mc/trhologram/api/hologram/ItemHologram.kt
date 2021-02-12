@@ -3,6 +3,7 @@ package me.arasple.mc.trhologram.api.hologram
 import me.arasple.mc.trhologram.api.Position
 import me.arasple.mc.trhologram.api.TrHologramAPI
 import me.arasple.mc.trhologram.api.base.ItemTexture
+import me.arasple.mc.trhologram.api.base.TickEvent
 import me.arasple.mc.trhologram.api.nms.packet.*
 import me.arasple.mc.trhologram.module.display.texture.Texture
 import me.arasple.mc.trhologram.module.service.Performance
@@ -20,7 +21,7 @@ class ItemHologram(
     texture: ItemTexture,
     position: Position,
     tick: Long = -1,
-    onTick: (HologramComponent) -> Unit = {}
+    onTick: TickEvent? = null
 ) : HologramComponent(position.clone(y = 1.3), tick, onTick) {
 
     constructor(
@@ -58,7 +59,7 @@ class ItemHologram(
 
         Tasks.delay {
             PacketEntityMount(teid, IntArray(1) { entityId }).send(player)
-            Tasks.delay { PacketEntityDestroy(teid).send(player) }
+            Tasks.delay(5) { PacketEntityDestroy(teid).send(player) }
         }
 
         viewers.add(player.name)

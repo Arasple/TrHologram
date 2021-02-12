@@ -1,6 +1,7 @@
 package me.arasple.mc.trhologram.api.hologram
 
 import me.arasple.mc.trhologram.api.Position
+import me.arasple.mc.trhologram.api.base.TickEvent
 import me.arasple.mc.trhologram.api.nms.packet.PacketArmorStandModify
 import me.arasple.mc.trhologram.api.nms.packet.PacketArmorStandName
 import me.arasple.mc.trhologram.api.nms.packet.PacketEntitySpawn
@@ -18,7 +19,7 @@ class TextHologram(
     name: String,
     position: Position,
     tick: Long,
-    onTick: (HologramComponent) -> Unit = {}
+    onTick: TickEvent? = null
 ) : HologramComponent(position, tick, onTick) {
 
     var text: String = name

@@ -2,6 +2,7 @@ package me.arasple.mc.trhologram.api.nms
 
 import com.mojang.authlib.GameProfile
 import io.izzel.taboolib.kotlin.Reflex
+import io.izzel.taboolib.module.inject.TInject
 import io.izzel.taboolib.module.packet.TPacketHandler
 import io.izzel.taboolib.util.asm.AsmVersionControl
 import me.arasple.mc.trhologram.TrHologram
@@ -20,9 +21,8 @@ abstract class NMS {
         /**
          * @see NMSImpl
          */
-        val INSTANCE: NMS =
-            AsmVersionControl.createNMS("me.arasple.mc.trhologram.api.nms.NMSImpl").translate(TrHologram.plugin)
-                .newInstance() as NMS
+        @TInject(asm = "me.arasple.mc.trhologram.api.nms.NMSImpl")
+        lateinit var INSTANCE: NMS
 
     }
 

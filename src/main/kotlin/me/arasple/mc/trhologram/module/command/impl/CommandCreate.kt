@@ -30,7 +30,7 @@ class CommandCreate : BaseSubCommand() {
             return
         }
 
-        HologramLoader.create(args[0], player.location.clone().add(0.0, 4.0, 0.0)).refreshVisibility(player)
+        HologramLoader.create(args[0], player.location.clone().add(0.0, 2.0, 0.0)).refreshVisibility(player)
         TLocale.sendTo(sender, "Command.Created")
     }
 

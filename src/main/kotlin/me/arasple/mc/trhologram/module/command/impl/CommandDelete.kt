@@ -6,7 +6,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trhologram.module.display.Hologram
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
+import java.io.File
 
 /**
  * @author Arasple
@@ -22,12 +22,12 @@ class CommandDelete : BaseSubCommand() {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
         val hologram = Hologram.findHologram { it.id.equals(args[0], true) }
-        val player = sender as Player
 
         if (hologram == null) {
             TLocale.sendTo(sender, "Command.Not-Exists", args[0])
             return
         }
+        hologram.loadedPath?.let { File(it).delete() }
         hologram.destroy()
         Hologram.holograms.remove(hologram)
         TLocale.sendTo(sender, "Command.Deleted", args[0])

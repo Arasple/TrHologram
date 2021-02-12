@@ -29,7 +29,7 @@ import kotlin.system.measureNanoTime
  */
 object HologramLoader {
 
-    private val folder = Files.file(TrHologram.plugin.dataFolder, "holograms")
+    private val folder = Files.folder(TrHologram.plugin.dataFolder, "holograms")
 
     fun create(id: String, location: Location): Hologram {
         val hologram =
@@ -39,11 +39,11 @@ object HologramLoader {
             Contents:
               - '&7Hello, &2Tr&aHologram&7!'
               - '{item: emerald}'
-              - ''
               - '&3Nice to meet you, &a{{player name}}'
+              - '&3Author: &aArasple{offset=0.35}'
 
             Actions:
-              All: 'tell color *&bHi, you just clicked this hologram'
+              All: 'tell color *"&bHi, you just clicked this hologram"'
             """.trimIndent()
 
         Files.file(folder, "$id.yml").also {

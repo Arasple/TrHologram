@@ -17,25 +17,16 @@ class CommandHandler : BaseMainCommand() {
     )
     val create: BaseSubCommand = CommandCreate()
 
-
-    @SubCommand(
-        permission = "trhologram.command.delete",
-        description = "Delete an existed hologram",
-        type = CommandType.PLAYER
-    )
+    @SubCommand(description = "Delete an existed hologram", type = CommandType.PLAYER)
     val delete: BaseSubCommand = CommandDelete()
 
-    @SubCommand(
-        permission = "trhologram.command.list",
-        description = "List loaded holograms"
-    )
+    @SubCommand(permission = "trhologram.command.list", description = "List loaded holograms")
     val list: BaseSubCommand = CommandList()
 
+    @SubCommand(permission = "trhologram.command.movehere", description = "Teleport hologram to your location")
+    val movehere: BaseSubCommand = CommandMovehere()
 
-    @SubCommand(
-        permission = "trhologram.command.reload",
-        description = "Reload holograms"
-    )
+    @SubCommand(permission = "trhologram.command.reload", description = "Reload holograms")
     val reload: BaseSubCommand = CommandReload()
 
     @SubCommand(permission = "trhologram.command.mirror", description = "Monitor performance")

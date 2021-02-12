@@ -3,6 +3,7 @@ package me.arasple.mc.trhologram.api.hologram
 import io.izzel.taboolib.kotlin.Tasks
 import me.arasple.mc.trhologram.api.Position
 import me.arasple.mc.trhologram.api.TrHologramAPI
+import me.arasple.mc.trhologram.api.base.TickEvent
 import me.arasple.mc.trhologram.api.nms.packet.PacketEntityDestroy
 import me.arasple.mc.trhologram.util.Tasks.shut
 import org.bukkit.Bukkit
@@ -17,7 +18,7 @@ import kotlin.properties.Delegates
 abstract class HologramComponent(
     val position: Position,
     tick: Long = -1,
-    val onTick: (HologramComponent) -> Unit = {}
+    val onTick: TickEvent?
 ) {
 
     abstract fun spawn(player: Player)
@@ -46,7 +47,7 @@ abstract class HologramComponent(
                 player == null || !player.isOnline
             }
             onTick()
-            onTick(this)
+            onTick?.run(this)
         }
     }
 

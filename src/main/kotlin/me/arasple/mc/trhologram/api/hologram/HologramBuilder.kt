@@ -4,6 +4,7 @@ import me.arasple.mc.trhologram.api.Position
 import me.arasple.mc.trhologram.api.base.BaseCondition
 import me.arasple.mc.trhologram.api.base.ClickHandler
 import me.arasple.mc.trhologram.api.base.ItemTexture
+import me.arasple.mc.trhologram.api.base.TickEvent
 import me.arasple.mc.trhologram.module.display.Hologram
 import org.bukkit.Location
 import java.util.*
@@ -43,7 +44,7 @@ class HologramBuilder(
         text: String,
         update: Long = -1,
         offset: Double = this.offset,
-        onTick: (HologramComponent) -> Unit = {}
+        onTick: TickEvent? = null
     ): HologramBuilder {
         interspace(offset)
         components.add(TextHologram(text, position, update, onTick))
@@ -58,7 +59,7 @@ class HologramBuilder(
         texture: ItemTexture,
         update: Long = -1,
         offset: Double = this.offset,
-        onTick: (HologramComponent) -> Unit = {}
+        onTick: TickEvent? = null
     ): HologramBuilder {
         interspace(0.5 + offset)
         components.add(ItemHologram(texture, position, update, onTick))
