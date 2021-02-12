@@ -16,7 +16,7 @@ class ListenerJoin : Listener {
 
     @EventHandler
     fun onJoin(e: PlayerJoinEvent) {
-        Tasks.delay(3) {
+        Tasks.delay(50, true) {
             Hologram.refreshAll(e.player)
         }
     }
