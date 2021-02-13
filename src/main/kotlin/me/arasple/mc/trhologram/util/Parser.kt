@@ -12,26 +12,28 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2021/2/10 21:15
  */
-object Parser {
+private val PLACEHOLDER_API = "[%{](.+?)[%}]".toRegex()
 
-    fun parseLocation(string: String): Location {
-        val (world, loc) = string.split("~", limit = 2)
-        val (x, y, z) = loc.split(",", limit = 3).map { it.toDouble() }
+fun String.containsPlaceholder(): Boolean {
+    return PLACEHOLDER_API.find(this) != null
+}
 
-        return Location(Bukkit.getWorld(world), x, y, z)
-    }
+fun String.parseLocation(): Location {
+    val (world, loc) = split("~", limit = 2)
+    val (x, y, z) = loc.split(",", limit = 3).map { it.toDouble() }
 
-    fun fromLocation(location: Location): String {
-        val world = location.world.name
-        val x = Coerce.format(location.x)
-        val y = Coerce.format(location.y)
-        val z = Coerce.format(location.z)
+    return Location(Bukkit.getWorld(world), x, y, z)
+}
 
-        return "$world~$x,$y,$z"
-    }
+fun Location.parseString(): String {
+    val world = world.name
+    val x = Coerce.format(x)
+    val y = Coerce.format(y)
+    val z = Coerce.format(z)
 
-    fun parseString(player: Player, string: String): String {
-        return TColor.translate(TLocale.Translate.setPlaceholders(player, KetherFunction.parse(string){ sender = player }))
-    }
+    return "$world~$x,$y,$z"
+}
 
+fun Player.parseString(string: String): String {
+    return TColor.translate(TLocale.Translate.setPlaceholders(this, KetherFunction.parse(string) { sender = player }))
 }

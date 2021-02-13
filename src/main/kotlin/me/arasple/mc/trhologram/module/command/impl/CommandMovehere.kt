@@ -5,7 +5,7 @@ import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trhologram.module.display.Hologram
 import me.arasple.mc.trhologram.module.editor.Editor
-import me.arasple.mc.trhologram.util.Parser
+import me.arasple.mc.trhologram.util.parseString
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -32,7 +32,7 @@ class CommandMovehere : BaseSubCommand() {
         }
 
         Editor.modify(hologram) {
-            it["Location"] = Parser.fromLocation(player.location)
+            it["Location"] = player.location.parseString()
         }
     }
 

@@ -6,7 +6,7 @@ import me.arasple.mc.trhologram.api.nms.packet.PacketArmorStandModify
 import me.arasple.mc.trhologram.api.nms.packet.PacketArmorStandName
 import me.arasple.mc.trhologram.api.nms.packet.PacketEntitySpawn
 import me.arasple.mc.trhologram.module.service.Performance
-import me.arasple.mc.trhologram.util.Parser
+import me.arasple.mc.trhologram.util.parseString
 import org.bukkit.entity.Player
 
 /**
@@ -29,7 +29,7 @@ class TextHologram(
         }
 
     private fun updateName(player: Player) {
-        PacketArmorStandName(entityId, true, Parser.parseString(player, text)).send(player)
+        PacketArmorStandName(entityId, true, player.parseString(text)).send(player)
     }
 
     override fun spawn(player: Player) {

@@ -17,7 +17,8 @@ import me.arasple.mc.trhologram.module.display.Hologram
 import me.arasple.mc.trhologram.module.display.texture.Texture
 import me.arasple.mc.trhologram.module.display.texture.TrMenuTexture
 import me.arasple.mc.trhologram.module.hook.HookPlugin
-import me.arasple.mc.trhologram.util.Parser
+import me.arasple.mc.trhologram.util.parseLocation
+import me.arasple.mc.trhologram.util.parseString
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
@@ -36,7 +37,7 @@ object HologramLoader {
     fun create(id: String, location: Location): Hologram {
         val hologram =
             """
-            Location: ${Parser.fromLocation(location)}
+            Location: ${location.parseString()}
 
             Contents:
               - '&7Hello, &2Tr&aHologram&7!'
@@ -73,7 +74,7 @@ object HologramLoader {
     fun load(file: File): Hologram {
         val id = file.nameWithoutExtension
         val conf = YamlConfiguration.loadConfiguration(file)
-        val location = Parser.parseLocation(conf.getString("Location") ?: throw Exception("No valid location"))
+        val location = conf.getString("Location")?.parseLocation() ?: throw Exception("No valid location")
         val lineSpacing = conf.getDouble("Options.Line-Spacing", Settings.INSTANCE.lineSpacing)
         val viewDistance =
             conf.getDouble("Options.View-Distance", Settings.INSTANCE.viewDistance).coerceAtMost(50.0)

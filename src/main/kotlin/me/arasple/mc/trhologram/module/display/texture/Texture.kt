@@ -7,8 +7,8 @@ import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trhologram.api.base.ItemTexture
 import me.arasple.mc.trhologram.util.Heads
-import me.arasple.mc.trhologram.util.Parser
-import me.arasple.mc.trhologram.util.Regexs
+import me.arasple.mc.trhologram.util.containsPlaceholder
+import me.arasple.mc.trhologram.util.parseString
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -32,7 +32,7 @@ class Texture(
 
     override fun generate(player: Player): ItemStack {
         if (static != null) return static
-        val temp = if (dynamic) Parser.parseString(player, texture) else texture
+        val temp = if (dynamic) player.parseString(texture) else texture
 
         val itemStack = when (type) {
             TextureType.NORMAL -> parseMaterial(temp)
@@ -43,7 +43,7 @@ class Texture(
         if (itemStack != null) {
             val itemMeta = itemStack.itemMeta
             meta.forEach { (meta, metaValue) ->
-                val value = Parser.parseString(player, metaValue)
+                val value = player.parseString(metaValue)
                 when (meta) {
                     TextureMeta.DATA_VALUE -> itemStack.durability = value.toShortOrNull() ?: 0
                     TextureMeta.MODEL_DATA -> {
@@ -108,7 +108,7 @@ class Texture(
                 }
             }
 
-            val dynamic = Regexs.containsPlaceholder(texture)
+            val dynamic = texture.containsPlaceholder()
             if (type == TextureType.NORMAL) {
                 if (texture.startsWith("{")) {
                     val json = try {
