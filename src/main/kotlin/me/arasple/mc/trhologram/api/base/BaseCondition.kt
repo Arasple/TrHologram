@@ -1,7 +1,7 @@
 package me.arasple.mc.trhologram.api.base
 
-import me.arasple.mc.trhologram.module.condition.Result
 import org.bukkit.entity.Player
+import java.util.concurrent.CompletableFuture
 
 /**
  * @author Arasple
@@ -9,6 +9,6 @@ import org.bukkit.entity.Player
  */
 fun interface BaseCondition {
 
-    fun eval(player: Player): Result
+    fun eval(player: Player): CompletableFuture<Boolean>
 
 }

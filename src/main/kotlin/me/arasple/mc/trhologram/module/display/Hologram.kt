@@ -114,16 +114,18 @@ class Hologram(
     }
 
     private fun visibleByCondition(player: Player): Boolean {
-        return visibleByCondition.computeIfAbsent(player.name) {
-            viewCondition?.eval(player)?.asBoolean(false) ?: true
+        return if (visibleByCondition.containsKey(player.name)) {
+            visibleByCondition[player.name] ?: true
+        } else {
+            refreshCondition(player)
+            true
         }
     }
 
-    private fun refreshCondition(player: Player): Boolean {
-        val result = viewCondition?.eval(player)?.asBoolean(false) ?: true
-        visibleByCondition[player.name] = result
-
-        return result
+    private fun refreshCondition(player: Player) {
+        viewCondition?.eval(player)?.thenApply {
+            visibleByCondition[player.name] = it
+        }
     }
 
     fun forViewers(viewer: (Player) -> Unit) {

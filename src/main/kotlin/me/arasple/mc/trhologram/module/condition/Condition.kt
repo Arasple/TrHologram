@@ -1,10 +1,11 @@
 package me.arasple.mc.trhologram.module.condition
 
 import io.izzel.taboolib.kotlin.kether.KetherShell
+import io.izzel.taboolib.util.Coerce
 import me.arasple.mc.trhologram.api.base.BaseCondition
 import me.arasple.mc.trhologram.module.service.Performance
 import org.bukkit.entity.Player
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.CompletableFuture
 
 /**
  * @author Arasple
@@ -12,8 +13,8 @@ import java.util.concurrent.TimeUnit
  */
 inline class Condition(private val expression: String) : BaseCondition {
 
-    override fun eval(player: Player): Result {
-        return if (expression.isEmpty()) Result.TRUE
+    override fun eval(player: Player): CompletableFuture<Boolean> {
+        return if (expression.isEmpty()) CompletableFuture.completedFuture(true)
         else eval(player, expression)
     }
 
@@ -23,13 +24,13 @@ inline class Condition(private val expression: String) : BaseCondition {
 
     companion object {
 
-        fun eval(player: Player, script: String): Result {
+        fun eval(player: Player, script: String): CompletableFuture<Boolean> {
             Performance.MIRROR.check("Hologram:Handler:ScriptEval") {
-                return Result(
-                    KetherShell.eval(script, namespace = listOf("trhologram", "trmenu")) {
-                        sender = player
-                    }.get(20, TimeUnit.MILLISECONDS)
-                )
+                return KetherShell.eval(script, namespace = listOf("trhologram", "trmenu")) {
+                    sender = player
+                }.thenApply {
+                    Coerce.toBoolean(it)
+                }
             }
             throw Exception()
         }
