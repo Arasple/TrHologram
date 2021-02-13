@@ -16,7 +16,6 @@ import org.bukkit.Bukkit
  */
 object TrHologram : Plugin() {
 
-
     override fun onLoad() {
         TLocale.sendToConsole("Plugin.Loading", Bukkit.getBukkitVersion())
     }

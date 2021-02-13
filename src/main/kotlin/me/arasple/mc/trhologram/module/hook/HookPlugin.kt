@@ -10,7 +10,9 @@ object HookPlugin {
 
     val TRMENU by lazy {
 
-        Bukkit.getPluginManager().getPlugin("TrMenu")?.isEnabled ?: false
+        val plugin = Bukkit.getPluginManager().getPlugin("TrMenu")
+
+        plugin != null && plugin.isEnabled && plugin.description.version.startsWith("3")
 
     }
 
