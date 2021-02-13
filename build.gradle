@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'me.arasple.mc.trhologram'
-version '2.0-BETA3'
+version '2.0-BETA4'
 
 task buildJar(dependsOn: [clean, shadowJar])
 

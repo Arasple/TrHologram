@@ -6,22 +6,22 @@ import org.bukkit.inventory.ItemStack
  * @author Arasple
  * @date 2021/1/31 11:53
  */
-inline class Result(private val any: Any?) {
+inline class Result(val raw: Any?) {
 
     fun asBoolean(def: Boolean = false): Boolean {
-        return when (any) {
-            is Boolean -> any
-            is String -> any.parseBoolean()
-            else -> def || any.toString().parseBoolean()
+        return when (raw) {
+            is Boolean -> raw
+            is String -> raw.parseBoolean()
+            else -> def || raw.toString().parseBoolean()
         }
     }
 
     fun asItemStack(): ItemStack? {
-        return any as ItemStack?
+        return raw as ItemStack?
     }
 
     fun asString(): String {
-        return any.toString()
+        return raw.toString()
     }
 
     companion object {

@@ -2,6 +2,7 @@ package me.arasple.mc.trhologram.module.action
 
 import io.izzel.taboolib.kotlin.kether.KetherShell
 import org.bukkit.entity.Player
+import java.util.concurrent.CompletableFuture
 
 /**
  * @author Arasple
@@ -9,7 +10,7 @@ import org.bukkit.entity.Player
  */
 inline class Reaction(private val scripts: List<String>) {
 
-    fun eval(player: Player): Any? {
+    fun eval(player: Player): CompletableFuture<Any?> {
         return KetherShell.eval(scripts, true, listOf("trhologram")) {
             sender = player
         }

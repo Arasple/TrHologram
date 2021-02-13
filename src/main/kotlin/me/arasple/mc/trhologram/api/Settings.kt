@@ -2,7 +2,8 @@ package me.arasple.mc.trhologram.api
 
 import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.inject.TInject
-import io.izzel.taboolib.util.lite.cooldown.Cooldown
+import io.izzel.taboolib.util.Baffle
+import java.util.concurrent.TimeUnit
 
 /**
  * @author Arasple
@@ -33,9 +34,7 @@ class Settings {
     }
 
     val interactDelay by lazy {
-        Cooldown("TrHologram", CONF.getLong("Hologram.Interact-Min-Delay")).also {
-            it.plugin = "TrHologram"
-        }
+        Baffle.of(CONF.getLong("Hologram.Interact-Min-Delay").coerceAtLeast(100), TimeUnit.MILLISECONDS)
     }
 
     val lineSpacing by lazy {

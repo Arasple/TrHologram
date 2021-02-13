@@ -134,6 +134,7 @@ class NMSImpl : NMS() {
      * 私有方法 & NMS 相关处理
      */
 
+    // TODO
     private fun updateEquipment(player: Player, entityId: Int, slot: EquipmentSlot, itemStack: ItemStack) {
         when {
             version >= 11600 -> {

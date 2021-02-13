@@ -4,6 +4,7 @@ import io.izzel.taboolib.kotlin.kether.KetherShell
 import me.arasple.mc.trhologram.api.base.BaseCondition
 import me.arasple.mc.trhologram.module.service.Performance
 import org.bukkit.entity.Player
+import java.util.concurrent.TimeUnit
 
 /**
  * @author Arasple
@@ -24,9 +25,11 @@ inline class Condition(private val expression: String) : BaseCondition {
 
         fun eval(player: Player, script: String): Result {
             Performance.MIRROR.check("Hologram:Handler:ScriptEval") {
-                return Result(KetherShell.eval(script, namespace = listOf("trhologram", "trmenu")) {
-                    sender = player
-                })
+                return Result(
+                    KetherShell.eval(script, namespace = listOf("trhologram", "trmenu")) {
+                        sender = player
+                    }.get(20, TimeUnit.MILLISECONDS)
+                )
             }
             throw Exception()
         }
