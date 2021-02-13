@@ -19,7 +19,7 @@ class ListenerHologramInteract : Listener {
     fun onInteract(e: HologramInteractEvent) {
         val player = e.player
 
-        if (!Settings.INSTANCE.interactDelay.hasNext(player.name)) {
+        if (Settings.INSTANCE.interactDelay.hasNext(player.name)) {
             Tasks.delay(1, false) { e.hologram.reactions.eval(player, e.type) }
         }
     }
