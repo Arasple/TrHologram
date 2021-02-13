@@ -38,7 +38,7 @@ class Hologram(
         }
 
         fun refreshAll(player: Player) {
-            Performance.MIRROR.check("Hologram:refreshVisibility") {
+            Performance.MIRROR.check("Hologram:Event:Refresh") {
                 externalHolograms.filter { it.sameWorld(player) }.forEach {
                     it.refreshVisibility(player)
                 }

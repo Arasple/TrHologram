@@ -1,6 +1,6 @@
 package me.arasple.mc.trhologram.api.base
 
-import me.arasple.mc.trhologram.module.condition.EvalResult
+import me.arasple.mc.trhologram.module.condition.Result
 import org.bukkit.entity.Player
 
 /**
@@ -9,6 +9,6 @@ import org.bukkit.entity.Player
  */
 fun interface BaseCondition {
 
-    fun eval(player: Player): EvalResult
+    fun eval(player: Player): Result
 
 }

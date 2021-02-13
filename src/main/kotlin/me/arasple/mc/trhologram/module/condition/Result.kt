@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack
  * @author Arasple
  * @date 2021/1/31 11:53
  */
-inline class EvalResult(private val any: Any?) {
+inline class Result(private val any: Any?) {
 
     fun asBoolean(def: Boolean = false): Boolean {
         return when (any) {
@@ -26,7 +26,7 @@ inline class EvalResult(private val any: Any?) {
 
     companion object {
 
-        val TRUE = EvalResult(true)
+        val TRUE = Result(true)
         private val REGEX_TRUE = "true|yes|on".toRegex()
 
         fun String.parseBoolean(): Boolean {

@@ -59,14 +59,14 @@ class ItemHologram(
 
         Tasks.delay {
             PacketEntityMount(teid, IntArray(1) { entityId }).send(player)
-            Tasks.delay(5) { PacketEntityDestroy(teid).send(player) }
+            Tasks.delay(20 * 5) { PacketEntityDestroy(teid).send(player) }
         }
 
         viewers.add(player.name)
     }
 
     override fun onTick() {
-        Performance.MIRROR.check("Hologram:onTick:ItemComponent") {
+        Performance.MIRROR.check("Hologram:Event:Tick:ItemComponent") {
             forViewers { updateItem(it) }
         }
     }

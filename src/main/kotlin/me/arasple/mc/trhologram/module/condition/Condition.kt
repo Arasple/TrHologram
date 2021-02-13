@@ -11,8 +11,8 @@ import org.bukkit.entity.Player
  */
 inline class Condition(private val expression: String) : BaseCondition {
 
-    override fun eval(player: Player): EvalResult {
-        return if (expression.isEmpty()) EvalResult.TRUE
+    override fun eval(player: Player): Result {
+        return if (expression.isEmpty()) Result.TRUE
         else eval(player, expression)
     }
 
@@ -22,10 +22,10 @@ inline class Condition(private val expression: String) : BaseCondition {
 
     companion object {
 
-        fun eval(player: Player, script: String): EvalResult {
-            Performance.MIRROR.check("Script:evalCondition") {
-                return EvalResult(KetherShell.eval(script, namespace = listOf("trhologram", "trmenu")) {
-                    this.sender = player
+        fun eval(player: Player, script: String): Result {
+            Performance.MIRROR.check("Hologram:Handler:ScriptEval") {
+                return Result(KetherShell.eval(script, namespace = listOf("trhologram", "trmenu")) {
+                    sender = player
                 })
             }
             throw Exception()

@@ -22,6 +22,7 @@ object TrHologram : Plugin() {
 
     override fun onEnable() {
         if (Version.isBefore(Version.v1_9)) {
+            TLocale.sendToConsole("Plugin.UnsupportedVersion", plugin.description.version)
             PluginBoot.setDisabled(true)
             return
         }

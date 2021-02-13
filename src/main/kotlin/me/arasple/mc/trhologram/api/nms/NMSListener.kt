@@ -17,7 +17,7 @@ object NMSListener {
     @TPacket(type = TPacket.Type.RECEIVE)
     fun useEntity(player: Player, packet: Packet): Boolean {
         if (packet.`is`("PacketPlayInUseEntity")) {
-            Performance.MIRROR.check("Hologram:interact") {
+            Performance.MIRROR.check("Hologram:Event:Interact") {
                 val entityId = packet.read("a", -1).also { if (it < 1197897763) return true }
                 val hologram =
                     Hologram.findHologram { it -> it.components.any { it.entityId == entityId } } ?: return true

@@ -23,6 +23,9 @@ class CommandHandler : BaseMainCommand() {
     @SubCommand(permission = "trhologram.command.list", description = "List loaded holograms")
     val list: BaseSubCommand = CommandList()
 
+    @SubCommand(permission = "trhologram.command.teleport", description = "Teleport to the hologram's location")
+    val teleport: BaseSubCommand = CommandTeleport()
+
     @SubCommand(permission = "trhologram.command.movehere", description = "Teleport hologram to your location")
     val movehere: BaseSubCommand = CommandMovehere()
 
