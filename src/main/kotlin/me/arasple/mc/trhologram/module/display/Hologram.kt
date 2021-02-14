@@ -133,6 +133,7 @@ class Hologram(
     }
 
     fun destroy(player: Player) {
+        viewers.remove(player.name)
         components.forEach {
             it.viewers.remove(player.name)
         }

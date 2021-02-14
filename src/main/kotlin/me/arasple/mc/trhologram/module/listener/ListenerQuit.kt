@@ -1,7 +1,6 @@
 package me.arasple.mc.trhologram.module.listener
 
 import io.izzel.taboolib.module.inject.TListener
-import me.arasple.mc.trhologram.api.nms.NMSListener
 import me.arasple.mc.trhologram.module.display.Hologram
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

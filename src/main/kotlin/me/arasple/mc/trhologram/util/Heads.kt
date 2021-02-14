@@ -27,10 +27,6 @@ object Heads {
     private val CACHED_PLAYER_TEXTURE = mutableMapOf<String, String?>()
     private val CACHED_SKULLS = mutableMapOf<String, ItemStack>()
 
-    fun cacheSize(): Pair<Int, Int> {
-        return CACHED_SKULLS.size to CACHED_PLAYER_TEXTURE.size
-    }
-
     fun getHead(id: String): ItemStack {
         return if (id.length > 20) getCustomTextureHead(id)
         else getPlayerHead(id)
