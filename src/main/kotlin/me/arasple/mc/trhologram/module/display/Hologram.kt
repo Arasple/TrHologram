@@ -2,8 +2,10 @@ package me.arasple.mc.trhologram.module.display
 
 import io.izzel.taboolib.kotlin.Tasks
 import me.arasple.mc.trhologram.api.Position
+import me.arasple.mc.trhologram.api.TrHologramAPI
 import me.arasple.mc.trhologram.api.base.BaseCondition
 import me.arasple.mc.trhologram.api.base.ClickHandler
+import me.arasple.mc.trhologram.api.hologram.HologramBuilder
 import me.arasple.mc.trhologram.api.hologram.HologramComponent
 import me.arasple.mc.trhologram.api.hologram.ItemHologram
 import me.arasple.mc.trhologram.api.hologram.TextHologram
@@ -143,6 +145,29 @@ class Hologram(
         refreshTask.shut()
         components.forEach(HologramComponent::destroy)
         externalHolograms.remove(this)
+    }
+
+    /**
+     * WARNING: This will make all custom interspace invalid
+     */
+    fun rebuild(): HologramBuilder {
+        destroy()
+
+        return TrHologramAPI.builder(position.toLocation()).run {
+            viewDistance(viewDistance)
+            refreshCondition(refreshCondition)
+            click(reactions)
+
+            viewCondition?.let { viewCondition(it) }
+            components.forEach {
+                when (it) {
+                    is TextHologram -> append(it.text, it.period, onTick = it.onTick)
+                    is ItemHologram -> append(it.display, it.period, onTick = it.onTick)
+                }
+            }
+
+            this
+        }
     }
 
 }
