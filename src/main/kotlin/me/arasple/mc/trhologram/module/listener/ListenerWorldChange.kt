@@ -14,7 +14,8 @@ import org.bukkit.event.player.PlayerChangedWorldEvent
 class ListenerWorldChange : Listener {
 
     @EventHandler
-    fun onChange(e:PlayerChangedWorldEvent){
+    fun onChange(e: PlayerChangedWorldEvent) {
+        Hologram.destroyAll(e.player)
         Hologram.refreshAll(e.player)
     }
 
