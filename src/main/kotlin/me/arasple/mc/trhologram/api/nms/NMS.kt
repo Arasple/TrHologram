@@ -4,8 +4,6 @@ import com.mojang.authlib.GameProfile
 import io.izzel.taboolib.kotlin.Reflex
 import io.izzel.taboolib.module.inject.TInject
 import io.izzel.taboolib.module.packet.TPacketHandler
-import io.izzel.taboolib.util.asm.AsmVersionControl
-import me.arasple.mc.trhologram.TrHologram
 import me.arasple.mc.trhologram.api.nms.packet.PacketEntity
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
